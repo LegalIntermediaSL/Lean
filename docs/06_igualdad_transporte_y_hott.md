@@ -1,93 +1,160 @@
-# Módulo 06: Igualdad Definicional vs. Proposicional, Transporte ($J$) y Tipos Cociente
+# Módulo 06: El Tipo Identidad de Martin-Löf, Eliminador $J$, Transporte sobre Fibraciones, `HEq` y HoTT
 
 > **Archivo Lean ejecutable asociado:** [`LeanTT/M06_EqualityAndTransport.lean`](../LeanTT/M06_EqualityAndTransport.lean)
 
 ---
 
-## 1. Las Dos Nociones de Igualdad en Teoría de Tipos Intensional
-
-En la Teoría de Tipos Intensional (como MLTT y Lean 4), es crucial distinguir entre:
-
-### 1.1 Igualdad Definicional (o de Juicio / Computacional): $a \equiv b$
-Es una relación **metateórica** decidida algorítmicamente por el kernel mediante reducción ($\beta, \eta, \delta, \iota, \zeta$) e irrelevancia de prueba.
-* Si $a \equiv b$, entonces para cualquier familia $P : \alpha \to \texttt{Sort } u$, los tipos $P(a)$ y $P(b)$ son **idénticos** para el verificador de tipos.
-* Ejemplo: `n + 0` es definicionalmente igual a `n` porque `Nat.add` se define por recursión sobre su **segundo** argumento.
-
-### 1.2 Igualdad Proposicional (Tipo Identidad de Martin-Löf): `a = b` (`Eq a b`)
-Es un **tipo interno** del lenguaje (`a = b : Prop`) que puede ser habitado por un término de prueba $h : a = b$.
-* Ejemplo: `0 + n = n` **no** es definicionalmente cierto para una variable libre `n` (porque `0 + n` no puede $\iota$-reducirse hasta conocer qué constructor tiene `n`), pero es **proposicionalmente demostrable** por inducción sobre `n`.
+## Índice del Módulo
+1. [Igualdad Intensional vs. Igualdad Extensional en Teoría de Tipos](#1-igualdad-intensional-vs-igualdad-extensional-en-teoría-de-tipos)
+2. [El Eliminador $J$ (`Eq.rec`): Cómo Funciona la Inducción sobre Caminos](#2-el-eliminador-j-eqrec-cómo-funciona-la-inducción-sobre-caminos)
+3. [Transporte Dependiente (`▸`) y Concatenación de Vectores Paso a Paso](#3-transporte-dependiente--y-concatenación-de-vectores-paso-a-paso)
+4. [El Error Clásico `"motive is not type correct"` y Cómo Resolverlo](#4-el-error-clásico-motive-is-not-type-correct-y-cómo-resolverlo)
+5. [Igualdad Heterogénea de John Major (`HEq` / `≍`) y `cast`](#5-igualdad-heterogénea-de-john-major-heq--y-cast)
+6. [Estructura de $\infty$-Grupoide del Tipo Identidad, UIP y Comparación con HoTT](#6-estructura-de-infty-grupoide-del-tipo-identidad-uip-y-comparación-con-hott)
+7. [Tipos Cociente (`Quot` y `Quotient`) en el Kernel de Lean 4](#7-tipos-cociente-quot-y-quotient-en-el-kernel-de-lean-4)
 
 ---
 
-## 2. El Tipo Identidad `Eq` y el Eliminador $J$ (`Eq.rec`)
+## 1. Igualdad Intensional vs. Igualdad Extensional en Teoría de Tipos
 
-La definición completa de la igualdad en la librería núcleo de Lean 4 ocupa apenas dos líneas:
+En el diseño de asistentes de demostraciones con tipos dependientes existe una bifurcación fundamental:
 
+* **Teoría de Tipos Extensional (NuPRL):** Incluye la regla de reflexión de la igualdad: si existe una prueba proposicional $h : a = b$, entonces $a$ y $b$ se consideran definicionalmente iguales ($a \equiv b$).
+  * *Precio a pagar:* **La verificación de tipos se vuelve indecidible** (comprobar si un término está bien tipado requiere demostrar teoremas arbitrarios).
+* **Teoría de Tipos Intensional (Lean 4, Coq, Agda):** Separa estrictamente:
+  1. **La igualdad definicional $a \equiv b$:** Decidible algorítmicamente mediante reducción a forma normal.
+  2. **La igualdad proposicional `a = b` (`Eq a b`):** Un tipo cuyos habitantes son pruebas explícitas que deben aplicarse mediante transporte (`Eq.rec` / `rw`) cuando queremos cambiar el índice de un tipo dependiente.
+
+### Ejemplo 1.1: Por qué `n + 0 = n` es Definicional pero `0 + n = n` es Proposicional
+En la librería estándar de Lean 4, `Nat.add` se define por recursión estructural sobre su **segundo** argumento:
+```lean
+-- Definición interna de `Nat.add`:
+-- Nat.add n 0       := n
+-- Nat.add n (m + 1) := Nat.succ (Nat.add n m)
+
+-- Por tanto, `n + 0` se reduce por ι-reducción a `n` inmediatamente:
+example (n : Nat) : n + 0 = n := rfl
+
+-- En cambio, en `0 + n`, el segundo argumento es una variable libre `n` (no un constructor),
+-- por lo que la ι-reducción se detiene. Para demostrar `0 + n = n` necesitamos inducción:
+theorem zero_add_prop (n : Nat) : 0 + n = n := by
+  induction n with
+  | zero      => rfl
+  | succ k ih => exact congrArg Nat.succ ih
+```
+
+---
+
+## 2. El Eliminador $J$ (`Eq.rec`): Cómo Funciona la Inducción sobre Caminos
+
+Recordemos la definición del tipo identidad:
 ```lean
 inductive Eq {α : Sort u} (a : α) : α → Prop where
   | refl : Eq a a
 ```
-
-Observa su estructura como familia inductiva:
-* `a : α` es un **parámetro** fijo.
-* El segundo argumento `: α → Prop` es un **índice** libre.
-* El único constructor `Eq.refl` (o `rfl`) exige que el índice coincida con el parámetro `a`.
-
-### El Principio de Inducción sobre la Igualdad (Regla $J$ de Martin-Löf)
-El eliminador generado por el kernel es:
-
+Y su eliminador (regla $J$ de Paulin-Mohring):
 ```lean
 Eq.rec :
   {α : Sort u} → {a : α} →
-  {motive : (x : α) → a = x → Sort v} →
+  {motive : (b : α) → a = b → Sort v} →
   motive a (Eq.refl a) →
   {b : α} → (h : a = b) → motive b h
 ```
 
-En palabras: **para demostrar una propiedad `motive b h` sobre dos elementos iguales `a = b` y su prueba `h`, basta con demostrarla para el caso reflexivo `b := a` y `h := rfl`**.
-
-De este único principio emanan:
-* La **simetría** ($x = y \to y = x$).
-* La **transitividad** ($x = y \to y = z \to x = z$).
-* La **congruencia** ($x = y \to f(x) = f(y)$).
-* El **transporte dependiente** (`h ▸ px : P y` dado `px : P x` y `h : x = y`).
+### ¿Cómo se construye el motivo `motive` en la práctica?
+Cuando quieres usar una igualdad `h : a = b` para transformar un objetivo $G(b)$ en $G(a)$:
+1. Abstraes las apariciones de `b` en el objetivo mediante una función $\lambda x.\, G(x)$: ese es tu **motivo** (`motive`).
+2. Demuestras el caso base para `x := a` (es decir, $G(a)$).
+3. `Eq.rec` transporta tu prueba de $G(a)$ a una prueba de $G(b)$.
 
 ---
 
-## 3. Transporte sobre Fibraciones y el "Infierno Dependiente" (`HEq`)
+## 3. Transporte Dependiente (`▸`) y Concatenación de Vectores Paso a Paso
 
-Si tienes un vector `v : Vec α n` y una igualdad `h : n = m`, entonces `v` **no tiene tipo** `Vec α m` directamente (a menos que $n \equiv m$). Para cambiar su tipo debes **transportarlo** a lo largo de la fibra `Vec α`:
+En Lean 4, la macro `h ▸ term` (se escribe `\t`) invoca a `Eq.rec` inferiendo el motivo automáticamente.
 
-$$\text{transport}(\texttt{Vec }\alpha, h, v) : \texttt{Vec }\alpha\; m \qquad (\text{escrito } \texttt{h ▸ v} \text{ en Lean 4})$$
+Veamos cómo funciona al concatenar dos vectores `xs : Vec α m` e `ys : Vec α n`:
+* En el caso base `xs = Vec.nil`, tenemos $m = 0$ e `ys : Vec α n`, pero el tipo de retorno esperado es `Vec α (0 + n)`.
+* Como `0 + n` es definicionalmente igual a `n` si `Nat.add` recurriera sobre el primer argumento, pero en Lean 4 recurre sobre el segundo argumento, `0 + n` **no** es definicionalmente igual a `n`.
+* Necesitamos transportar `ys : Vec α n` a lo largo de la igualdad `Nat.zero_add n : 0 + n = n` (invertida):
 
-Cuando necesitamos comparar términos $a : \alpha$ y $b : \beta$ cuyos tipos $\alpha$ y $\beta$ son proposicionalmente iguales ($\alpha = \beta$) pero no definicionalmente iguales, usamos la **Igualdad Heterogénea (de John Major)**:
+```lean
+inductive Vec (α : Type u) : Nat → Type u where
+  | nil  : Vec α 0
+  | cons : {n : Nat} → α → Vec α n → Vec α (n + 1)
+
+def Vec.append {α : Type u} {m n : Nat} : Vec α m → Vec α n → Vec α (m + n)
+  | .nil,       ys => (Nat.zero_add n).symm ▸ ys
+  | .cons x xs, ys => (Nat.succ_add _ n).symm ▸ .cons x (Vec.append xs ys)
+```
+
+---
+
+## 4. El Error Clásico `"motive is not type correct"` y Cómo Resolverlo
+
+Uno de los errores más frecuentes al iniciarse en la teoría de tipos dependientes en Lean es intentar usar `rw [h]` sobre una variable `n` cuando **en el contexto o en la meta hay otro término cuyo tipo depende de `n`**.
+
+### ¿Por qué ocurre `"motive is not type correct"`?
+Supongamos que tienes `v : Vec α n` y una igualdad `h : n = m`, y tu meta es una propiedad `P n v` donde `P : (k : Nat) → Vec α k → Prop`.
+Si intentas hacer `rw [h]` para reemplazar solo `n` por `m` en `P n v`, Lean intenta construir el motivo:
+
+$$\text{motive}(x) := P\; x\; v$$
+
+¡Pero para una variable genérica $x : \texttt{Nat}$, la expresión $P\; x\; v$ **está mal tipada** porque $P\; x$ espera un vector de tipo `Vec α x`, mientras que `v` sigue teniendo el tipo fijo `Vec α n`!
+
+### Las 3 Soluciones Canónicas en Lean 4
+
+1. **Generalizar o revertir el término dependiente junto con su prueba antes de hacer `cases h` o `subst h`:**
+   Si `h : n = m` donde `m` o `n` es una variable libre, la táctica **`subst h`** (o **`cases h`**) elimina simultáneamente la variable `m` en `v` y en todo el contexto sin construir un motivo mal tipado:
+   ```lean
+   theorem resolver_con_subst {α : Type} {n m : Nat}
+       (P : (k : Nat) → Vec α k → Prop)
+       (v : Vec α n) (h : n = m) (hp : P n v) :
+       P m (h ▸ v) := by
+     subst h
+     -- Tras `subst h`, `m` desaparece y `h` se convierte en `rfl`,
+     -- por lo que `rfl ▸ v` se reduce definicionalmente a `v`!
+     exact hp
+   ```
+2. **Incluir el término dependiente dentro del motivo cuantificando sobre él:**
+   En lugar de reescribir con `v : Vec α n` fijo en el contexto, haz `revert v` para que la meta sea `∀ v : Vec α n, ...`; ahora el motivo `fun x => ∀ v : Vec α x, ...` **sí está bien tipado** para cualquier `x`!
+3. **Usar Igualdad Heterogénea (`HEq` / `≍`):** Cuando queremos razonar ecuacionalmente sobre términos de tipos distintos `Vec α n` y `Vec α m`.
+
+---
+
+## 5. Igualdad Heterogénea de John Major (`HEq` / `≍`) y `cast`
+
+Introducida por Conor McBride (1999), la igualdad heterogénea `HEq a b` (escrita `a ≍ b`) permite afirmar que $a : \alpha$ y $b : \beta$ son iguales aunque sus tipos $\alpha$ y $\beta$ no sean definicionalmente iguales:
 
 ```lean
 inductive HEq {α : Sort u} (a : α) : {β : Sort u} → β → Prop where
   | refl : HEq a a
 ```
-Notación infija: `a ≍ b`.
+
+Propiedades clave en Lean 4:
+* `heq_of_eq : a = b → a ≍ b`
+* **`eq_of_heq : (h : a ≍ b) → a = b`** *(cuando `a` y `b` ya tienen el mismo tipo $\alpha$, gracias a UIP)*
+* **`cast : (h : α = β) → α → β`**: Transporta un término de tipo $\alpha$ al tipo $\beta$, cumpliendo `cast_heq : ∀ (h : α = β) (a : α), cast h a ≍ a`.
+
+```lean
+-- Ejemplo: `cast h a` es heterogéneamente igual a `a` para cualquier `h : α = β`:
+example {α β : Type} (h : α = β) (a : α) : cast h a ≍ a := by
+  subst h
+  rfl
+```
 
 ---
 
-## 4. Extensionalidad y Tipos Cociente en Lean 4
+## 6. Estructura de $\infty$-Grupoide del Tipo Identidad, UIP y Comparación con HoTT
 
-El cálculo lambda puro es **intensional**: dos funciones `f g : Nat → Nat` tales que `∀ x, f x = g x` (por ejemplo, `fun x => x + 0` y `fun x => 0 + x`) no tienen el mismo cuerpo sintáctico y no son definicionalmente iguales.
+En cualquier teoría de tipos dependientes (incluso sin UIP), los tipos identidad dotan a cada tipo $\alpha$ de la estructura de un **grupoide débil**:
+* **Objetos:** Los puntos $x, y, z : \alpha$.
+* **1-Morfismos (Caminos):** Las pruebas de igualdad $p : x = y$.
+* **Identidad:** El camino constante `rfl : x = x`.
+* **Composición de caminos:** La transitividad `Eq.trans p q : x = z`.
+* **Inverso de un camino:** La simetría `Eq.symm p : y = x`.
+* **2-Morfismos (Homotopías entre caminos):** Las pruebas de igualdad entre pruebas de igualdad $\gamma : p = q$ (donde $p, q : x = y$).
 
-Para que la matemática formal sea ergonómica, el kernel de Lean incluye como primitivos los **Tipos Cociente (`Quot`)** y el axioma de **Extensionalidad Proposicional (`propext`)**:
-
-1. **`propext`:** $\forall (P\; Q : \texttt{Prop}),\, (P \leftrightarrow Q) \to P = Q$. Dos proposiciones lógicamente equivalentes son iguales.
-2. **`Quot`:** Dado un tipo $\alpha$ y una relación $r : \alpha \to \alpha \to \texttt{Prop}$, forma el tipo cociente $\texttt{Quot } r$ donde `Quot.sound : r a b → Quot.mk r a = Quot.mk r b`.
-3. **`funext` (Teorema en Lean):** A partir de `Quot`, Lean **demuestra** la **Extensionalidad Funcional**:
-   $$(\forall x : \alpha,\, f(x) = g(x)) \longrightarrow f = g$$
-
----
-
-## 5. Lean 4 (UIP / Axioma $K$) vs. Teoría de Tipos Homotópica (HoTT)
-
-| Característica | Lean 4 (CIC con `Prop`) | HoTT / Cubical Type Theory (Agda `--cubical`) |
-| :--- | :--- | :--- |
-| Universo de `x = y` | `Prop` (`Sort 0`) | `Type u` (el mismo universo que `x` e `y`) |
-| **UIP (Unicidad de Pruebas de Identidad)** | **Sí (`rfl`)**: todas las pruebas `p, q : x = y` son idénticas | **No**: un tipo se interpreta como un $\infty$-grupoide espacial; `x = y` es el espacio de caminos |
-| **Axioma de Univalencia** $(\alpha \simeq \beta) \simeq (\alpha = \beta)$ | **Incompatible con UIP** (en `Type`) | **Válido** (los tipos isomorfos son iguales) |
-| **Cocientes efectivos (`Quot`)** | Primitivos en el kernel con reducción computacional en `Quot.lift` | Construidos como *Higher Inductive Types* (HITs) |
+### La Divergencia entre Lean 4 (CIC) y HoTT (Voevodsky)
+* **En Lean 4:** Como `Eq a b : Prop`, la irrelevancia de prueba colapsa todos los 2-morfismos ($\forall (p\; q : x = y),\, p = q$ por `rfl`). Cada tipo es un **0-tipo (conjunto discreto de caminos)**. Esto hace que el trabajo con subtipos, cocientes y estructuras algebraicas clásicas sea extraordinariamente directo.
+* **En HoTT (Homotopy Type Theory):** El tipo identidad vive en `Type u` y **no** se asume UIP. El **Axioma de Univalencia** de Voevodsky postula que el tipo de caminos $(A =_{\texttt{Type}} B)$ es equivalente al tipo de equivalencias homotópicas $(A \simeq B)$. En particular, como existen dos automorfismos de `Bool` (`id` y `not`), en HoTT existen **dos pruebas distintas** de `Bool = Bool`, lo cual contradiría UIP.

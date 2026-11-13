@@ -1,63 +1,93 @@
-# Módulo 12: Arquitectura del Kernel de Lean 4 (`Expr`), Macros y Creación de Tácticas
+# Módulo 12: Arquitectura Interna del Kernel de Lean 4 (`Lean.Expr`), `MetaM` y Creación de Tácticas
 
 > **Archivo Lean ejecutable asociado:** [`LeanTT/M12_MetaprogrammingAndTactics.lean`](../LeanTT/M12_MetaprogrammingAndTactics.lean)
 
 ---
 
-## 1. Lean 4 está Escrito en Lean 4
-
-Una de las revoluciones de **Lean 4** frente a Lean 3 y Coq es que su compilador, elaborador, sistema de macros y motor de tácticas están **implementados en el propio Lean 4**. Esto significa que extender la sintaxis del lenguaje o programar una nueva táctica no requiere aprender un lenguaje separado (como Ltac en Coq o ML en Isabelle): se escribe en Lean 4 ordinario.
-
----
-
-## 2. El Tipo `Lean.Expr`: El Cálculo Lambda del Kernel al Desnudo
-
-Toda expresión que llega al kernel de Lean —sea un número, una función, un tipo dependiente, un universo o una demostración completa— es una instancia del tipo algebraico `Lean.Expr` (que consta de solo 12 constructores):
-
-```lean
-inductive Expr where
-  | bvar    (deBruijnIndex : Nat)                         -- Variable ligada x (índice de De Bruijn)
-  | fvar    (fvarId : FVarId)                             -- Variable libre del contexto local Γ
-  | mvar    (mvarId : MVarId)                             -- Metavariable (?m, un hueco por rellenar)
-  | sort    (u : Level)                                   -- Universo Sort u (Prop = .sort .zero)
-  | const   (declName : Name) (us : List Level)           -- Constante global definida (ej. Nat.add)
-  | app     (fn : Expr) (arg : Expr)                      -- Aplicación (f a)
-  | lam     (binderName : Name) (binderType : Expr)       -- Abstracción λ (x : A) => body
-            (body : Expr) (binderInfo : BinderInfo)
-  | forallE (binderName : Name) (binderType : Expr)       -- Producto Dependiente Π (x : A), body
-            (body : Expr) (binderInfo : BinderInfo)
-  | letE    (declName : Name) (type : Expr) (value : Expr)-- Ligadura local: let x : A := v in body
-            (body : Expr) (nonDep : Bool)
-  | lit     (value : Literal)                             -- Literal nativo optimizado (Nat o String)
-  | mdata   (data : MData) (expr : Expr)                  -- Metadatos anotados
-  | proj    (typeName : Name) (idx : Nat) (struct : Expr) -- Proyección primitiva de estructura (.1, .2)
-```
-
-> **Observación crucial:** En `Lean.Expr` **no existe una distinción sintáctica entre términos, tipos y pruebas**:
-> * Tanto la función `A → B`, como la implicación `P → Q`, como el cuantificador universal `∀ x : A, P x` se representan con el **mismo constructor `Expr.forallE`**.
+## Índice del Módulo
+1. [Del Texto Fuente al Kernel: Las 4 Fases de Procesamiento en Lean 4](#1-del-texto-fuente-al-kernel-las-4-fases-de-procesamiento-en-lean-4)
+2. [Radiografía Completa de `Lean.Expr` con Ejemplos Construidos a Mano](#2-radiografía-completa-de-leanexpr-con-ejemplos-construidos-a-mano)
+3. [Variables Ligadas (`bvar`), Variables Libres (`fvar`) y Metavariables (`mvar`)](#3-variables-ligadas-bvar-variables-libres-fvar-y-metavariables-mvar)
+4. [Operaciones Nucleares en `MetaM`: `inferType`, `isDefEq`, `whnf`, `forallTelescope`](#4-operaciones-nucleares-en-metam-infertype-isdefeq-whnf-foralltelescope)
+5. [Cotización Sintáctica (`Syntax` Quoting `` `( ... ) ``) y Macros Higiénicas](#5-cotización-sintáctica-syntax-quoting-----y-macros-higiénicas)
+6. [Recetario para Escribir Tácticas Personalizadas en `TacticM`](#6-recetario-para-escribir-tácticas-personalizadas-en-tacticm)
 
 ---
 
-## 3. La Escalera de Mónadas del Elaborador de Lean 4
-
-Cuando programas metaprogramas o tácticas en Lean 4, trabajas en una torre de mónadas donde cada capa añade estado y capacidades sobre la anterior:
+## 1. Del Texto Fuente al Kernel: Las 4 Fases de Procesamiento en Lean 4
 
 ```mermaid
-flowchart BT
-    CoreM["CoreM<br/>Entorno global de declaraciones (Environment),<br/>opciones, nombres frescos y trazas"]
-    MetaM["MetaM (extends CoreM)<br/>Contexto de Metavariables (MetavarContext),<br/>Contexto Local Γ (LocalContext), Unificación isDefEq y whnf"]
-    TermElabM["TermElabM (extends MetaM)<br/>Elaboración de Syntax cruda hacia Expr tipados,<br/>resolución de sobrecarga y postergación de restricciones"]
-    TacticM["TacticM (extends TermElabM)<br/>Lista de metas activas (List MVarId)<br/>que aparecen en el Lean Infoview"]
-
-    CoreM --> MetaM
-    MetaM --> TermElabM
-    TermElabM --> TacticM
+flowchart LR
+    Src["Texto Fuente (.lean)<br/>'∀ x, x + 0 = x'"] --> Parser["1. Parser Extensible<br/>Produce Lean.Syntax"]
+    Parser --> Macro["2. Expansor de Macros<br/>Syntax → MacroM Syntax"]
+    Macro --> Elab["3. Elaborador (TermElabM / TacticM)<br/>Infiere implícitos, resuelve clases y tácticas<br/>Produce Lean.Expr sin metavariables"]
+    Elab --> Kernel["4. Kernel de Tipos (C++ / Lean)<br/>Verifica el término Expr puro"]
 ```
 
 ---
 
-## 4. Tres Niveles para Extender Lean 4
+## 2. Radiografía Completa de `Lean.Expr` con Ejemplos Construidos a Mano
 
-1. **Notaciones (`notation`, `infixl`, `prefix`):** Azúcar sintáctico rápido para operadores matemáticos.
-2. **Macros Higiénicas (`syntax` + `macro` / `macro_rules`):** Transformaciones puramente sintácticas (`Syntax → MacroM Syntax`) que garantizan higiene automática de nombres (las variables introducidas por la macro nunca colisionan con las del usuario).
-3. **Elaboradores y Tácticas (`elab` / `TacticM`):** Tienen acceso completo a los tipos de las hipótesis en el contexto local $\Gamma$ y a la meta actual `getMainGoal`/`getMainTarget`, permitiendo inspeccionar la estructura del objetivo y construir términos de prueba a medida.
+Veamos cómo se representan en `Lean.Expr` las construcciones esenciales de la teoría de tipos dependientes:
+
+```lean
+import Lean
+open Lean
+
+-- 1. Universo `Prop` (`Sort 0`) y `Type 0` (`Sort 1`):
+def eProp  : Expr := .sort .zero
+def eType0 : Expr := .sort (.succ .zero)
+
+-- 2. Constante global `Nat`:
+def eNat : Expr := .const ``Nat []
+
+-- 3. Tipo función no dependiente `Nat → Nat`:
+--    En el kernel, `A → B` es un `forallE` donde el cuerpo `B` no usa `bvar 0`!
+def eNatToNat : Expr :=
+  .forallE `_ eNat eNat .default
+
+-- 4. Π-Type dependiente `∀ (α : Type), α → α`:
+--    - El primer `forallE` introduce `α : Type 0`.
+--    - El segundo `forallE` introduce `x : α` (aquí `α` es `.bvar 0`).
+--    - En el cuerpo final, `α` está a distancia 1 (`.bvar 1`) y `x` a distancia 0 (`.bvar 0`).
+def ePolyIdType : Expr :=
+  .forallE `α eType0
+    (.forallE `x (.bvar 0) (.bvar 1) .default)
+    .implicit
+
+-- 5. Término polimórfico `fun {α : Type} (x : α) => x`:
+def ePolyIdTerm : Expr :=
+  .lam `α eType0
+    (.lam `x (.bvar 0) (.bvar 0) .default)
+    .implicit
+```
+
+---
+
+## 3. Variables Ligadas (`bvar`), Variables Libres (`fvar`) y Metavariables (`mvar`)
+
+Lean 4 utiliza una representación **localmente sin nombres (*Locally Nameless*)**:
+* **Dentro de un término cerrado**, las variables bajo un $\lambda$ o $\Pi$ son **índices de De Bruijn (`.bvar i`)**.
+* **Cuando abrimos un ligador** para inspeccionar su cuerpo en `MetaM` (por ejemplo, con `forallTelescope` o `lambdaTelescope`), Lean instancia `.bvar 0` por una **variable libre única (`.fvar id`)** registrada en el contexto local `LocalContext` (`lctx`). Esto evita tener que desplazar (*shift*) constantemente los índices de De Bruijn al manipular subtérminos.
+* **Los objetivos de prueba pendientes** y los argumentos implícitos aún no inferidos son **metavariables (`.mvar id`)** registradas en el `MetavarContext` (`mctx`).
+
+---
+
+## 4. Operaciones Nucleares en `MetaM`: `inferType`, `isDefEq`, `whnf`, `forallTelescope`
+
+```lean
+import Lean
+open Lean Meta
+
+def ejemploMetaM : MetaM String := do
+  -- 1. Crear una metavariable fresca `?m : Nat`
+  let mvar ← mkFreshExprMVar (mkConst ``Nat)
+  -- 2. Unificar `?m` con `Nat.add 20 22` usando `isDefEq`
+  let termino := mkAppN (mkConst ``Nat.add) #[mkNatLit 20, mkNatLit 22]
+  let ok ← isDefEq mvar termino
+  -- 3. Reducir a forma normal de cabeza débil (`whnf`)
+  let reducido ← whnf mvar
+  return s!"¿Unificó?: {ok}, Valor reducido de ?m: {← ppExpr reducido}"
+
+#eval ejemploMetaM -- "¿Unificó?: true, Valor reducido de ?m: 42"
+```

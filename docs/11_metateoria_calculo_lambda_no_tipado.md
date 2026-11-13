@@ -1,52 +1,73 @@
-# Módulo 11: Semántica Operacional — Paso Pequeño (*Small-Step*), Paso Grande (*Big-Step*) y Determinismo
+# Módulo 11: Semántica Operacional — Paso Pequeño (*Small-Step*), Paso Grande (*Big-Step*), Confluencia y Progreso
 
 > **Archivo Lean ejecutable asociado:** [`LeanTT/M11_OperationalSemantics.lean`](../LeanTT/M11_OperationalSemantics.lean)
 
 ---
 
-## 1. Tres Formas de Especificar el Significado de un Lenguaje Formal
-
-En la teoría de lenguajes de programación y del cálculo lambda, damos significado a la sintaxis mediante tres estilos complementarios:
-
-1. **Semántica Denotacional** (vista en el Módulo 10): Traduce cada término sintáctico a un objeto matemático (una función en el metanivel).
-2. **Semántica Operacional de PasoGrande (*Big-Step* / Semántica Natural de Kahn):** Define una relación inductiva $t \Downarrow v$ ("el término $t$ se evalúa directamente al valor final $v$").
-3. **Semántica Operacional de Paso Pequeño (*Small-Step* / Semántica Estructural de Plotkin):** Define una relación de transición de un paso $t \longrightarrow t'$ ("$t$ da un paso de reducción hacia $t'$") y estudia su clausura reflexiva-transitiva $t \longrightarrow^* t'$.
-
----
-
-## 2. Relaciones Inductivas como Reglas de Inferencia en Lean 4
-
-Toda colección de reglas de inferencia en papel se traduce de forma biunívoca a un predicado inductivo (`inductive ... : ... → Prop`) en Lean 4. Por ejemplo, para una relación de paso pequeño `Step : Expr → Expr → Prop` (escrita `e ⟶ e'`):
-
-$$
-\frac{e_1 \longrightarrow e_1'}{\text{add } e_1\; e_2 \longrightarrow \text{add } e_1'\; e_2} \text{ (step\_add\_left)}
-\qquad
-\frac{v_1 \text{ es valor} \quad e_2 \longrightarrow e_2'}{\text{add } v_1\; e_2 \longrightarrow \text{add } v_1\; e_2'} \text{ (step\_add\_right)}
-$$
-
-se escribe directamente como constructores de `Step`:
-```lean
-inductive Step : Expr → Expr → Prop where
-  | addLeft  : Step e1 e1' → Step (.add e1 e2) (.add e1' e2)
-  | addRight : IsValue v1 → Step e2 e2' → Step (.add v1 e2) (.add v1 e2')
-  | addVals  : Step (.add (.val n1) (.val n2)) (.val (n1 + n2))
-```
+## Índice del Módulo
+1. [Inducción sobre Predicados Inductivos (Inducción sobre Derivaciones)](#1-inducción-sobre-predicados-inductivos-inducción-sobre-derivaciones)
+2. [Semántica Natural o de Paso Grande (*Big-Step* `e ⇓ v`)](#2-semántica-natural-o-de-paso-grande-big-step-e--v)
+3. [Semántica Estructural o de Paso Pequeño (*Small-Step* `e ⟶ e'`)](#3-semántica-estructural-o-de-paso-pequeño-small-step-e--e)
+4. [Seguridad de Tipos Mediante Progreso y Preservación (Wright & Felleisen)](#4-seguridad-de-tipos-mediante-progreso-y-preservación-wright--felleisen)
+5. [Demostración Completa de la Equivalencia `e ⇓ n ↔ e ⟶* .val n`](#5-demostración-completa-de-la-equivalencia-e--n--e--val-n)
 
 ---
 
-## 3. Clausura Reflexiva-Transitiva (`MultiStep` / $\longrightarrow^*$)
+## 1. Inducción sobre Predicados Inductivos (Inducción sobre Derivaciones)
 
-Dada cualquier relación binaria $R : \alpha \to \alpha \to \texttt{Prop}$, su clausura reflexiva-transitiva $R^*$ se define inductivamente como:
+En Lean 4, cuando defines una relación operacional como una familia inductiva en `Prop`:
+```lean
+inductive BigStep : Expr → Nat → Prop where
+  | val : BigStep (.val n) n
+  | add : BigStep e1 n1 → BigStep e2 n2 → BigStep (.add e1 e2) (n1 + n2)
+```
+puedes hacer **inducción directamente sobre la prueba $h : e \Downarrow n$** (lo que en papel se llama *inducción sobre el árbol de derivación*), no solo sobre la sintaxis de $e$.
+
+> **Consejo crucial con `induction h generalizing ...`:** Cuando haces inducción sobre una derivación $h : e \Downarrow n_1$ y en tu contexto tienes otra variable $n_2$ ligada a una segunda hipótesis $h_2 : e \Downarrow n_2$, usa siempre `induction h generalizing n2` para que la hipótesis inductiva sea universalmente cuantificada ($\forall n_2,\, \dots$).
+
+---
+
+## 2. Seguridad de Tipos Mediante Progreso y Preservación (Wright & Felleisen)
+
+En la aproximación sintáctica a la seguridad de tipos (*Type Soundness*), un lenguaje tipado es seguro si cumple dos teoremas:
+
+1. **Progreso (*Progress*):** Si $\vdash e : \tau$ es un término cerrado bien tipado, entonces o bien $e$ ya es un **valor**, o bien existe un término $e'$ tal que $e \longrightarrow e'$.
+   ```lean
+   -- Demostración del Teorema de Progreso para nuestro lenguaje `Expr`:
+   theorem progress (e : LeanTT.M11.Expr) :
+       (∃ n : Nat, e = .val n) ∨ (∃ e' : LeanTT.M11.Expr, e ⟶ e') := by
+     induction e with
+     | val n =>
+       exact Or.inl ⟨n, rfl⟩
+     | add e1 e2 ih1 ih2 =>
+       right
+       rcases ih1 with ⟨n1, rfl⟩ | ⟨e1', hs1⟩
+       · rcases ih2 with ⟨n2, rfl⟩ | ⟨e2', hs2⟩
+         · exact ⟨.val (n1 + n2), .addVals⟩
+         · exact ⟨.add (.val n1) e2', .addRight hs2⟩
+       · exact ⟨.add e1' e2, .addLeft hs1⟩
+   ```
+2. **Preservación (*Preservation* / *Subject Reduction*):** Si $\Gamma \vdash e : \tau$ y $e \longrightarrow e'$, entonces $\Gamma \vdash e' : \tau$.
+
+---
+
+## 3. Demostración de la Dirección Inversa: `e ⟶* .val n → e ⇓ n`
+
+En [`LeanTT/M11_OperationalSemantics.lean`](../LeanTT/M11_OperationalSemantics.lean) demostramos que `e ⇓ n → e ⟶* .val n`. Para demostrar la dirección recíproca (`e ⟶* .val n → e ⇓ n`), el lema clave es la **expansión hacia atrás de un paso (*Head Expansion*)**:
+
+$$\text{Si } e \longrightarrow e' \text{ y } e' \Downarrow n, \text{ entonces } e \Downarrow n.$$
 
 ```lean
-inductive MultiStep (R : α → α → Prop) : α → α → Prop where
-  | refl : MultiStep R x x
-  | step : R x y → MultiStep R y z → MultiStep R x z
+theorem step_bigStep {e e' : LeanTT.M11.Expr} {n : Nat}
+    (hs : e ⟶ e') (hb : e' ⇓ n) : e ⇓ n := by
+  induction hs generalizing n with
+  | addVals =>
+    cases hb
+    exact .add .val .val
+  | addLeft hs1 ih =>
+    cases hb with
+    | add hb1 hb2 => exact .add (ih hb1) hb2
+  | addRight hs2 ih =>
+    cases hb with
+    | add hb1 hb2 => exact .add hb1 (ih hb2)
 ```
-
-Propiedades metateóricas clave demostradas en [`M11_OperationalSemantics.lean`](../LeanTT/M11_OperationalSemantics.lean):
-1. **Determinismo de la evaluación:** Si $e \longrightarrow e_1$ y $e \longrightarrow e_2$, entonces $e_1 = e_2$.
-2. **Los valores son formas normales:** Si $v$ es un valor, no existe $e'$ tal que $v \longrightarrow e'$.
-3. **Transitividad y congruencia de $\longrightarrow^*$:** Si $e_1 \longrightarrow^* e_1'$, entonces $\text{add } e_1\; e_2 \longrightarrow^* \text{add } e_1'\; e_2$.
-4. **Teorema de Equivalencia entre Big-Step y Small-Step:**
-   $$e \Downarrow n \;\Longleftrightarrow\; e \longrightarrow^* \text{val } n$$

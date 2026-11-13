@@ -1,56 +1,111 @@
-# Módulo 10: Metateoría del Cálculo Lambda Simplemente Tipado (STLC) en Lean 4
+# Módulo 10: Metateoría del Cálculo Lambda Simplemente Tipado (STLC) con Tipos Dependientes
 
 > **Archivo Lean ejecutable asociado:** [`LeanTT/M10_MetatheorySTLC.lean`](../LeanTT/M10_MetatheorySTLC.lean)
 
 ---
 
-## 1. Sintaxis Intrínsecamente Tipada (*Intrinsically Typed Syntax*)
-
-Cuando formalizamos un lenguaje de programación o un cálculo lambda dentro de un asistente de pruebas, existen dos enfoques:
-
-1. **Enfoque Extrínseco (*Curry-style*):** Definir primero términos crudos `RawTerm` y luego una relación inductiva separada `HasType : Ctx → RawTerm → Ty → Prop`. Esto obliga a demostrar en cada paso que las transformaciones preservan el buen tipado y a lidiar con casos imposibles.
-2. **Enfoque Intrínseco (*Church-style* / Familias Inductivas Dependientes):** Indexar directamente el tipo de los términos por el **contexto de tipado $\Gamma$** y el **tipo $\tau$**:
-   $$\texttt{Term} : \texttt{Ctx} \to \texttt{Ty} \to \texttt{Type}$$
-
-De este modo, un habitante de `Term Γ τ` es **por construcción** una derivación válida de $\Gamma \vdash t : \tau$. Los términos mal tipados o con variables libres fuera de ámbito ni siquiera pueden representarse.
+## Índice del Módulo
+1. [Por Qué la Sintaxis Intrínsecamente Tipada Revoluciona la Metateoría](#1-por-qué-la-sintaxis-intrínsecamente-tipada-revoluciona-la-metateoría)
+2. [Representación de Contextos $\Gamma$ y Variables de De Bruijn Tipadas (`Var Γ τ`)](#2-representación-de-contextos-gamma-y-variables-de-de-bruijn-tipadas-var-γ-τ)
+3. [El AST Intrínseco `Term Γ τ` como Codificación de las Reglas de Tipado](#3-el-ast-intrínseco-term-γ-τ-como-codificación-de-las-reglas-de-tipado)
+4. [Álgebra de Renombramientos (`Ren`) y Sustituciones Paralelas (`Sub`)](#4-álgebra-de-renombramientos-ren-y-sustituciones-paralelas-sub)
+5. [Semántica Denotacional, Entornos Tipados (`Env Γ`) y Evaluación Total](#5-semántica-denotacional-entornos-tipados-env-γ-y-evaluación-total)
+6. [Normalización por Evaluación (NbE) y Lema de Corrección Semántica](#6-normalización-por-evaluación-nbe-y-lema-de-corrección-semántica)
 
 ---
 
-## 2. Índices de De Bruijn Tipados (`Lookup Γ τ`)
+## 1. Por Qué la Sintaxis Intrínsecamente Tipada Revoluciona la Metateoría
 
-En lugar de nombres de variables con cadenas (`"x"`, `"y"`), representamos una variable mediante su posición en el contexto $\Gamma = [\tau_0, \tau_1, \dots, \tau_{n-1}]$:
+En los libros de texto tradicionales sobre lenguajes de programación (como *Types and Programming Languages* de Pierce), se define primero una gramática libre de contexto de términos sin tipar:
+$$t ::= x \mid \lambda x : \tau.\, t \mid t_1\; t_2$$
+y aparte una relación ternaria $\Gamma \vdash t : \tau$. Este enfoque **extrínseco** obliga a probar decenas de lemas administrativos (inversión del tipado, unicidad de tipos, debilitamiento de derivaciones, preservación de tipos bajo sustitución) antes de poder siquiera escribir un evaluador.
+
+Con los **tipos dependientes de Lean 4**, podemos fusionar la sintaxis y el sistema de tipos en una única familia inductiva indexada:
+$$\texttt{Term} : \texttt{Ctx} \to \texttt{Ty} \to \texttt{Type}$$
+
+---
+
+## 2. Representación de Contextos $\Gamma$ y Variables de De Bruijn Tipadas (`Var Γ τ`)
+
+Un contexto $\Gamma$ es una lista de tipos `List Ty`, donde la cabeza de la lista representa la variable ligada más recientemente:
 
 ```lean
+inductive Ty : Type where
+  | nat  : Ty
+  | bool : Ty
+  | arr  : Ty → Ty → Ty
+
+infixr:70 " ⇒ " => Ty.arr
+abbrev Ctx := List Ty
+
 inductive Var : Ctx → Ty → Type where
   | zero : {Γ : Ctx} → {τ : Ty} → Var (τ :: Γ) τ
   | succ : {Γ : Ctx} → {σ τ : Ty} → Var Γ τ → Var (σ :: Γ) τ
 ```
 
-* `Var.zero` apunta a la variable ligada por el $\lambda$ más interno.
-* `Var.succ v` salta un $\lambda$ hacia afuera.
-
-Por ejemplo, el combinador $K = \lambda x : \sigma.\, \lambda y : \tau.\, x$ se escribe sin ningún nombre de variable como:
-$$\lambda.\, \lambda.\, \texttt{var}(\texttt{succ }\texttt{zero})$$
-
----
-
-## 3. Renombramiento (Debilitamiento) y Sustitución Paralela
-
-Para definir la $\beta$-reducción $(\lambda x.\, t)\; u \to t[x := u]$ en sintaxis intrínsecamente tipada y demostrar que preserva los tipos por construcción, seguimos la estructura algebraica de **Altenkirch-Reus / Benton-Hur-Kennedy-McBride**:
-
-1. **Renombramiento (`Ren Γ Δ`):** Una transformación de contextos que envía toda variable `Var Γ τ` a una variable `Var Δ τ`:
-   $$\text{Ren }\Gamma\;\Delta := \forall \tau,\, \text{Var }\Gamma\;\tau \to \text{Var }\Delta\;\tau$$
-   Al atravesar un $\lambda x : \sigma$, el renombramiento se **levanta** (*lift*) a `Ren (σ :: Γ) (σ :: Δ)`.
-2. **Sustitución Paralela (`Sub Γ Δ`):** Una transformación que envía toda variable `Var Γ τ` a un **término bien tipado** `Term Δ τ`:
-   $$\text{Sub }\Gamma\;\Delta := \forall \tau,\, \text{Var }\Gamma\;\tau \to \text{Term }\Delta\;\tau$$
-   Al atravesar un $\lambda x : \sigma$, la sustitución se levanta debilitando todos los términos con `Var.succ`.
-
-Con esto, la **preservación de tipos (*Subject Reduction*)** para la sustitución queda garantizada estáticamente por el propio sistema de tipos de Lean 4.
+### Ejemplo 2.1: Cómo Representan los Constructores de `Var` la Regla de Variable
+La regla de inferencia lógica para las variables:
+$$\frac{(x : \tau) \in \Gamma}{\Gamma \vdash x : \tau}$$
+está codificada constructivamente por `Var Γ τ`:
+* En el contexto $\Gamma = [\texttt{nat}, \texttt{bool}, \texttt{nat} \Rightarrow \texttt{bool}]$:
+  * `Var.zero` tiene tipo `Var Γ .nat`.
+  * `Var.succ Var.zero` tiene tipo `Var Γ .bool`.
+  * `Var.succ (Var.succ Var.zero)` tiene tipo `Var Γ (.nat ⇒ .bool)`.
+  * Intentar construir `Var.succ (Var.succ (Var.succ Var.zero))` es un **error de tipos en tiempo de compilación** porque el resto del contexto es `[]`.
 
 ---
 
-## 4. Semántica Denotacional y Evaluador Total
+## 3. El AST Intrínseco `Term Γ τ` como Codificación de las Reglas de Tipado
 
-Aprovechando que los tipos del STLC se interpretan directamente en tipos de Lean 4:
-$$\llbracket \texttt{base} \rrbracket = \texttt{Nat}, \qquad \llbracket \sigma \Rightarrow \tau \rrbracket = \llbracket \sigma \rrbracket \to \llbracket \tau \rrbracket$$
-podemos escribir un evaluador denotacional `eval : Term Γ τ → Env Γ → τ.denote` sin un solo `Option`, sin errores de tipo en tiempo de ejecución y cuya terminación prueba inmediatamente que el STLC es fuertemente normalizante.
+Cada constructor de `Term` es literalmente una regla de inferencia de Gentzen del STLC:
+
+$$
+\frac{v \in \text{Var }\Gamma\;\tau}{\Gamma \vdash \text{var }v : \tau}
+\qquad
+\frac{\sigma :: \Gamma \vdash b : \tau}{\Gamma \vdash \text{lam }b : \sigma \Rightarrow \tau}
+\qquad
+\frac{\Gamma \vdash f : \sigma \Rightarrow \tau \qquad \Gamma \vdash a : \sigma}{\Gamma \vdash \text{app }f\;a : \tau}
+$$
+
+```lean
+inductive Term : Ctx → Ty → Type where
+  | var : {Γ : Ctx} → {τ : Ty} → Var Γ τ → Term Γ τ
+  | lam : {Γ : Ctx} → {σ τ : Ty} → Term (σ :: Γ) τ → Term Γ (σ ⇒ τ)
+  | app : {Γ : Ctx} → {σ τ : Ty} → Term Γ (σ ⇒ τ) → Term Γ σ → Term Γ τ
+```
+
+---
+
+## 4. Álgebra de Renombramientos (`Ren`) y Sustituciones Paralelas (`Sub`)
+
+¿Por qué definimos primero el **renombramiento** `Ren Γ Δ` y luego la **sustitución** `Sub Γ Δ`?
+Porque cuando una sustitución $s : \text{Sub }\Gamma\;\Delta$ atraviesa un ligador $\lambda (x : \sigma)$, necesitamos extender $s$ a una sustitución $\text{lift}(s) : \text{Sub }(\sigma :: \Gamma)\;(\sigma :: \Delta)$:
+* La variable recién ligada `Var.zero` se envía a sí misma: `Term.var Var.zero`.
+* Cada variable anterior `Var.succ x` se envía al término `s x : Term Δ τ`, ¡pero debilitado al nuevo contexto `σ :: Δ`! Ese debilitamiento (`weaken : Term Δ τ → Term (σ :: Δ) τ`) es simplemente un renombramiento con `Var.succ`.
+
+---
+
+## 5. Semántica Denotacional, Entornos Tipados (`Env Γ`) y Evaluación Total
+
+La función `Ty.denote : Ty → Type` es un ejemplo paradigmático de **tipo dependiente grande** (una función que devuelve un `Type`):
+* `Ty.nat.denote = Nat`
+* `Ty.bool.denote = Bool`
+* `(σ ⇒ τ).denote = σ.denote → τ.denote`
+
+Gracias a ello, la evaluación `eval : Term Γ τ → Env Γ → τ.denote` mapea directamente:
+* `Term.lam body` a una verdadera función de Lean `fun v => eval body (.cons v env)`.
+* `Term.app f a` a la verdadera aplicación de Lean `(eval f env) (eval a env)`.
+
+---
+
+## 6. Lema de Composición de Renombramiento y Sustitución Semántica
+
+Demostremos en Lean 4 que evaluar un término renombrado `t.rename ρ` en un entorno `env : Env Δ` es idéntico a evaluar `t` en el entorno reindexado:
+
+```lean
+-- Reindexación de un entorno `Env Δ` a lo largo de un renombramiento `ρ : Ren Γ Δ`:
+def Env.reindex {Γ Δ : Ctx} (ρ : ∀ {τ}, Var Γ τ → Var Δ τ) (env : Env Δ) : Env Γ :=
+  match Γ with
+  | []      => .nil
+  | _ :: _  => .cons (env.lookup (ρ .zero)) (env.reindex (fun x => ρ (.succ x)))
+```
