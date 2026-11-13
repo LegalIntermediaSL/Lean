@@ -60,8 +60,8 @@ def Ren.comp {Γ Δ Ε : Ctx} (ρ' : Ren Δ Ε) (ρ : Ren Γ Δ) : Ren Γ Ε :=
 
 def Ren.lift {Γ Δ : Ctx} {σ : Ty} (ρ : Ren Γ Δ) : Ren (σ :: Γ) (σ :: Δ) where
   apply
-    | _, .zero   => .zero
-    | _, .succ x => .succ (ρ.apply x)
+    | .zero   => .zero
+    | .succ x => .succ (ρ.apply x)
 
 mutual
   def Ne.rename {Γ Δ : Ctx} {τ : Ty} (ρ : Ren Γ Δ) : Ne Γ τ → Ne Δ τ
@@ -91,27 +91,24 @@ abbrev Val (Γ : Ctx) : Ty → Type
   | .base  => Nf Γ .base
   | σ ⇒ τ  => (Δ : Ctx) → Ren Γ Δ → Val Δ σ → Val Δ τ
 
-def Val.rename {Γ Δ : Ctx} (τ : Ty) (ρ : Ren Γ Δ) : Val Γ τ → Val Δ τ :=
-  match τ with
-  | .base  => fun nf => Nf.rename ρ nf
-  | _ ⇒ _  => fun f Ε ρ' v => f Ε (Ren.comp ρ' ρ) v
+def Val.rename {Γ Δ : Ctx} : (τ : Ty) → Ren Γ Δ → Val Γ τ → Val Δ τ
+  | .base, ρ, nf => Nf.rename ρ nf
+  | _ ⇒ _, ρ, f  => fun Ε ρ' v => f Ε (Ren.comp ρ' ρ) v
 
 mutual
   /-- `reflect` inyecta un término neutro `Ne Γ τ` en el dominio semántico `Val Γ τ` -/
-  def reflect {Γ : Ctx} (τ : Ty) : Ne Γ τ → Val Γ τ :=
-    match τ with
-    | .base => fun n => .neu n
-    | σ ⇒ ρ => fun n _ ren v => reflect ρ (.napp (Ne.rename ren n) (reify σ v))
-  termination_by sizeOf τ
+  def reflect {Γ : Ctx} : (τ : Ty) → Ne Γ τ → Val Γ τ
+    | .base, n => .neu n
+    | σ ⇒ ρ, n => fun _ ren v => reflect ρ (.napp (Ne.rename ren n) (reify σ v))
+  termination_by τ => sizeOf τ
 
   /-- `reify` extrae una Forma Normal βη `Nf Γ τ` a partir de un valor semántico `Val Γ τ` -/
-  def reify {Γ : Ctx} (τ : Ty) : Val Γ τ → Nf Γ τ :=
-    match τ with
-    | .base => fun v => v
-    | σ ⇒ ρ => fun f =>
+  def reify {Γ : Ctx} : (τ : Ty) → Val Γ τ → Nf Γ τ
+    | .base, v => v
+    | σ ⇒ ρ, f =>
       let freshVar : Val (σ :: Γ) σ := reflect σ (.nvar .zero)
       .nlam (reify ρ (f (σ :: Γ) Ren.wk freshVar))
-  termination_by sizeOf τ
+  termination_by τ => sizeOf τ
 end
 
 /-- Entornos semánticos y evaluador hacia `Val` -/
