@@ -1,10 +1,12 @@
 import Lake
 open Lake DSL
 
-package «lean-tt» where
-  version := v!"0.1.0"
-  description := "Repositorio de aprendizaje de Lean 4, Cálculo Lambda y Teoría de Tipos Dependientes"
+package «LeanTT» where
+  leanOptions := #[
+    ⟨`pp.unicode.fun, true⟩,
+    ⟨`autoImplicit, false⟩
+  ]
 
 @[default_target]
 lean_lib «LeanTT» where
-  roots := #[`LeanTT]
+  -- Compila LeanTT.lean y los 40 módulos LeanTT/M01..M40 + Exercises + Solutions
