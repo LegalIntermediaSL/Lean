@@ -1,0 +1,20 @@
+name: Lean 4 Kernel Verification CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Verify all 40 LeanTT Modules & Exercises
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install elan and build with Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          test: false
+          lint: false

@@ -1,35 +1,39 @@
-# Lean 4: Cálculo Lambda, Teoría de Tipos Dependientes y Demostración Formal (25 Módulos Ejecutables)
+# Lean 4: Cálculo Lambda, Teoría de Tipos Dependientes y Demostración Formal (40 Módulos + 19 Guías)
 
-Bienvenido a este repositorio de referencia y aprendizaje profundo de **Lean 4** como **asistente de demostraciones** (*proof assistant*) y **lenguaje de programación funcional dependientemente tipado**, con una amplia extensión sobre sus fundamentos matemáticos e históricos en el **Cálculo Lambda ($\lambda$)** y la **Teoría de Tipos Dependientes (MLTT / CIC)**.
+[![Lean 4 Kernel CI](https://github.com/LegalIntermediaSL/Lean/actions/workflows/ci.yml/badge.svg)](https://github.com/LegalIntermediaSL/Lean/actions/workflows/ci.yml)
+[![GitHub Pages Web](https://github.com/LegalIntermediaSL/Lean/actions/workflows/pages.yml/badge.svg)](https://legalintermediasl.github.io/Lean/)
+[![Open in Lean 4 Web Playground](https://img.shields.io/badge/Lean_4_Playground-Ejecutar_Online-blue?logo=lean)](https://live.lean-lang.org/)
 
----
-
-## Mapa Conceptual de la Arquitectura Teórica
-
-```mermaid
-flowchart TD
-    ULC["Cálculo Lambda No Tipado (λ)<br/>Abstracción, Aplicación, β/η-reducción"] --> STLC["Cálculo Lambda Simplemente Tipado (λ→)<br/>Tipos Base y Funciones A → B"]
-    STLC --> SysF["Sistema F (λ2)<br/>Polimorfismo Paramétrico: ∀ α, α → α"]
-    STLC --> LamOmega["Operadores de Tipos (λω)<br/>Constructores: Type → Type"]
-    STLC --> LF["Tipos Dependientes (λP / LF)<br/>Tipos que dependen de términos: Π(x:A), B(x)"]
-    SysF --> CoC["Cálculo de Construcciones (λC)<br/>Cúspide del Cubo de Barendregt"]
-    LamOmega --> CoC
-    LF --> CoC
-    CoC --> CIC["Cálculo de Construcciones Inductivas (CIC)<br/>+ Familias Inductivas + Universos Sort u + Cocientes"]
-    CIC --> Lean4["Kernel de Lean 4<br/>Correspondencia Curry-Howard, Tácticas y Metaprogramación"]
-```
+Bienvenido a este repositorio enciclopédico y curso práctico de **Lean 4** como **asistente de demostraciones** (*proof assistant*) y **lenguaje de programación funcional dependientemente tipado**, con una cobertura exhaustiva del **Cálculo Lambda ($\lambda$)** y la **Teoría de Tipos Dependientes (MLTT / CIC)**.
 
 ---
 
-## Estructura Completa del Repositorio
+## 🧭 Rutas de Aprendizaje Recomendadas
 
-El repositorio está dividido en **dos áreas sincronizadas**:
-1. **`docs/`** — **16 monografías teóricas y guías prácticas en Markdown** con explicaciones desde cero, antecedentes históricos, uso de VS Code, librerías del ecosistema (`Mathlib4`, `Batteries`, `Aesop`, `TauCeti`, `Verified-zkEVM`) y catálogo de aplicaciones.
-2. **`LeanTT/`** — **25 módulos ejecutables en Lean 4 (`M01`–`M25`)** divididos en 4 bloques: fundamentos teóricos, metateoría/metaprogramación, **módulos especialmente didácticos paso a paso** y **ámbitos avanzados de aplicación** (estructuras de datos, ordenación, protocolos de red, compiladores verificados, circuitos ZK/SNARKs, teoría de categorías/Yoneda, HoTT, bases de datos SQL tipadas y lógica modal de Kripke).
+* **🟢 Ruta 1 — Empezar desde Cero (Paso a Paso y Didáctica):**
+  1. [00_vscode_ecosistema_y_tutoriales.md](docs/00_vscode_ecosistema_y_tutoriales.md) *(Instalar VS Code y entender el Lean Infoview)*
+  2. [**M14_DidacticStepByStepProofs.lean**](LeanTT/M14_DidacticStepByStepProofs.lean) *(Tu primera demostración con el estado del Infoview comentado línea a línea)*
+  3. [**M15_DidacticDependentTypesFromZero.lean**](LeanTT/M15_DidacticDependentTypesFromZero.lean) *(Tipos dependientes explicados con un restaurante, una cuenta bancaria y un ascensor)*
+  4. [16_arbol_decision_tacticas_cheatsheet.md](docs/16_arbol_decision_tacticas_cheatsheet.md) *(Árbol de decisión "¿Qué táctica uso ahora?")*
+  5. [Exercises/E01_WorkoutLambdaAndLogic.lean](LeanTT/Exercises/E01_WorkoutLambdaAndLogic.lean) *(Taller práctico con pistas y [Solucionario](LeanTT/Solutions/S01_WorkoutLambdaAndLogic.lean))*
 
-### 1. Documentación Teórica y Guías (`docs/`)
+* **🔵 Ruta 2 — Fundamentos Matemáticos e Históricos de la Teoría de Tipos Dependientes:**
+  1. [**14_tratado_completo_teoria_tipos_dependientes.md**](docs/14_tratado_completo_teoria_tipos_dependientes.md) + [M13_FoundationsOfDependentTypeTheory.lean](LeanTT/M13_FoundationsOfDependentTypeTheory.lean) *(De Frege, Russell, Brouwer y Automath a Martin-Löf, $W$-types y el eliminador $J$)*
+  2. [01_calculo_lambda.md](docs/01_calculo_lambda.md) + [M01_LambdaCalculus.lean](LeanTT/M01_LambdaCalculus.lean) + [M16_DidacticLambdaCubeAndPTS.lean](LeanTT/M16_DidacticLambdaCubeAndPTS.lean) *(Las 8 esquinas del Cubo de Barendregt)*
+  3. [02_tipos_dependientes_pi_sigma.md](docs/02_tipos_dependientes_pi_sigma.md) $\to$ [03_jerarquia_universos_y_prop.md](docs/03_jerarquia_universos_y_prop.md) $\to$ [05_familias_inductivas_y_recursividad.md](docs/05_familias_inductivas_y_recursividad.md) $\to$ [06_igualdad_transporte_y_hott.md](docs/06_igualdad_transporte_y_hott.md)
+  4. [**M40_MiniDependentTypeChecker.lean**](LeanTT/M40_MiniDependentTypeChecker.lean) *(Proyecto Cumbre: Un verificador de tipos dependientes escrito en Lean 4)*
 
-| Doc | Guía Teórica (`docs/`) | Temas Principales |
+* **🟣 Ruta 3 — Verificación de Software, Compiladores, Criptografía ZK y Sistemas:**
+  * Estructuras de datos y algoritmos: `M17` (BST), `M18` (Insertion Sort), `M33` (Regex/Brzozowski), `M34` (Parsers).
+  * Sistemas, punteros y protocolos: `M19` (Session Types), `M28` (Tipos Lineales / Rust Borrow Checker), `M29` (Lógica de Separación / `iris-lean`), `M30` (Smart Contracts / `evm-asm`).
+  * Compiladores, bases de datos e IA científica: `M20` (Compilador a máquina de pila), `M24` y `M35` (Motor y Optimizador SQL verificado), `M38` (Diferenciación Automática / `SciLean`).
+  * Criptografía de Conocimiento Cero (SNARKs / `Verified-zkEVM`): `M21` (Circuitos R1CS/ZK estilo `Clean`), `M31` (Protocolo Sum-Check estilo `ArkLib`), `M32` (Polinomios computables estilo `CompPoly`).
+
+---
+
+## 1. Las 19 Monografías y Guías de Referencia (`docs/`)
+
+| Doc | Guía en `docs/` | Contenido Principal |
 | :---: | :--- | :--- |
 | **00** | [00_vscode_ecosistema_y_tutoriales.md](docs/00_vscode_ecosistema_y_tutoriales.md) | **Lean 4 en VS Code** (Infoview, atajos Unicode, `lake`), **Librerías usuales** (`Mathlib4`, `Batteries`, `Aesop`, `Plausible`, Loogle/Moogle) y **Tutoriales/Libros** |
 | **01** | [01_calculo_lambda.md](docs/01_calculo_lambda.md) | $\alpha/\beta/\eta/\delta/\iota/\zeta$-reducción, índices de De Bruijn, combinadores $S, K, I$, numerales de Church, PTS y Cubo de Barendregt |
@@ -37,7 +41,7 @@ El repositorio está dividido en **dos áreas sincronizadas**:
 | **03** | [03_jerarquia_universos_y_prop.md](docs/03_jerarquia_universos_y_prop.md) | `Sort u`, `Prop` vs `Type u`, Paradoja de Girard/Hurkens, función `imax`, impredicatividad, *Proof Irrelevance* y eliminación de *subsingletons* |
 | **04** | [04_curry_howard_y_logica.md](docs/04_curry_howard_y_logica.md) | Trinidad Curry-Howard-Lambek, lógica intuicionista vs clásica (`Classical.em`), traducción de doble negación de Gödel-Gentzen y Teorema de Diaconescu |
 | **05** | [05_familias_inductivas_y_recursividad.md](docs/05_familias_inductivas_y_recursividad.md) | Familias inductivas indexadas (`Vec α n`, `Fin n`, `BalTree`), parámetros vs índices, eliminadores `rec`, `noConfusion`, positividad estricta y `WellFounded` |
-| **06** | [06_igualdad_transporte_y_hott.md](docs/06_igualdad_transporte_y_hott.md) | Igualdad de Martin-Löf (`Eq`), eliminador $J$ (`Eq.rec`), cómo resolver `"motive is not type correct"`, `HEq`, `funext`, `propext`, cocientes (`Quot`) y UIP vs HoTT |
+| **06** | [06_igualdad_transporte_y_hott.md](docs/06_igualdad_transporte_y_hott.md) | Igualdad de Martin-Löf (`Eq`), eliminador $J$ (`Eq.rec`), solución a `"motive is not type correct"`, `HEq`, `funext`, `propext`, cocientes (`Quot`) y UIP vs HoTT |
 | **07** | [07_estructuras_clases_y_algebra.md](docs/07_estructuras_clases_y_algebra.md) | Telescopios de De Bruijn, estructuras *Bundled* vs *Semi-Bundled*, herencia diamante, síntesis tabulada de *Typeclasses*, `outParam` y coerciones |
 | **08** | [08_tacticas_vs_terminos.md](docs/08_tacticas_vs_terminos.md) | El Criterio de De Bruijn, metavariables, tabla completa Tácticas $\leftrightarrow$ Términos $\lambda$, bloques `calc` y modo `conv` |
 | **09** | [09_monadas_y_programacion_funcional.md](docs/09_monadas_y_programacion_funcional.md) | `Functor`, `Applicative`, `Monad`, `LawfulMonad`, desazucarado de `do`, transformadores (`StateT`, `ReaderT`, `ExceptT`) y Perceus |
@@ -46,11 +50,14 @@ El repositorio está dividido en **dos áreas sincronizadas**:
 | **12** | [12_metaprogramacion_y_kernel.md](docs/12_metaprogramacion_y_kernel.md) | El AST `Lean.Expr` del kernel, `CoreM`/`MetaM`/`TermElabM`/`TacticM`, macros higiénicas, DSLs y creación de tácticas propias |
 | **13** | [13_enlaces_webs_proyectos_y_videos.md](docs/13_enlaces_webs_proyectos_y_videos.md) | **Enlaces web importantes** (`lean4.dev`, `lean-lang.org`, **[TauCeti](https://github.com/TauCetiProject/TauCeti)**), **Criptografía ZK / SNARKs** (**[ArkLib](https://github.com/Verified-zkEVM/ArkLib)**, **[VCV-io](https://github.com/Verified-zkEVM/VCV-io)**, **[CompPoly](https://github.com/Verified-zkEVM/CompPoly)**, **[Clean](https://github.com/Verified-zkEVM/clean)**, **[Verified-zkEVM](https://github.com/Verified-zkEVM)**) y **mejores vídeos de YouTube** |
 | **14** | [**14_tratado_completo_teoria_tipos_dependientes.md**](docs/14_tratado_completo_teoria_tipos_dependientes.md) | **Tratado Completo de la Teoría de Tipos Dependientes desde Cero:** Historia y antecedentes (Frege, Russell, Brouwer, Church, Automath, Martin-Löf, Girard, Coquand), ZFC vs TTD, las 5 reglas canónicas, tipos $\Pi, \Sigma, W, \text{Id}$ y contractibilidad |
-| **15** | [**15_catalogo_25_ejemplos_y_ambitos.md**](docs/15_catalogo_25_ejemplos_y_ambitos.md) | **Catálogo General de los 25 Módulos Ejecutables (`M01`–`M25`)** y guía de ámbitos de aplicación |
+| **15** | [**15_catalogo_25_ejemplos_y_ambitos.md**](docs/15_catalogo_25_ejemplos_y_ambitos.md) | **Catálogo General de los 40 Módulos Ejecutables (`M01`–`M40`)** y talleres de ejercicios |
+| **16** | [**16_arbol_decision_tacticas_cheatsheet.md**](docs/16_arbol_decision_tacticas_cheatsheet.md) | **Cheat Sheet y Árbol de Decisión de Tácticas** + solución de los 7 errores más comunes de Lean 4 |
+| **17** | [**17_guia_migracion_haskell_coq_python_a_lean4.md**](docs/17_guia_migracion_haskell_coq_python_a_lean4.md) | **Guía de Migración a Lean 4** desde Python/TypeScript/Rust, Haskell/OCaml y Coq/Rocq/Agda |
+| **18** | [**18_glosario_enciclopedico_teoria_de_tipos.md**](docs/18_glosario_enciclopedico_teoria_de_tipos.md) | **Glosario Enciclopédico A–Z** de Cálculo Lambda, Teoría de Tipos Dependientes y Lean 4 |
 
 ---
 
-### 2. Los 25 Módulos Ejecutables en `LeanTT/`
+## 2. Los 40 Módulos Ejecutables en `LeanTT/` (`M01`–`M40`) + Ejercicios
 
 | # | Archivo en `LeanTT/` | Bloque / Ámbito | Contenido Práctico y Teoremas Verificados |
 | :-: | :--- | :--- | :--- |
@@ -79,20 +86,22 @@ El repositorio está dividido en **dos áreas sincronizadas**:
 | **23** | [M23_HoTTAndHomotopyPaths.lean](LeanTT/M23_HoTTAndHomotopyPaths.lean) | HoTT Sintética | Espacio de caminos `Path α a b` en `Type u`, leyes de $\infty$-grupoide, funtorialidad de `ap`, homotopías y equivalencias `α ≃ₕ β` |
 | **24** | [M24_RelationalDatabasesAndTypedSQL.lean](LeanTT/M24_RelationalDatabasesAndTypedSQL.lean) | Bases de Datos SQL | Esquemas tipados, cálculo dependiente de filas `Row s`, `selectWhere`, `crossJoin` y equivalencia de filtros |
 | **25** | [M25_ModalAndTemporalLogicDSL.lean](LeanTT/M25_ModalAndTemporalLogicDSL.lean) | Lógica Modal | Marcos de Kripke, operadores $\Box P$ y $\Diamond P$, axioma $K$ y los **3 Teoremas de Correspondencia de Sahlqvist-Kripke** ($T, 4, B$) |
-
----
-
-## Inicio Rápido en Visual Studio Code
-
-> Consulta la guía dedicada en [**`docs/00_vscode_ecosistema_y_tutoriales.md`**](docs/00_vscode_ecosistema_y_tutoriales.md) para todos los detalles sobre **VS Code**, **Mathlib4**, buscadores de teoremas (**Loogle**, **Moogle**, **LeanSearch**) y libros interactivos.
-
-1. Instala la extensión **`lean4`** en Visual Studio Code.
-2. Abre esta carpeta completa en VS Code con **`File -> Open Folder...`**.
-3. Abre cualquier archivo dentro de `LeanTT/` (te recomendamos empezar por [`LeanTT/M14_DidacticStepByStepProofs.lean`](LeanTT/M14_DidacticStepByStepProofs.lean) y [`LeanTT/M15_DidacticDependentTypesFromZero.lean`](LeanTT/M15_DidacticDependentTypesFromZero.lean)) y coloca el cursor sobre los teoremas para ver el estado interactivo en el panel lateral **Lean Infoview**.
-4. Para verificar los 25 módulos desde la terminal:
-   ```bash
-   lake build
-   ```
+| **26** | [M26_SystemFAndParametricity.lean](LeanTT/M26_SystemFAndParametricity.lean) | Sistema F / ADTs | Tipos existenciales impredicativos (pilas abstractas) y naturalidad paramétrica de Reynolds (*Theorems for Free*) |
+| **27** | [M27_NormalizationByEvaluation.lean](LeanTT/M27_NormalizationByEvaluation.lean) | Normalización NbE | Algoritmo completo de **Normalización por Evaluación (NbE)** con términos neutros `Ne`, formas normales `Nf`, `reflect` y `reify` |
+| **28** | [M28_SubstructuralAndLinearTypes.lean](LeanTT/M28_SubstructuralAndLinearTypes.lean) | Tipos Lineales | Cálculo $\lambda$ lineal (`A ⊸ B`, `A ⊗ B`) estilo *Rust Borrow Checker* con control estático de uso único de recursos |
+| **29** | [M29_SeparationLogicAndHeap.lean](LeanTT/M29_SeparationLogicAndHeap.lean) | Lógica de Separación | Inspirado en `iris-lean`: heaps disjuntos, conjunción separadora `P ∗ Q`, `a ↦ₕ v`, regla del marco y exclusión mutua |
+| **30** | [M30_SmartContractsAndEVMState.lean](LeanTT/M30_SmartContractsAndEVMState.lean) | Smart Contracts | Inspirado en `evm-asm`: estado de un token y demostración de **conservación de fondos** y aislamiento de cuentas de terceros |
+| **31** | [M31_SumCheckProtocolAndOracles.lean](LeanTT/M31_SumCheckProtocolAndOracles.lean) | Sum-Check / SNARKs | Inspirado en `ArkLib` y `VCV-io`: formalización y demostración de **Completitud Perfecta** del protocolo interactivo *Sum-Check* |
+| **32** | [M32_ComputablePolynomialsAndFields.lean](LeanTT/M32_ComputablePolynomialsAndFields.lean) | Álgebra Computable | Inspirado en `CompPoly`: polinomios ejecutables, esquema de Horner y demostración de homomorfismo lineal de evaluación |
+| **33** | [M33_AutomataAndBrzozowskiDerivatives.lean](LeanTT/M33_AutomataAndBrzozowskiDerivatives.lean) | Autómatas / Regex | Expresiones regulares, anulabilidad `nullable`, **Derivadas de Brzozowski** `deriv` y teoremas algebraicos de `accepts` |
+| **34** | [M34_VerifiedParserCombinators.lean](LeanTT/M34_VerifiedParserCombinators.lean) | Parsers Verificados | Combinadores de parsing, leyes de monoide de `<\|>ₚ` y demostración de decrecimiento estricto de entrada |
+| **35** | [M35_SQLQueryOptimizerCorrectness.lean](LeanTT/M35_SQLQueryOptimizerCorrectness.lean) | Optimizador SQL | Fusión de filtros y *Filter Pushdown* sobre `UNION` con demostración de preservación semántica (`evalPlan_optimizePlan`) |
+| **36** | [M36_GaloisConnectionsAndLattices.lean](LeanTT/M36_GaloisConnectionsAndLattices.lean) | Conexiones de Galois | Posets, adjunciones $\alpha \dashv \gamma$ para interpretación abstracta, monotonía e identidad triangular $\alpha \circ \gamma \circ \alpha = \alpha$ |
+| **37** | [M37_StreamsAndBisimulation.lean](LeanTT/M37_StreamsAndBisimulation.lean) | Coinducción / Streams | Flujos infinitos `StreamInf α`, observaciones `head`/`tail`, ley universal de desplegado `cons_head_tail` y `map` |
+| **38** | [M38_VerifiedAutomaticDifferentiation.lean](LeanTT/M38_VerifiedAutomaticDifferentiation.lean) | Diferenciación Auto. | Inspirado en `SciLean`: Números Duales $a + b\varepsilon$ ($\varepsilon^2=0$), regla de Leibniz y corrección de *Forward-Mode AD* |
+| **39** | [M39_ProofByReflectionAndBitVectors.lean](LeanTT/M39_ProofByReflectionAndBitVectors.lean) | Prueba por Reflexión | Cómo funcionan las tácticas de normalización algebraica: reificación sintáctica, `flatten` y cierre de metas mediante `rfl` |
+| **40** | [**M40_MiniDependentTypeChecker.lean**](LeanTT/M40_MiniDependentTypeChecker.lean) | **Proyecto Cumbre** | **Un Verificador de Tipos Dependientes escrito en Lean 4:** `Expr` unificado, `shift`, `subst`, `whnf` e `inferType` para $\Pi$-types |
+| **E01** | [Exercises/E01_WorkoutLambdaAndLogic.lean](LeanTT/Exercises/E01_WorkoutLambdaAndLogic.lean) | Taller Práctico | Hoja de ejercicios con pistas y [Solucionario comentado en `Solutions/S01_WorkoutLambdaAndLogic.lean`](LeanTT/Solutions/S01_WorkoutLambdaAndLogic.lean) |
 
 ---
 
