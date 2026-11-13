@@ -1,10 +1,3 @@
-/-!
-# LeanTT: Cálculo Lambda, Teoría de Tipos Dependientes y Demostración Interactiva en Lean 4
-
-Módulo raíz que importa los **40 módulos ejecutables (`M01`–`M40`)** y los talleres de
-ejercicios y soluciones (`E01` / `S01`).
--/
-
 -- Bloque I: Fundamentos del Cálculo Lambda, Tipos Dependientes y Lógica (M01 - M07, M13)
 import LeanTT.M01_LambdaCalculus
 import LeanTT.M02_DependentTypes
@@ -54,3 +47,10 @@ import LeanTT.M37_StreamsAndBisimulation
 import LeanTT.M38_VerifiedAutomaticDifferentiation
 import LeanTT.M39_ProofByReflectionAndBitVectors
 import LeanTT.M40_MiniDependentTypeChecker
+
+/-!
+# LeanTT: Cálculo Lambda, Teoría de Tipos Dependientes y Demostración Interactiva en Lean 4
+
+Módulo raíz que importa los **40 módulos ejecutables (`M01`–`M40`)** y los talleres de
+ejercicios y soluciones (`E01` / `S01`).
+-/

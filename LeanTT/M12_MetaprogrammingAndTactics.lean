@@ -1,3 +1,5 @@
+import Lean
+
 /-!
 # Módulo 12: Metaprogramación en Lean 4 — El AST `Expr`, Macros, DSLs y Tácticas Propias
 Guía teórica asociada: `docs/12_metaprogramacion_y_kernel.md`
@@ -9,8 +11,6 @@ En este módulo exploramos:
 3. Creación de un DSL embebido con su propia sintaxis en Lean 4.
 4. Creación desde cero de tácticas personalizadas usando `macro` y `TacticM` (`elab`).
 -/
-
-import Lean
 
 namespace LeanTT.M12
 
