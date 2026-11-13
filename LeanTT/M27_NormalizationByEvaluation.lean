@@ -95,21 +95,26 @@ def Val.rename {Γ Δ : Ctx} : (τ : Ty) → Ren Γ Δ → Val Γ τ → Val Δ 
   | .base, ρ, nf => Nf.rename ρ nf
   | _ ⇒ _, ρ, f  => fun Ε ρ' v => f Ε (Ren.comp ρ' ρ) v
 
-mutual
-  /-- `reflect` inyecta un término neutro `Ne Γ τ` en el dominio semántico `Val Γ τ` -/
-  def reflect {Γ : Ctx} : (τ : Ty) → Ne Γ τ → Val Γ τ
-    | .base, n => .neu n
-    | σ ⇒ ρ, n => fun _ ren v => reflect ρ (.napp (Ne.rename ren n) (reify σ v))
-  termination_by τ => sizeOf τ
+/-- Construcción simultánea por recursión estructural pura sobre el tipo `τ : Ty` de:
+    - `reflect`: inyecta un término neutro `Ne Γ τ` en el dominio semántico `Val Γ τ`.
+    - `reify`: extrae una Forma Normal βη `Nf Γ τ` a partir de un valor semántico `Val Γ τ`. -/
+def reflectReify : (τ : Ty) → (∀ {Γ : Ctx}, Ne Γ τ → Val Γ τ) × (∀ {Γ : Ctx}, Val Γ τ → Nf Γ τ)
+  | .base =>
+    (fun n => .neu n, fun v => v)
+  | σ ⇒ ρ =>
+    let (refSigma, reifSigma) := reflectReify σ
+    let (refRho,   reifRho)   := reflectReify ρ
+    ( fun n _ ren v => refRho (.napp (Ne.rename ren n) (reifSigma v))
+    , fun {Γ} f =>
+        let freshVar : Val (σ :: Γ) σ := refSigma (.nvar .zero)
+        .nlam (reifRho (f (σ :: Γ) Ren.wk freshVar))
+    )
 
-  /-- `reify` extrae una Forma Normal βη `Nf Γ τ` a partir de un valor semántico `Val Γ τ` -/
-  def reify {Γ : Ctx} : (τ : Ty) → Val Γ τ → Nf Γ τ
-    | .base, v => v
-    | σ ⇒ ρ, f =>
-      let freshVar : Val (σ :: Γ) σ := reflect σ (.nvar .zero)
-      .nlam (reify ρ (f (σ :: Γ) Ren.wk freshVar))
-  termination_by τ => sizeOf τ
-end
+def reflect {Γ : Ctx} (τ : Ty) (n : Ne Γ τ) : Val Γ τ :=
+  (reflectReify τ).1 n
+
+def reify {Γ : Ctx} (τ : Ty) (v : Val Γ τ) : Nf Γ τ :=
+  (reflectReify τ).2 v
 
 /-- Entornos semánticos y evaluador hacia `Val` -/
 inductive SemEnv (Δ : Ctx) : Ctx → Type where
