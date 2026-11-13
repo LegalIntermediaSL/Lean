@@ -35,9 +35,9 @@ def exprPropIdType : Expr :=
     en el kernel e infiere su tipo (`Nat → Nat`). -/
 def inspeccionarExpr : MetaM String := do
   let ty ← inferType exprIdentidadNat
-  let ppExpr ← ppExpr exprIdentidadNat
-  let ppTy   ← ppExpr ty
-  return s!"Término: {ppExpr}  |  Tipo inferido por el kernel: {ppTy}"
+  let fmtExpr ← ppExpr exprIdentidadNat
+  let fmtTy   ← ppExpr ty
+  return s!"Término: {fmtExpr}  |  Tipo inferido por el kernel: {fmtTy}"
 
 #eval inspeccionarExpr
 
@@ -63,12 +63,12 @@ theorem interseccion_conmutativa {α : Type} (A B : Conjunto α) (x : α) :
 /-! ## 3. Creación de Tácticas Propias -/
 
 /-- 1. Táctica basada en macro (`desglosar_iff`):
-    Introduce automáticamente ambas direcciones de un objetivo `_ ↔ _` y prueba casos simples. -/
-macro "desglosar_iff" : tactic =>
-  `(tactic| constructor <;> intro h)
+    Introduce automáticamente ambas direcciones de un objetivo `_ ↔ _` nombrando la hipótesis. -/
+macro "desglosar_iff " h:ident : tactic =>
+  `(tactic| constructor <;> intro $h)
 
 example (P Q : Prop) : P ∧ Q ↔ Q ∧ P := by
-  desglosar_iff
+  desglosar_iff h
   · exact ⟨h.2, h.1⟩
   · exact ⟨h.2, h.1⟩
 

@@ -23,13 +23,14 @@ theorem unit_eta (x : Unit) : x = () :=
 
 /-- Large Elimination: una familia de tipos indexada por `Bool` que devuelve un `Type` distinto
     según el valor booleano. -/
-def FibraBool : Bool → Type
+abbrev FibraBool : Bool → Type
   | false => Nat × Nat
   | true  => String
 
-/-- Sección dependiente `(b : Bool) → FibraBool b` construida directamente con `Bool.rec` -/
-def seccionFibraBool (b : Bool) : FibraBool b :=
-  Bool.rec (motive := FibraBool) (7, 11) "Teoría de Tipos de Martin-Löf" b
+/-- Sección dependiente `(b : Bool) → FibraBool b` definida por análisis de casos dependiente -/
+def seccionFibraBool : (b : Bool) → FibraBool b
+  | false => (7, 11)
+  | true  => "Teoría de Tipos de Martin-Löf"
 
 #eval seccionFibraBool false -- (7, 11)
 #eval seccionFibraBool true  -- "Teoría de Tipos de Martin-Löf"
@@ -77,12 +78,12 @@ theorem martinLofJ_beta {A : Sort u}
 
 /-- El espacio basado en `a`: el Σ-tipo de todos los puntos `y : A` junto con una prueba `a = y` -/
 def EspacioBasado {A : Type u} (a : A) : Type u :=
-  (y : A) × (a = y)
+  { y : A // a = y }
 
 def centroBasado {A : Type u} (a : A) : EspacioBasado a :=
   ⟨a, rfl⟩
 
-/-- Teorema fundamental: el espacio total `(y : A) × (a = y)` es contráctil al centro `⟨a, rfl⟩` -/
+/-- Teorema fundamental: el espacio total `{ y : A // a = y }` es contráctil al centro `⟨a, rfl⟩` -/
 theorem espacioBasado_contractil {A : Type u} {a : A} (w : EspacioBasado a) :
     w = centroBasado a := by
   rcases w with ⟨y, rfl⟩
@@ -97,9 +98,9 @@ inductive W (A : Type u) (B : A → Type v) : Type (max u v) where
 
 /-- Principio de inducción dependiente sobre `W A B` -/
 def W.ind {A : Type u} {B : A → Type v} {P : W A B → Sort w}
-    (step : ∀ (a : A) (hijos : B a → W A B), (∀ b : B a, P (hijos b)) → P (W.sup a hijos)) :
-    (w : W A B) → P w
-  | W.sup a hijos => step a hijos (fun b => W.ind step (hijos b))
+    (step : ∀ (a : A) (hijos : B a → W A B), (∀ b : B a, P (hijos b)) → P (W.sup a hijos))
+    (w : W A B) : P w :=
+  W.rec (motive := P) step w
 
 /-- Aridad de los constructores de `Nat`:
     - `false` (`zero`) tiene 0 hijos (`Empty`)

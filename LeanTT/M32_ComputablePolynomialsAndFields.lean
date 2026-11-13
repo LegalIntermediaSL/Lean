@@ -55,7 +55,7 @@ theorem evalHorner_scalePoly (k : Int) (p : CompPoly) (x : Int) :
   | cons c cs ih =>
     dsimp [scalePoly, evalHorner]
     rw [ih]
-    rw [Int.mul_add, ← Int.mul_assoc, Int.mul_comm k x, Int.mul_assoc]
+    rw [Int.mul_add, ← Int.mul_assoc, ← Int.mul_assoc, Int.mul_comm x k]
 
 /-- TEOREMA 2: Evaluar la suma `addPoly p q` en `x` es igual a la suma de las evaluaciones! -/
 theorem evalHorner_addPoly (p q : CompPoly) (x : Int) :

@@ -92,10 +92,8 @@ theorem forwardAD_correct (e : PolyExpr) (x : Int) :
   | add e1 e2 ih1 ih2 =>
     dsimp [evalDual, symbolicDiff, evalInt]
     rw [ih1, ih2]
-    rfl
   | mul e1 e2 ih1 ih2 =>
     dsimp [evalDual, symbolicDiff, evalInt]
     rw [ih1, ih2]
-    rfl
 
 end LeanTT.M38

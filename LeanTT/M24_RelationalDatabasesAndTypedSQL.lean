@@ -22,7 +22,7 @@ inductive DBType where
 
 /-- Interpretación dependiente de un `DBType` como un `Type` real de Lean 4 -/
 @[simp]
-def DBType.denote : DBType → Type
+abbrev DBType.denote : DBType → Type
   | .nat  => Nat
   | .str  => String
   | .bool => Bool
@@ -32,7 +32,7 @@ abbrev Schema := List (String × DBType)
 
 /-- El tipo dependiente `Row s` calcula el tipo de una fila que cumple el esquema `s` -/
 @[simp]
-def Row : Schema → Type
+abbrev Row : Schema → Type
   | []           => Unit
   | (_, t) :: s' => t.denote × Row s'
 
@@ -59,12 +59,8 @@ def crossJoin {s1 s2 : Schema} (t1 : Table s1) (t2 : Table s2) : Table (s1 ++ s2
 /-- Teorema verificado sobre nuestra operación relacional `selectWhere`:
     Filtrar con dos predicados consecutivos es equivalente a filtrar con su conjunción `&&`. -/
 theorem selectWhere_and {s : Schema} (p q : Row s → Bool) (tbl : Table s) :
-    selectWhere p (selectWhere q tbl) = selectWhere (fun r => q r && p r) tbl := by
-  dsimp [selectWhere]
-  rw [List.filter_filter]
-  congr 1
-  funext r
-   exact Bool.and_comm (p r) (q r)
+    selectWhere p (selectWhere q tbl) = selectWhere (fun r => p r && q r) tbl := by
+  simp [selectWhere, List.filter_filter]
 
 /-! ## Ejemplo Práctico de Consulta Relacional Tipada -/
 

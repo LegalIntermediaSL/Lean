@@ -5,7 +5,7 @@
 ¿Cómo reduce un asistente de pruebas moderno (como Agda, Coq o Lean) un término del cálculo
 lambda a su **forma normal βη** sin hacer sustituciones sintácticas lentas paso a paso?
 Mediante **Normalización por Evaluación (NbE)** (Berger & Schwichtenberg, 1991):
-1. **Evalúa (`eval`)** el término sintáctico hacia el dominio semántico del metalenguaje (Lean 4).
+1. **Evalúa (`evalNbE`)** el término sintáctico hacia el dominio semántico del metalenguaje (Lean 4).
 2. **Reifica (`reify`)** el valor semántico de vuelta a un término en Forma Normal (`Nf`),
    usando `reflect` para inyectar variables frescas ("términos neutros" `Ne`) en las funciones.
 -/
@@ -34,11 +34,7 @@ inductive Term : Ctx → Ty → Type where
   | app : {Γ : Ctx} → {σ τ : Ty} → Term Γ (σ ⇒ τ) → Term Γ σ → Term Γ τ
   deriving Repr
 
-/-! ## Gramática de Formas Normales βη (`Nf`) y Términos Neutros (`Ne`)
-Una Forma Normal (`Nf`) NO contiene ningún β-redex `(λx. t) u`:
-- En un tipo función `σ ⇒ τ`, toda forma normal η-expandida es obligatoriamente `.nlam body`.
-- En el tipo base `.base`, una forma normal es un término neutro `.neu n` (una variable
-  aplicada a argumentos en forma normal). -/
+/-! ## Gramática de Formas Normales βη (`Nf`) y Términos Neutros (`Ne`) -/
 mutual
   inductive Ne : Ctx → Ty → Type where
     | nvar : {Γ : Ctx} → {τ : Ty} → Var Γ τ → Ne Γ τ
@@ -66,7 +62,7 @@ mutual
     | .neu n  => .neu (n.rename ρ)
 end
 
-/-- Embebido canónico de Formas Normales de vuelta a Términos ordinarios -/
+-- Embebido canónico de Formas Normales de vuelta a Términos ordinarios
 mutual
   def Ne.toTerm {Γ : Ctx} {τ : Ty} : Ne Γ τ → Term Γ τ
     | .nvar x   => .var x
@@ -80,27 +76,31 @@ end
 /-! ## El Dominio Semántico de Prehaces (`Val Γ τ`) y las Funciones `reflect` y `reify` -/
 
 /-- Interpretación semántica parametrizada por el contexto `Γ` (modelo de Kripke/Prehaces): -/
-def Val (Γ : Ctx) : Ty → Type
+abbrev Val (Γ : Ctx) : Ty → Type
   | .base  => Nf Γ .base
   | σ ⇒ τ  => ∀ {Δ : Ctx}, Ren Γ Δ → Val Δ σ → Val Δ τ
 
-def Val.rename {Γ Δ : Ctx} {τ : Ty} (ρ : Ren Γ Δ) : Val Γ τ → Val Δ τ :=
+def Val.rename {Γ Δ : Ctx} (τ : Ty) (ρ : Ren Γ Δ) : Val Γ τ → Val Δ τ :=
   match τ with
   | .base  => fun nf => nf.rename ρ
   | _ ⇒ _  => fun f _ ρ' v => f (fun x => ρ' (ρ x)) v
 
 mutual
   /-- `reflect` inyecta un término neutro `Ne Γ τ` en el dominio semántico `Val Γ τ` -/
-  def reflect {Γ : Ctx} : {τ : Ty} → Ne Γ τ → Val Γ τ
-    | .base, n => .neu n
-    | _ ⇒ _, n => fun ρ v => reflect (.napp (n.rename ρ) (reify v))
+  def reflect {Γ : Ctx} (τ : Ty) : Ne Γ τ → Val Γ τ :=
+    match τ with
+    | .base => fun n => .neu n
+    | σ ⇒ ρ => fun n _ ren v => reflect ρ (.napp (n.rename ren) (reify σ v))
+  termination_by sizeOf τ
 
   /-- `reify` extrae una Forma Normal βη `Nf Γ τ` a partir de un valor semántico `Val Γ τ` -/
-  def reify {Γ : Ctx} : {τ : Ty} → Val Γ τ → Nf Γ τ
-    | .base, v => v
-    | _ ⇒ _, f =>
-      let freshVar : Val (_ :: Γ) _ := reflect (.nvar .zero)
-      .nlam (reify (f (fun x => .succ x) freshVar))
+  def reify {Γ : Ctx} (τ : Ty) : Val Γ τ → Nf Γ τ :=
+    match τ with
+    | .base => fun v => v
+    | σ ⇒ ρ => fun f =>
+      let freshVar : Val (σ :: Γ) σ := reflect σ (.nvar .zero)
+      .nlam (reify ρ (f (fun x => .succ x) freshVar))
+  termination_by sizeOf τ
 end
 
 /-- Entornos semánticos y evaluador hacia `Val` -/
@@ -113,8 +113,8 @@ def SemEnv.lookup {Δ Γ : Ctx} {τ : Ty} : Var Γ τ → SemEnv Δ Γ → Val �
   | .succ x, .cons _ env => env.lookup x
 
 def SemEnv.rename {Γ Δ Ε : Ctx} (ρ : Ren Δ Ε) : SemEnv Δ Γ → SemEnv Ε Γ
-  | .nil        => .nil
-  | .cons v env => .cons (Val.rename ρ v) (env.rename ρ)
+  | .nil                => .nil
+  | .cons (τ := τ) v env => .cons (Val.rename τ ρ v) (env.rename ρ)
 
 def evalNbE {Γ Δ : Ctx} {τ : Ty} : Term Γ τ → SemEnv Δ Γ → Val Δ τ
   | .var x,    env => env.lookup x
@@ -122,12 +122,12 @@ def evalNbE {Γ Δ : Ctx} {τ : Ty} : Term Γ τ → SemEnv Δ Γ → Val Δ τ
   | .app f a,  env => (evalNbE f env) (fun x => x) (evalNbE a env)
 
 def idEnv : (Γ : Ctx) → SemEnv Γ Γ
-  | []     => .nil
-  | _ :: Γ => .cons (reflect (.nvar .zero)) ((idEnv Γ).rename (fun x => .succ x))
+  | []      => .nil
+  | τ :: Γ  => .cons (reflect τ (.nvar .zero)) ((idEnv Γ).rename (fun x => .succ x))
 
 /-- FUNCIÓN PRINCIPAL DE NbE: Normaliza cualquier `Term Γ τ` a su forma normal βη `Nf Γ τ` -/
 def norm {Γ : Ctx} {τ : Ty} (t : Term Γ τ) : Nf Γ τ :=
-  reify (evalNbE t (idEnv Γ))
+  reify τ (evalNbE t (idEnv Γ))
 
 /-- Prueba de fuego: El término con un redex `(λf. λx. f x) (λy. y)` se normaliza
     directamente a la identidad `λx. x`! -/

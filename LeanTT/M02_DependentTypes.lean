@@ -17,7 +17,7 @@ universe u v
 /-! ## 1. Tipos Producto Dependiente (Π-Types) -/
 
 /-- Una familia de tipos indexada por un booleano -/
-def BoolFamily : Bool → Type
+abbrev BoolFamily : Bool → Type
   | true  => Nat
   | false => String
 

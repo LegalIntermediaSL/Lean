@@ -3,7 +3,7 @@
 Guía teórica asociada: `docs/09_monadas_y_programacion_funcional.md`
 
 En este módulo exploramos:
-1. Creación desde cero de una mónada personalizada (`TrazaM ω α`, la mónada Writer)
+1. Creación desde cero de una mónada personalizada (`WriterNat α`, la mónada Writer)
    y demostración formal de sus leyes `LawfulFunctor`, `LawfulApplicative` y `LawfulMonad`.
 2. Uso de `StateM` y `ExceptT` con notación imperativa `do`.
 3. Verificación formal de programas escritos con sintaxis `do`.
@@ -24,15 +24,12 @@ structure WriterNat (α : Type u) where
 
 namespace WriterNat
 
-def pure (a : α) : WriterNat α :=
+def pure {α : Type u} (a : α) : WriterNat α :=
   ⟨a, 0⟩
 
-def bind (ma : WriterNat α) (f : α → WriterNat β) : WriterNat β :=
+def bind {α β : Type u} (ma : WriterNat α) (f : α → WriterNat β) : WriterNat β :=
   let mb := f ma.val
   ⟨mb.val, ma.cost + mb.cost⟩
-
-def map (f : α → β) (ma : WriterNat α) : WriterNat β :=
-  ⟨f ma.val, ma.cost⟩
 
 /-- Registra un coste adicional `c` en la computación -/
 def tick (c : Nat) : WriterNat Unit :=
@@ -41,19 +38,19 @@ def tick (c : Nat) : WriterNat Unit :=
 instance : Monad WriterNat where
   pure := WriterNat.pure
   bind := WriterNat.bind
-  map  := WriterNat.map
 
 /-- Demostración formal de que `WriterNat` satisface las leyes de los funtores y las mónadas.
     ¡En Lean 4 las leyes monádicas son teoremas verificados por el kernel! -/
 instance : LawfulMonad WriterNat :=
   LawfulMonad.mk'
-    (id_map := fun x => by cases x; rfl)
+    (id_map := fun x => by
+      cases x
+      simp [Functor.map, Bind.bind, Pure.pure, WriterNat.bind, WriterNat.pure])
     (pure_bind := fun a f => by
-      dsimp [Bind.bind, Pure.pure, WriterNat.bind, WriterNat.pure]
-      rw [Nat.zero_add])
+      cases f a
+      simp [Bind.bind, Pure.pure, WriterNat.bind, WriterNat.pure])
     (bind_assoc := fun x f g => by
-      dsimp [Bind.bind, WriterNat.bind]
-      rw [Nat.add_assoc])
+      simp [Bind.bind, WriterNat.bind, Nat.add_assoc])
 
 /-- Ejemplo de programa monádico con `do` que cuenta cuántos pasos realiza -/
 def collatzStep (n : Nat) : WriterNat Nat := do
@@ -71,12 +68,15 @@ def tresPasosCollatz (n : Nat) : WriterNat Nat := do
 
 #eval tresPasosCollatz 6 -- { val := 5, cost := 3 }
 
+theorem collatzStep_cost (n : Nat) : (collatzStep n).cost = 1 := by
+  dsimp [collatzStep, Bind.bind, Pure.pure, WriterNat.bind, WriterNat.pure, tick]
+  cases h : (n % 2 == 0) <;> rfl
+
 /-- Teorema verificado sobre nuestro programa monádico:
     `tresPasosCollatz n` siempre consume exactamente `cost = 3` ticks para cualquier `n`. -/
 theorem tresPasosCollatz_cost (n : Nat) : (tresPasosCollatz n).cost = 3 := by
-  dsimp [tresPasosCollatz, collatzStep, Bind.bind, Pure.pure,
-         WriterNat.bind, WriterNat.pure, tick]
-  split <;> split <;> split <;> rfl
+  dsimp [tresPasosCollatz, Bind.bind, Pure.pure, WriterNat.bind, WriterNat.pure]
+  rw [collatzStep_cost, collatzStep_cost, collatzStep_cost]
 
 end WriterNat
 

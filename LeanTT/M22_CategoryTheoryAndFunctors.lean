@@ -48,7 +48,7 @@ def yonedaRep {C : Type u} [Categoria.{u, v} C] (A : C) : Copresheaf C where
   obj X        := Categoria.Hom A X
   map f h      := h ≫ f
   map_id _ h   := Categoria.comp_id h
-  map_comp f g h := Categoria.comp_assoc h f g
+  map_comp f g h := (Categoria.comp_assoc h f g).symm
 
 /-! ## 3. Transformaciones Naturales entre Copresheaves -/
 

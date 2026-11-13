@@ -97,7 +97,7 @@ def betaReduceTop {Γ : Ctx} {σ τ : Ty} (body : Term (σ :: Γ) τ) (arg : Ter
 
 /-- Interpretación de los tipos del STLC en tipos nativos de Lean 4 -/
 @[simp]
-def Ty.denote : Ty → Type
+abbrev Ty.denote : Ty → Type
   | .nat    => Nat
   | .bool   => Bool
   | σ ⇒ τ   => σ.denote → τ.denote

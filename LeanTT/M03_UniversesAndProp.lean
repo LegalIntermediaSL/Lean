@@ -48,7 +48,7 @@ example (n : Nat) : (elevarAType1 n).down = n := rfl
 
 /-! ## 3. Impredicatividad de `Prop` vs. Predicatividad de `Type` -/
 
-/--En `Type`, cuantificar sobre `Type 0` sube el nivel del universo a `Type 1`: -/
+-- En `Type`, cuantificar sobre `Type 0` sube el nivel del universo a `Type 1`:
 #check ((α : Type 0) → α → α : Type 1)
 
 /-- En cambio, en `Prop`, cuantificar sobre cualquier `Type u` (¡o sobre todos los `Prop`!)

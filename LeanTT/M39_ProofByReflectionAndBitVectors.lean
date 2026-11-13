@@ -79,6 +79,6 @@ example (a b c d : Nat) :
     let env := fun | 0 => a | 1 => b | 2 => c | _ => d
     denote env (.add (.add (.var 0) .zero) (.add (.var 1) (.add .zero (.var 2)))) =
     denote env (.add (.var 0) (.add (.add (.var 1) (.var 2)) .zero)) :=
-  fun env => reflect_add_eq env _ _ rfl
+  reflect_add_eq _ _ _ rfl
 
 end LeanTT.M39

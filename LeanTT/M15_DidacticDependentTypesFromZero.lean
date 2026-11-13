@@ -24,7 +24,7 @@ inductive Bebida where | agua | cafe deriving Repr
 inductive Postre where | flan | fruta deriving Repr
 
 /-- ¡Esta función recibe un VALOR (`p : Pedido`) y devuelve un TIPO (`Type`)! -/
-def TipoDeRespuesta : Pedido → Type
+abbrev TipoDeRespuesta : Pedido → Type
   | .bebida => Bebida
   | .postre => Postre
   | .cuenta => Nat       -- El importe a pagar en euros

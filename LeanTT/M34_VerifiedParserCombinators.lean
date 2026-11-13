@@ -66,11 +66,13 @@ theorem alt_fail {α : Type} (p : Parser α) : (p <|>ₚ fail) = p := by
 /-- Asociatividad de la elección ordenada `<|>ₚ` -/
 theorem alt_assoc {α : Type} (p1 p2 p3 : Parser α) :
     ((p1 <|>ₚ p2) <|>ₚ p3) = (p1 <|>ₚ (p2 <|>ₚ p3)) := by
-  cases p1; cases p2; cases p3
+  rcases p1 with ⟨run1⟩
+  rcases p2 with ⟨run2⟩
+  rcases p3 with ⟨run3⟩
   dsimp [alt]
   congr 1
   funext input
-  cases ‹List Char → Option (α × List Char)› input <;> rfl
+  cases run1 input <;> rfl
 
 /-- Teorema de Progreso Léxico (Terminación Garantizada):
     Si `(satisfy pred).run input = some (c, rest)`, entonces `rest.length < input.length`! -/

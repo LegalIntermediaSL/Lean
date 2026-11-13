@@ -83,7 +83,7 @@ theorem exec_append (c1 c2 : Code) (s : Stack) :
   induction c1 generalizing s with
   | nil          => rfl
   | cons i is ih =>
-    dsimp [exec]
+    simp only [List.cons_append, exec]
     cases stepInstr i s with
     | none    => rfl
     | some s' => exact ih s'
@@ -96,19 +96,9 @@ theorem compile_correct_aux (e : ArithExpr) (c : Code) (s : Stack) :
   | lit n =>
     rfl
   | add e1 e2 ih1 ih2 =>
-    dsimp [compile, eval]
-    rw [List.append_assoc, List.append_assoc]
-    rw [ih1]
-    rw [← List.append_assoc]
-    rw [ih2]
-    rfl
+    simp only [compile, eval, List.append_assoc, ih1, ih2, exec, stepInstr]
   | mul e1 e2 ih1 ih2 =>
-    dsimp [compile, eval]
-    rw [List.append_assoc, List.append_assoc]
-    rw [ih1]
-    rw [← List.append_assoc]
-    rw [ih2]
-    rfl
+    simp only [compile, eval, List.append_assoc, ih1, ih2, exec, stepInstr]
 
 /-- TEOREMA PRINCIPAL DE CORRECCIÓN DEL COMPILADOR:
     Para toda expresión `e` y toda pila `s`, ejecutar `compile e` termina sin error

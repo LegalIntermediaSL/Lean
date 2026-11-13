@@ -32,7 +32,7 @@ inductive Step : SessionState → SessionState → Type where
 /-- Un programa de protocolo completo `Protocol s1 s2 α` es una mónada indexada (Atkey Indexed Monad)
     que comienza en el estado `s1`, termina en el estado `s2` y produce un valor de tipo `α`. -/
 inductive Protocol : SessionState → SessionState → Type → Type where
-  | pure : {s : SessionState} → α → Protocol s s α
+  | pure : {s : SessionState} → {α : Type} → α → Protocol s s α
   | bind : {s1 s2 s3 : SessionState} → {α β : Type} →
            Step s1 s2 → (Unit → Protocol s2 s3 β) → Protocol s1 s3 β
 

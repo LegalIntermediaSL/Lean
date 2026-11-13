@@ -45,7 +45,8 @@ theorem gauss_formula (n : Nat) : 2 * sumUpTo n = n * (n + 1) := by
         = 2 * (sumUpTo k + (k + 1)) := by rfl
       _ = 2 * sumUpTo k + 2 * (k + 1) := by rw [Nat.mul_add]
       _ = k * (k + 1) + 2 * (k + 1)   := by rw [ih]
-      _ = (k + 1) * (k + 2)           := by omega
+      _ = (k + 2) * (k + 1)           := by rw [← Nat.add_mul]
+      _ = (k + 1) * (k + 2)           := by rw [Nat.mul_comm]
 
 /-! ## 3. Verificación Formal de Algoritmos sobre Listas (`reverse`) -/
 

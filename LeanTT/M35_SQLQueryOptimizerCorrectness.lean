@@ -64,11 +64,7 @@ theorem evalPlan_smartFilter {α : Type} (p : Pred α) (q : QueryPlan α) :
   | scan rows =>
     rfl
   | filter p2 qInner =>
-    dsimp [smartFilter, evalPlan, Pred.eval]
-    rw [List.filter_filter]
-    congr 1
-    funext x
-    exact Bool.and_comm (p2.eval x) (p.eval x)
+    simp [smartFilter, evalPlan, Pred.eval, List.filter_filter]
   | union q1 q2 =>
     dsimp [smartFilter, evalPlan]
     rw [List.filter_append]
@@ -80,9 +76,8 @@ theorem evalPlan_optimizePlan {α : Type} (q : QueryPlan α) :
   | scan rows =>
     rfl
   | filter p qInner ih =>
-    dsimp [optimizePlan]
-    rw [evalPlan_smartFilter]
-    rw [ih]
+    unfold optimizePlan
+    rw [evalPlan_smartFilter, ih]
     rfl
   | union q1 q2 ih1 ih2 =>
     dsimp [optimizePlan, evalPlan]

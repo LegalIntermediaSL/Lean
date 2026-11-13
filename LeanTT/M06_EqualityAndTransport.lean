@@ -80,7 +80,7 @@ def mkInt (a b : Nat) : MiInt :=
 
 /-- En el cociente, `(3, 1)` y `(10, 8)` (ambos iguales a `+2`) son **iguales** (`=`) -/
 theorem dos_eq_dos : mkInt 3 1 = mkInt 10 8 :=
-  Quotient.sound (by dsimp [HasEquiv.Equiv, Setoid.r, IntRel]; omega)
+  Quotient.sound rfl
 
 /-- Elevación de la negación `(a, b) ↦ (b, a)` al tipo cociente `MiInt → MiInt`,
     demostrando que respeta la relación de equivalencia. -/

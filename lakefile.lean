@@ -3,8 +3,7 @@ open Lake DSL
 
 package «LeanTT» where
   leanOptions := #[
-    ⟨`pp.unicode.fun, true⟩,
-    ⟨`autoImplicit, false⟩
+    ⟨`pp.unicode.fun, true⟩
   ]
 
 @[default_target]
