@@ -49,9 +49,8 @@ theorem writer_pure_bind {α β : Type u} (a : α) (f : α → WriterNat β) :
   rw [Nat.zero_add]
 
 theorem writer_bind_pure {α : Type u} (m : WriterNat α) :
-    bind m pure = m := by
-  dsimp [bind, pure]
-  rw [Nat.add_zero]
+    bind m pure = m :=
+  rfl
 
 theorem writer_bind_assoc {α β γ : Type u}
     (m : WriterNat α) (f : α → WriterNat β) (g : β → WriterNat γ) :

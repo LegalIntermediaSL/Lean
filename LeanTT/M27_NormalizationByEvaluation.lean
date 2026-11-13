@@ -48,6 +48,15 @@ end
 /-- Renombramiento (debilitamiento) para Términos Neutros y Formas Normales -/
 abbrev Ren (Γ Δ : Ctx) := ∀ {τ : Ty}, Var Γ τ → Var Δ τ
 
+def Ren.id {Γ : Ctx} : Ren Γ Γ :=
+  fun x => x
+
+def Ren.wk {Γ : Ctx} {σ : Ty} : Ren Γ (σ :: Γ) :=
+  fun x => .succ x
+
+def Ren.comp {Γ Δ Ε : Ctx} (ρ' : Ren Δ Ε) (ρ : Ren Γ Δ) : Ren Γ Ε :=
+  fun x => ρ' (ρ x)
+
 def Ren.lift {Γ Δ : Ctx} {σ : Ty} (ρ : Ren Γ Δ) : Ren (σ :: Γ) (σ :: Δ)
   | _, .zero   => .zero
   | _, .succ x => .succ (ρ x)
@@ -83,14 +92,14 @@ abbrev Val (Γ : Ctx) : Ty → Type
 def Val.rename {Γ Δ : Ctx} (τ : Ty) (ρ : Ren Γ Δ) : Val Γ τ → Val Δ τ :=
   match τ with
   | .base  => fun nf => nf.rename ρ
-  | _ ⇒ _  => fun f Ε ρ' v => f Ε (fun x => ρ' (ρ x)) v
+  | _ ⇒ _  => fun f Ε ρ' v => f Ε (Ren.comp ρ' ρ) v
 
 mutual
   /-- `reflect` inyecta un término neutro `Ne Γ τ` en el dominio semántico `Val Γ τ` -/
   def reflect {Γ : Ctx} (τ : Ty) : Ne Γ τ → Val Γ τ :=
     match τ with
     | .base => fun n => .neu n
-    | σ ⇒ ρ => fun n Δ ren v => reflect ρ (.napp (n.rename ren) (reify σ v))
+    | σ ⇒ ρ => fun n _ ren v => reflect ρ (.napp (n.rename ren) (reify σ v))
   termination_by sizeOf τ
 
   /-- `reify` extrae una Forma Normal βη `Nf Γ τ` a partir de un valor semántico `Val Γ τ` -/
@@ -99,7 +108,7 @@ mutual
     | .base => fun v => v
     | σ ⇒ ρ => fun f =>
       let freshVar : Val (σ :: Γ) σ := reflect σ (.nvar .zero)
-      .nlam (reify ρ (f (σ :: Γ) (fun x => .succ x) freshVar))
+      .nlam (reify ρ (f (σ :: Γ) Ren.wk freshVar))
   termination_by sizeOf τ
 end
 
@@ -119,11 +128,11 @@ def SemEnv.rename {Γ Δ Ε : Ctx} (ρ : Ren Δ Ε) : SemEnv Δ Γ → SemEnv Ε
 def evalNbE {Γ Δ : Ctx} {τ : Ty} : Term Γ τ → SemEnv Δ Γ → Val Δ τ
   | .var x,    env => env.lookup x
   | .lam body, env => fun _ ρ v => evalNbE body (.cons v (env.rename ρ))
-  | .app f a,  env => (evalNbE f env) Δ (fun x => x) (evalNbE a env)
+  | .app f a,  env => (evalNbE f env) Δ Ren.id (evalNbE a env)
 
 def idEnv : (Γ : Ctx) → SemEnv Γ Γ
   | []      => .nil
-  | τ :: Γ  => .cons (reflect τ (.nvar .zero)) ((idEnv Γ).rename (fun x => .succ x))
+  | τ :: Γ  => .cons (reflect τ (.nvar .zero)) ((idEnv Γ).rename Ren.wk)
 
 /-- FUNCIÓN PRINCIPAL DE NbE: Normaliza cualquier `Term Γ τ` a su forma normal βη `Nf Γ τ` -/
 def norm {Γ : Ctx} {τ : Ty} (t : Term Γ τ) : Nf Γ τ :=
