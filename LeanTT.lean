@@ -1,7 +1,7 @@
 /-!
 # LeanTT: Cálculo Lambda, Teoría de Tipos Dependientes y Demostración Interactiva en Lean 4
 
-Módulo raíz que importa los 12 módulos del curso práctico.
+Módulo raíz que importa los 13 módulos del curso práctico.
 -/
 
 import LeanTT.M01_LambdaCalculus
@@ -16,3 +16,4 @@ import LeanTT.M09_MonadsAndEffects
 import LeanTT.M10_MetatheorySTLC
 import LeanTT.M11_OperationalSemantics
 import LeanTT.M12_MetaprogrammingAndTactics
+import LeanTT.M13_FoundationsOfDependentTypeTheory
