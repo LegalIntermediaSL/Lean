@@ -21,14 +21,15 @@ flowchart TD
 
 ---
 
-## Estructura del Repositorio
+## Estructura Completa del Repositorio
 
 El repositorio está dividido en **dos áreas sincronizadas**:
-1. **`docs/`** — **12 monografías teóricas en Markdown** con explicaciones detalladas, reglas de inferencia en notación matemática, diagramas y comparativas.
+1. **`docs/`** — **13 monografías teóricas y guías prácticas en Markdown** con explicaciones detalladas, uso de VS Code, librerías del ecosistema (`Mathlib4`, `Batteries`, `Aesop`), reglas de inferencia y diagramas.
 2. **`LeanTT/`** — **12 módulos ejecutables en Lean 4** repletos de ejemplos comentados paso a paso, demostraciones mediante términos $\lambda$ puros y mediante tácticas.
 
 | Módulo | Guía Teórica (`docs/`) | Código Ejecutable (`LeanTT/`) | Temas Principales |
 | :---: | :--- | :--- | :--- |
+| **00** | [00_vscode_ecosistema_y_tutoriales.md](docs/00_vscode_ecosistema_y_tutoriales.md) | *(Guía de Entorno)* | **Lean 4 en VS Code** (Infoview, atajos Unicode, `lake`), **Librerías usuales** (`Mathlib4`, `Batteries`, `Aesop`, `Plausible`, buscadores Loogle/Moogle) y **Tutoriales/Libros** |
 | **01** | [01_calculo_lambda.md](docs/01_calculo_lambda.md) | [M01_LambdaCalculus.lean](LeanTT/M01_LambdaCalculus.lean) | $\alpha/\beta/\eta/\delta/\iota/\zeta$-reducción, combinadores $S, K, I$, numerales y booleanos de Church, Cubo de Barendregt |
 | **02** | [02_tipos_dependientes_pi_sigma.md](docs/02_tipos_dependientes_pi_sigma.md) | [M02_DependentTypes.lean](LeanTT/M02_DependentTypes.lean) | Tipos $\Pi$ (`(x : A) → B x`), Tipos $\Sigma$ (`(x : A) × B x`), subtipos `{x : A // P x}`, `printf` dependientemente tipado |
 | **03** | [03_jerarquia_universos_y_prop.md](docs/03_jerarquia_universos_y_prop.md) | [M03_UniversesAndProp.lean](LeanTT/M03_UniversesAndProp.lean) | `Sort u`, `Prop` vs `Type u`, Paradoja de Girard, impredicatividad, *Proof Irrelevance*, eliminación de *subsingletons* |
@@ -44,31 +45,23 @@ El repositorio está dividido en **dos áreas sincronizadas**:
 
 ---
 
-## Instalación y Uso Rápido
+## Inicio Rápido en Visual Studio Code
 
-### 1. Instalar `elan` (el gestor de versiones de Lean)
-En macOS o Linux:
-```bash
-curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
-```
+> Consulta la guía dedicada en [**`docs/00_vscode_ecosistema_y_tutoriales.md`**](docs/00_vscode_ecosistema_y_tutoriales.md) para todos los detalles sobre **VS Code**, **Mathlib4**, buscadores de teoremas (**Loogle**, **Moogle**, **LeanSearch**) y libros interactivos.
 
-### 2. Compilar y verificar todas las demostraciones del repositorio
-Desde la raíz de este repositorio:
-```bash
-lake build
-```
-Si `lake build` termina sin errores, el **kernel de Lean 4** habrá verificado formalmente todas las definiciones, reducciones $\lambda$ y demostraciones de los 12 módulos.
-
-### 3. Exploración interactiva
-Abre esta carpeta en **VS Code**, **Cursor** o **Antigravity** con la extensión oficial `lean4`. Al colocar el cursor sobre cualquier línea de los archivos en `LeanTT/`, el panel **Lean Infoview** mostrará en tiempo real:
-* El **contexto de tipado** $\Gamma$ (variables y suposiciones activas).
-* La **meta actual** (*goal* $\vdash \tau$) o el resultado de `#check`, `#eval` y `#reduce`.
+1. Instala la extensión **`lean4`** en Visual Studio Code.
+2. Abre esta carpeta completa en VS Code con **`File -> Open Folder...`**.
+3. Abre cualquier archivo dentro de `LeanTT/` y coloca el cursor sobre los teoremas o comandos `#check` / `#eval` para ver el estado interactivo en el panel lateral **Lean Infoview**.
+4. Para verificar todo el repositorio desde la terminal:
+   ```bash
+   lake build
+   ```
 
 ---
 
 ## Glosario Esencial de Símbolos en Lean 4
 
-| Símbolo | Abreviatura Teclado | Significado en Teoría de Tipos / Lógica |
+| Símbolo | Abreviatura en VS Code | Significado en Teoría de Tipos / Lógica |
 | :---: | :---: | :--- |
 | `→` | `\to` o `\r` | Tipo función $A \to B$ o implicación lógica $P \to Q$ |
 | `∀` | `\forall` | Tipo Producto Dependiente ($\Pi$-type: `∀ x : A, B x`) o cuantificador universal |
