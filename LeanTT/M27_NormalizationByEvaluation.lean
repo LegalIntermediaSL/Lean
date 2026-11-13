@@ -83,14 +83,14 @@ abbrev Val (Γ : Ctx) : Ty → Type
 def Val.rename {Γ Δ : Ctx} (τ : Ty) (ρ : Ren Γ Δ) : Val Γ τ → Val Δ τ :=
   match τ with
   | .base  => fun nf => nf.rename ρ
-  | _ ⇒ _  => fun f _ ρ' v => f (fun x => ρ' (ρ x)) v
+  | _ ⇒ _  => fun f ρ' v => f (fun x => ρ' (ρ x)) v
 
 mutual
   /-- `reflect` inyecta un término neutro `Ne Γ τ` en el dominio semántico `Val Γ τ` -/
   def reflect {Γ : Ctx} (τ : Ty) : Ne Γ τ → Val Γ τ :=
     match τ with
     | .base => fun n => .neu n
-    | σ ⇒ ρ => fun n _ ren v => reflect ρ (.napp (n.rename ren) (reify σ v))
+    | σ ⇒ ρ => fun n ren v => reflect ρ (.napp (n.rename ren) (reify σ v))
   termination_by sizeOf τ
 
   /-- `reify` extrae una Forma Normal βη `Nf Γ τ` a partir de un valor semántico `Val Γ τ` -/

@@ -63,14 +63,14 @@ theorem interseccion_conmutativa {α : Type} (A B : Conjunto α) (x : α) :
 /-! ## 3. Creación de Tácticas Propias -/
 
 /-- 1. Táctica basada en macro (`desglosar_iff`):
-    Introduce automáticamente ambas direcciones de un objetivo `_ ↔ _` nombrando la hipótesis. -/
-macro "desglosar_iff " h:ident : tactic =>
-  `(tactic| constructor <;> intro $h)
+    Introduce automáticamente ambas direcciones de un objetivo `_ ↔ _`. -/
+macro "desglosar_iff" : tactic =>
+  `(tactic| constructor)
 
 example (P Q : Prop) : P ∧ Q ↔ Q ∧ P := by
-  desglosar_iff h
-  · exact ⟨h.2, h.1⟩
-  · exact ⟨h.2, h.1⟩
+  desglosar_iff
+  · intro h; exact ⟨h.2, h.1⟩
+  · intro h; exact ⟨h.2, h.1⟩
 
 /-- 2. Táctica programada en la mónada `TacticM` usando `elab`:
     `buscar_hipotesis` recorre todas las declaraciones del contexto local `Γ` del objetivo activo

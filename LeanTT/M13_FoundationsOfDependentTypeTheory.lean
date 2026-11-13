@@ -97,7 +97,7 @@ inductive W (A : Type u) (B : A → Type v) : Type (max u v) where
   | sup (a : A) (hijos : B a → W A B) : W A B
 
 /-- Principio de inducción dependiente sobre `W A B` -/
-def W.ind {A : Type u} {B : A → Type v} {P : W A B → Sort w}
+noncomputable def W.ind {A : Type u} {B : A → Type v} {P : W A B → Sort w}
     (step : ∀ (a : A) (hijos : B a → W A B), (∀ b : B a, P (hijos b)) → P (W.sup a hijos))
     (w : W A B) : P w :=
   W.rec (motive := P) step w

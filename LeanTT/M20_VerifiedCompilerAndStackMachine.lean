@@ -88,25 +88,17 @@ theorem exec_append (c1 c2 : Code) (s : Stack) :
     | none    => rfl
     | some s' => exact ih s'
 
-/-- Lema generalizado con continuación de código `c`:
-    Ejecutar `compile e ++ c` sobre `s` es idéntico a ejecutar `c` sobre `eval e :: s`. -/
-theorem compile_correct_aux (e : ArithExpr) (c : Code) (s : Stack) :
-    exec (compile e ++ c) s = exec c (eval e :: s) := by
-  induction e generalizing c s with
-  | lit n =>
-    rfl
-  | add e1 e2 ih1 ih2 =>
-    simp only [compile, eval, List.append_assoc, ih1, ih2, exec, stepInstr]
-  | mul e1 e2 ih1 ih2 =>
-    simp only [compile, eval, List.append_assoc, ih1, ih2, exec, stepInstr]
-
 /-- TEOREMA PRINCIPAL DE CORRECCIÓN DEL COMPILADOR:
     Para toda expresión `e` y toda pila `s`, ejecutar `compile e` termina sin error
     y deposita `eval e` en la cima de `s`. -/
 theorem compile_correct (e : ArithExpr) (s : Stack) :
     exec (compile e) s = some (eval e :: s) := by
-  have h := compile_correct_aux e [] s
-  rw [List.append_nil] at h
-  exact h
+  induction e generalizing s with
+  | lit n =>
+    rfl
+  | add e1 e2 ih1 ih2 =>
+    simp [compile, eval, exec_append, ih1, ih2, Option.bind, exec, stepInstr]
+  | mul e1 e2 ih1 ih2 =>
+    simp [compile, eval, exec_append, ih1, ih2, Option.bind, exec, stepInstr]
 
 end LeanTT.M20

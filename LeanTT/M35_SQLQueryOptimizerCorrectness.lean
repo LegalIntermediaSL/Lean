@@ -57,6 +57,15 @@ def optimizePlan {α : Type} : QueryPlan α → QueryPlan α
 
 /-! ## Demostración Formal de Corrección del Optimizador de Consultas -/
 
+/-- Lema auxiliar: filtrar dos veces una lista equivale a filtrar con la conjunción -/
+theorem filter_filter_eq {α : Type} (p1 p2 : α → Bool) (xs : List α) :
+    (xs.filter p2).filter p1 = xs.filter (fun x => p2 x && p1 x) := by
+  induction xs with
+  | nil => rfl
+  | cons x xs ih =>
+    dsimp [List.filter]
+    cases p2 x <;> cases p1 x <;> simp [List.filter, ih]
+
 /-- Lema de corrección para `smartFilter`: preserva exactamente el resultado de `evalPlan` -/
 theorem evalPlan_smartFilter {α : Type} (p : Pred α) (q : QueryPlan α) :
     evalPlan (smartFilter p q) = (evalPlan q).filter p.eval := by
@@ -64,7 +73,8 @@ theorem evalPlan_smartFilter {α : Type} (p : Pred α) (q : QueryPlan α) :
   | scan rows =>
     rfl
   | filter p2 qInner =>
-    simp [smartFilter, evalPlan, Pred.eval, List.filter_filter]
+    dsimp [smartFilter, evalPlan, Pred.eval]
+    exact (filter_filter_eq p.eval p2.eval (evalPlan qInner)).symm
   | union q1 q2 =>
     dsimp [smartFilter, evalPlan]
     rw [List.filter_append]
