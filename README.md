@@ -24,7 +24,7 @@ flowchart TD
 ## Estructura Completa del Repositorio
 
 El repositorio está dividido en **dos áreas sincronizadas**:
-1. **`docs/`** — **13 monografías teóricas y guías prácticas en Markdown** con explicaciones detalladas, uso de VS Code, librerías del ecosistema (`Mathlib4`, `Batteries`, `Aesop`), reglas de inferencia y diagramas.
+1. **`docs/`** — **14 monografías teóricas y guías prácticas en Markdown** con explicaciones detalladas, uso de VS Code, librerías del ecosistema (`Mathlib4`, `Batteries`, `Aesop`), reglas de inferencia y diagramas.
 2. **`LeanTT/`** — **12 módulos ejecutables en Lean 4** repletos de ejemplos comentados paso a paso, demostraciones mediante términos $\lambda$ puros y mediante tácticas.
 
 | Módulo | Guía Teórica (`docs/`) | Código Ejecutable (`LeanTT/`) | Temas Principales |
@@ -42,6 +42,7 @@ El repositorio está dividido en **dos áreas sincronizadas**:
 | **10** | [10_metateoria_stlc_debruijn.md](docs/10_metateoria_stlc_debruijn.md) | [M10_MetatheorySTLC.lean](LeanTT/M10_MetatheorySTLC.lean) | Formalización intrínsecamente tipada del Cálculo $\lambda$ Simplemente Tipado (STLC) con índices de De Bruijn, debilitamiento, sustitución y evaluador denotacional |
 | **11** | [11_metateoria_calculo_lambda_no_tipado.md](docs/11_metateoria_calculo_lambda_no_tipado.md) | [M11_OperationalSemantics.lean](LeanTT/M11_OperationalSemantics.lean) | Semántica operacional de paso pequeño (*Small-Step*) y paso grande (*Big-Step*), clausuras reflexivo-transitivas y teoremas de determinismo y equivalencia |
 | **12** | [12_metaprogramacion_y_kernel.md](docs/12_metaprogramacion_y_kernel.md) | [M12_MetaprogrammingAndTactics.lean](LeanTT/M12_MetaprogrammingAndTactics.lean) | El AST `Expr` del kernel, `MetaM`, `TacticM`, macros higiénicas, DSLs extensibles y construcción de tácticas personalizadas |
+| **13** | [13_enlaces_webs_proyectos_y_videos.md](docs/13_enlaces_webs_proyectos_y_videos.md) | *(Directorio Web y Vídeos)* | **Enlaces web importantes** (`lean4.dev`, `lean-lang.org`, **[TauCeti](https://github.com/TauCetiProject/TauCeti)**), **Criptografía ZK / SNARKs** (**[ArkLib](https://github.com/Verified-zkEVM/ArkLib)**, **[VCV-io](https://github.com/Verified-zkEVM/VCV-io)**, **[CompPoly](https://github.com/Verified-zkEVM/CompPoly)**, **[Clean](https://github.com/Verified-zkEVM/clean)**, **[Verified-zkEVM](https://github.com/Verified-zkEVM)**) y **mejores vídeos de YouTube** |
 
 ---
 
