@@ -78,19 +78,19 @@ end
 /-- Interpretación semántica parametrizada por el contexto `Γ` (modelo de Kripke/Prehaces): -/
 abbrev Val (Γ : Ctx) : Ty → Type
   | .base  => Nf Γ .base
-  | σ ⇒ τ  => ∀ {Δ : Ctx}, Ren Γ Δ → Val Δ σ → Val Δ τ
+  | σ ⇒ τ  => (Δ : Ctx) → Ren Γ Δ → Val Δ σ → Val Δ τ
 
 def Val.rename {Γ Δ : Ctx} (τ : Ty) (ρ : Ren Γ Δ) : Val Γ τ → Val Δ τ :=
   match τ with
   | .base  => fun nf => nf.rename ρ
-  | _ ⇒ _  => fun f ρ' v => f (fun x => ρ' (ρ x)) v
+  | _ ⇒ _  => fun f Ε ρ' v => f Ε (fun x => ρ' (ρ x)) v
 
 mutual
   /-- `reflect` inyecta un término neutro `Ne Γ τ` en el dominio semántico `Val Γ τ` -/
   def reflect {Γ : Ctx} (τ : Ty) : Ne Γ τ → Val Γ τ :=
     match τ with
     | .base => fun n => .neu n
-    | σ ⇒ ρ => fun n ren v => reflect ρ (.napp (n.rename ren) (reify σ v))
+    | σ ⇒ ρ => fun n Δ ren v => reflect ρ (.napp (n.rename ren) (reify σ v))
   termination_by sizeOf τ
 
   /-- `reify` extrae una Forma Normal βη `Nf Γ τ` a partir de un valor semántico `Val Γ τ` -/
@@ -99,7 +99,7 @@ mutual
     | .base => fun v => v
     | σ ⇒ ρ => fun f =>
       let freshVar : Val (σ :: Γ) σ := reflect σ (.nvar .zero)
-      .nlam (reify ρ (f (fun x => .succ x) freshVar))
+      .nlam (reify ρ (f (σ :: Γ) (fun x => .succ x) freshVar))
   termination_by sizeOf τ
 end
 
@@ -118,8 +118,8 @@ def SemEnv.rename {Γ Δ Ε : Ctx} (ρ : Ren Δ Ε) : SemEnv Δ Γ → SemEnv Ε
 
 def evalNbE {Γ Δ : Ctx} {τ : Ty} : Term Γ τ → SemEnv Δ Γ → Val Δ τ
   | .var x,    env => env.lookup x
-  | .lam body, env => fun ρ v => evalNbE body (.cons v (env.rename ρ))
-  | .app f a,  env => (evalNbE f env) (fun x => x) (evalNbE a env)
+  | .lam body, env => fun _ ρ v => evalNbE body (.cons v (env.rename ρ))
+  | .app f a,  env => (evalNbE f env) Δ (fun x => x) (evalNbE a env)
 
 def idEnv : (Γ : Ctx) → SemEnv Γ Γ
   | []      => .nil

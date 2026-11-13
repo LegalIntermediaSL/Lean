@@ -45,18 +45,19 @@ instance : Monad WriterNat where
     3. Asociatividad: `bind (bind m f) g = bind m (fun x => bind (f x) g)` -/
 theorem writer_pure_bind {α β : Type u} (a : α) (f : α → WriterNat β) :
     bind (pure a) f = f a := by
-  cases f a
-  simp [bind, pure]
+  dsimp [bind, pure]
+  rw [Nat.zero_add]
 
 theorem writer_bind_pure {α : Type u} (m : WriterNat α) :
     bind m pure = m := by
-  cases m
-  simp [bind, pure]
+  dsimp [bind, pure]
+  rw [Nat.add_zero]
 
 theorem writer_bind_assoc {α β γ : Type u}
     (m : WriterNat α) (f : α → WriterNat β) (g : β → WriterNat γ) :
     bind (bind m f) g = bind m (fun x => bind (f x) g) := by
-  simp [bind, Nat.add_assoc]
+  dsimp [bind]
+  rw [Nat.add_assoc]
 
 /-- Ejemplo de programa monádico con `do` que cuenta cuántos pasos realiza -/
 def collatzStep (n : Nat) : WriterNat Nat := do

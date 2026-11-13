@@ -63,8 +63,7 @@ theorem filter_filter_eq {α : Type} (p1 p2 : α → Bool) (xs : List α) :
   induction xs with
   | nil => rfl
   | cons x xs ih =>
-    dsimp [List.filter]
-    cases p2 x <;> cases p1 x <;> simp [List.filter, ih]
+    cases hp2 : p2 x <;> cases hp1 : p1 x <;> simp [List.filter, hp2, hp1, ih]
 
 /-- Lema de corrección para `smartFilter`: preserva exactamente el resultado de `evalPlan` -/
 theorem evalPlan_smartFilter {α : Type} (p : Pred α) (q : QueryPlan α) :
