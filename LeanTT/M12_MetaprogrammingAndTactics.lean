@@ -88,7 +88,7 @@ elab "buscar_hipotesis" : tactic => withMainContext do
   throwError "buscar_hipotesis: No se encontró ninguna hipótesis en Γ cuyo tipo coincida con la meta {target}"
 
 /-- Ponemos a prueba nuestra táctica escrita en `TacticM`: -/
-theorem prueba_con_nuestra_tactica (P Q R : Prop) (hp : P) (hq : Q) (hr : R) : Q := by
+theorem prueba_con_nuestra_tactica (P Q R : Prop) (_hp : P) (hq : Q) (_hr : R) : Q := by
   buscar_hipotesis
 
 /-- Incluso funciona cuando los tipos requieren reducción β/δ (`isDefEq`) para coincidir: -/

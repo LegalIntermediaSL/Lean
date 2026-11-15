@@ -43,4 +43,25 @@ theorem sol3_tactic : ((P ∨ Q) → R) ↔ (P → R) ∧ (Q → R) := by
     · exact hpr hp
     · exact hqr hq
 
+/-- Solución 4A (Modo Término Puro — Proyección de Σ-Type y Subtipo): -/
+theorem sol4_term (p : (n : Nat) × { m : Nat // n < m }) :
+    p.1 < p.2.val :=
+  p.2.property
+
+/-- Solución 4B (Modo Táctico con Desestructuración `rcases`): -/
+theorem sol4_tactic (p : (n : Nat) × { m : Nat // n < m }) :
+    p.1 < p.2.val := by
+  rcases p with ⟨_n, ⟨_m, hnm⟩⟩
+  exact hnm
+
+/-- Solución 5A (Por Inducción Estructural Explícita + Aritmética): -/
+theorem sol5_induction (n : Nat) : n + n = 2 * n := by
+  induction n with
+  | zero => rfl
+  | succ _k _ih => omega
+
+/-- Solución 5B (Decisión Automática de Aritmética Lineal de Presburger con `omega`): -/
+theorem sol5_omega (n : Nat) : n + n = 2 * n := by
+  omega
+
 end LeanTT.Solutions.S01

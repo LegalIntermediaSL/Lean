@@ -3,7 +3,7 @@
   * [00. VS Code, Librerías y Tutoriales](docs/00_vscode_ecosistema_y_tutoriales.md)
   * [13. Webs, TauCeti, zkEVM y Vídeos](docs/13_enlaces_webs_proyectos_y_videos.md)
   * [14. Tratado Completo de TTD desde Cero](docs/14_tratado_completo_teoria_tipos_dependientes.md)
-  * [15. Catálogo de los 40 Módulos](docs/15_catalogo_25_ejemplos_y_ambitos.md)
+  * [15. Catálogo de los 40 Módulos](docs/15_catalogo_40_modulos_y_ambitos.md)
 
 * **Monografías Teóricas (01–12)**
   * [01. Cálculo Lambda y Cubo de Barendregt](docs/01_calculo_lambda.md)

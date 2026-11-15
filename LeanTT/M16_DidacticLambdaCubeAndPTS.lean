@@ -58,7 +58,7 @@ inductive VecPoly (α : Type) : Nat → Type where
   | nil  : VecPoly α 0
   | cons : {n : Nat} → α → VecPoly α n → VecPoly α (n + 1)
 
-def v6_lamP2 : ∀ (α : Type) (n : Nat) (x : α), VecPoly α n → VecPoly α (n + 1) :=
+def v6_lamP2 : ∀ (α : Type) (n : Nat) (_ : α), VecPoly α n → VecPoly α (n + 1) :=
   fun _ _ x xs => .cons x xs
 
 /-! ## Vértice 7: `λPω_` (Con ω y con D, sin P en términos)

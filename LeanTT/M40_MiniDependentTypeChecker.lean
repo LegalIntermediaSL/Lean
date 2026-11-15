@@ -3,7 +3,7 @@
 ## Ámbito: Implementación de Kernels de Asistentes de Demostraciones (Estilo Mini-Lean / Coquand)
 
 Cerramos la colección de 40 módulos construyendo en Lean 4 un **verificador de tipos dependientes
-en miniatura** siguiendo el algoritmo de **Tipado Bidireccional** deierry Coquand (1996):
+en miniatura** siguiendo el algoritmo de **Tipado Bidireccional** de Thierry Coquand (1996):
 1. Sintaxis unificada `Expr` donde **los tipos y los términos comparten la misma gramática**:
    - Universos `.univ l` (`Sort l`)
    - Variables de De Bruijn `.bvar i`

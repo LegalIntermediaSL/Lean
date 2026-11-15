@@ -75,10 +75,12 @@ end
 
 -- Embebido canónico de Formas Normales de vuelta a Términos ordinarios
 mutual
+  @[simp]
   def Ne.toTerm {Γ : Ctx} {τ : Ty} : Ne Γ τ → Term Γ τ
     | .nvar x   => .var x
     | .napp f a => .app (Ne.toTerm f) (Nf.toTerm a)
 
+  @[simp]
   def Nf.toTerm {Γ : Ctx} {τ : Ty} : Nf Γ τ → Term Γ τ
     | .nlam b => .lam (Nf.toTerm b)
     | .neu n  => Ne.toTerm n
@@ -91,6 +93,7 @@ abbrev Val (Γ : Ctx) : Ty → Type
   | .base  => Nf Γ .base
   | σ ⇒ τ  => (Δ : Ctx) → Ren Γ Δ → Val Δ σ → Val Δ τ
 
+@[simp]
 def Val.rename {Γ Δ : Ctx} : (τ : Ty) → Ren Γ Δ → Val Γ τ → Val Δ τ
   | .base, ρ, nf => Nf.rename ρ nf
   | _ ⇒ _, ρ, f  => fun Ε ρ' v => f Ε (Ren.comp ρ' ρ) v
@@ -98,6 +101,7 @@ def Val.rename {Γ Δ : Ctx} : (τ : Ty) → Ren Γ Δ → Val Γ τ → Val Δ 
 /-- Construcción simultánea por recursión estructural pura sobre el tipo `τ : Ty` de:
     - `reflect`: inyecta un término neutro `Ne Γ τ` en el dominio semántico `Val Γ τ`.
     - `reify`: extrae una Forma Normal βη `Nf Γ τ` a partir de un valor semántico `Val Γ τ`. -/
+@[simp]
 def reflectReify : (τ : Ty) → (∀ {Γ : Ctx}, Ne Γ τ → Val Γ τ) × (∀ {Γ : Ctx}, Val Γ τ → Nf Γ τ)
   | .base =>
     (fun n => .neu n, fun v => v)
@@ -110,9 +114,11 @@ def reflectReify : (τ : Ty) → (∀ {Γ : Ctx}, Ne Γ τ → Val Γ τ) × (�
         .nlam (reifRho (f (σ :: Γ) Ren.wk freshVar))
     )
 
+@[simp]
 def reflect {Γ : Ctx} (τ : Ty) (n : Ne Γ τ) : Val Γ τ :=
   (reflectReify τ).1 n
 
+@[simp]
 def reify {Γ : Ctx} (τ : Ty) (v : Val Γ τ) : Nf Γ τ :=
   (reflectReify τ).2 v
 
@@ -121,28 +127,33 @@ inductive SemEnv (Δ : Ctx) : Ctx → Type where
   | nil  : SemEnv Δ []
   | cons : {Γ : Ctx} → {τ : Ty} → Val Δ τ → SemEnv Δ Γ → SemEnv Δ (τ :: Γ)
 
+@[simp]
 def SemEnv.lookup {Δ Γ : Ctx} {τ : Ty} : Var Γ τ → SemEnv Δ Γ → Val Δ τ
   | .zero,   .cons v _   => v
   | .succ x, .cons _ env => SemEnv.lookup x env
 
+@[simp]
 def SemEnv.rename {Γ Δ Ε : Ctx} (ρ : Ren Δ Ε) : SemEnv Δ Γ → SemEnv Ε Γ
   | .nil                => .nil
   | .cons (τ := τ) v env => .cons (Val.rename τ ρ v) (SemEnv.rename ρ env)
 
+@[simp]
 def evalNbE {Γ Δ : Ctx} {τ : Ty} : Term Γ τ → SemEnv Δ Γ → Val Δ τ
   | .var x,    env => SemEnv.lookup x env
   | .lam body, env => fun _ ρ v => evalNbE body (.cons v (SemEnv.rename ρ env))
   | .app f a,  env => (evalNbE f env) Δ Ren.id (evalNbE a env)
 
+@[simp]
 def idEnv : (Γ : Ctx) → SemEnv Γ Γ
   | []      => .nil
   | τ :: Γ  => .cons (reflect τ (.nvar .zero)) (SemEnv.rename Ren.wk (idEnv Γ))
 
 /-- FUNCIÓN PRINCIPAL DE NbE: Normaliza cualquier `Term Γ τ` a su forma normal βη `Nf Γ τ` -/
+@[simp]
 def norm {Γ : Ctx} {τ : Ty} (t : Term Γ τ) : Nf Γ τ :=
   reify τ (evalNbE t (idEnv Γ))
 
-/-- Prueba de fuego: El término con un redex `(λf. λx. f x) (λy. y)` se normaliza
+/-- Prueba de fuego 1 (β-reducción): El término con un redex `(λf. λx. f x) (λy. y)` se normaliza
     directamente a la identidad `λx. x`! -/
 def redexTerm : Term [] (.base ⇒ .base) :=
   .app (.lam (.lam (.app (.var (.succ .zero)) (.var .zero)))) (.lam (.var .zero))
@@ -150,7 +161,18 @@ def redexTerm : Term [] (.base ⇒ .base) :=
 def idTerm : Term [] (.base ⇒ .base) :=
   .lam (.var .zero)
 
-theorem nbe_elimina_redex : Nf.toTerm (norm redexTerm) = idTerm :=
-  rfl
+theorem nbe_elimina_redex : Nf.toTerm (norm redexTerm) = idTerm := by
+  simp [redexTerm, idTerm]
+
+/-- Prueba de fuego 2 (η-expansión): Una variable funcional `f : .base ⇒ .base` en el contexto
+    `[.base ⇒ .base]` se η-expande automáticamente a `λx. f x`! -/
+def freeFunVar : Term [.base ⇒ .base] (.base ⇒ .base) :=
+  .var .zero
+
+def etaExpandedFunVar : Term [.base ⇒ .base] (.base ⇒ .base) :=
+  .lam (.app (.var (.succ .zero)) (.var .zero))
+
+theorem nbe_eta_expansion : Nf.toTerm (norm freeFunVar) = etaExpandedFunVar := by
+  simp [freeFunVar, etaExpandedFunVar, Ne.rename, Ren.wk]
 
 end LeanTT.M27
