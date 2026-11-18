@@ -30,14 +30,12 @@ def setBalance (st : TokenState) (addr : Address) (newBal : Nat) : TokenState wh
 @[simp]
 theorem setBalance_same (st : TokenState) (a : Address) (v : Nat) :
     (st.setBalance a v).balance a = v := by
-  dsimp [setBalance]
-  rw [if_pos rfl]
+  simp [setBalance]
 
 @[simp]
 theorem setBalance_diff (st : TokenState) {a b : Address} (v : Nat) (h : b ≠ a) :
     (st.setBalance a v).balance b = st.balance b := by
-  dsimp [setBalance]
-  rw [if_neg h]
+  simp [setBalance, h]
 
 /-- Transición `transfer`: transfiere `amount` desde `sender` hacia `receiver`.
     Devuelve `none` (revert de la EVM) si `sender` no tiene saldo suficiente. -/
@@ -68,7 +66,7 @@ theorem transfer_preserves_pair_sum
     st'.balance sender + st'.balance receiver =
     st.balance sender + st.balance receiver := by
   dsimp [transfer] at htx
-  rw [if_neg hne] at htx
+  simp only [hne, ↓reduceIte] at htx
   split at htx
   · next hle =>
     injection htx with hst'

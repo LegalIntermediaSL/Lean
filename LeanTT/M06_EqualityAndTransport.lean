@@ -87,9 +87,9 @@ theorem dos_eq_dos : mkInt 3 1 = mkInt 10 8 :=
 def negInt : MiInt → MiInt :=
   Quotient.lift
     (fun (p : Nat × Nat) => mkInt p.2 p.1)
-    (fun a b (h : IntRel a b) => Quotient.sound (by
-      dsimp [HasEquiv.Equiv, Setoid.r, IntRel] at *
-      omega))
+    (fun a b (h : a.1 + b.2 = a.2 + b.1) => Quotient.sound (by
+      show a.2 + b.1 = a.1 + b.2
+      exact h.symm))
 
 /-- La reducción en `Quotient.lift` sobre un representante concreto es definicional (`rfl`) -/
 example : negInt (mkInt 5 2) = mkInt 2 5 := rfl

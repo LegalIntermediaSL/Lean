@@ -44,6 +44,7 @@ structure Copresheaf (C : Type u) [Categoria.{u, v} C] where
                map (f ≫ g) x = map g (map f x)
 
 /-- El Funtor Representable Covariante `Hom(A, -)` para un objeto fijo `A : C` -/
+@[reducible]
 def yonedaRep {C : Type u} [Categoria.{u, v} C] (A : C) : Copresheaf C where
   obj X        := Categoria.Hom A X
   map f h      := h ≫ f

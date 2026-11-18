@@ -3,9 +3,9 @@
   * [00. VS Code, Librerías y Tutoriales](docs/00_vscode_ecosistema_y_tutoriales.md)
   * [13. Webs, TauCeti, zkEVM y Vídeos](docs/13_enlaces_webs_proyectos_y_videos.md)
   * [14. Tratado Completo de TTD desde Cero](docs/14_tratado_completo_teoria_tipos_dependientes.md)
-  * [15. Catálogo de los 40 Módulos](docs/15_catalogo_40_modulos_y_ambitos.md)
+  * [15. Catálogo de los 50 Módulos y 3 Talleres](docs/15_catalogo_40_modulos_y_ambitos.md)
 
-* **Monografías Teóricas (01–12)**
+* **Monografías Teóricas (01–12, 19–20)**
   * [01. Cálculo Lambda y Cubo de Barendregt](docs/01_calculo_lambda.md)
   * [02. Tipos Dependientes: Π, Σ y Subtipos](docs/02_tipos_dependientes_pi_sigma.md)
   * [03. Universos Sort u, Prop y Girard](docs/03_jerarquia_universos_y_prop.md)
@@ -18,6 +18,8 @@
   * [10. Metateoría del STLC (De Bruijn)](docs/10_metateoria_stlc_debruijn.md)
   * [11. Semántica Operacional Small/Big-Step](docs/11_metateoria_calculo_lambda_no_tipado.md)
   * [12. Metaprogramación y Kernel Expr](docs/12_metaprogramacion_y_kernel.md)
+  * [19. Seguridad, Protocolos Σ, Cedar y Consenso](docs/19_verificacion_formal_sistemas_criptografia_y_consenso.md)
+  * [20. Elaborador Bidireccional vs Kernel](docs/20_arquitectura_elaborador_bidireccional_y_unificacion.md)
 
 * **Cheat Sheets y Glosario (16–18)**
   * [16. Árbol de Decisión de Tácticas](docs/16_arbol_decision_tacticas_cheatsheet.md)

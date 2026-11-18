@@ -15,14 +15,18 @@ import LeanTT.M10_MetatheorySTLC
 import LeanTT.M11_OperationalSemantics
 import LeanTT.M12_MetaprogrammingAndTactics
 
--- Bloque III: Módulos Especialmente Didácticos Paso a Paso (M14 - M16) y Ejercicios
+-- Bloque III: Módulos Especialmente Didácticos Paso a Paso (M14 - M16) y Talleres de Ejercicios (E01 - E03)
 import LeanTT.M14_DidacticStepByStepProofs
 import LeanTT.M15_DidacticDependentTypesFromZero
 import LeanTT.M16_DidacticLambdaCubeAndPTS
 import LeanTT.Exercises.E01_WorkoutLambdaAndLogic
 import LeanTT.Solutions.S01_WorkoutLambdaAndLogic
+import LeanTT.Exercises.E02_WorkoutInductiveFamiliesAndEquality
+import LeanTT.Solutions.S02_WorkoutInductiveFamiliesAndEquality
+import LeanTT.Exercises.E03_WorkoutVerificationAndCryptography
+import LeanTT.Solutions.S03_WorkoutVerificationAndCryptography
 
--- Bloque IV: 24 Ámbitos Avanzados de Aplicación y Verificación Formal (M17 - M40)
+-- Bloque IV: 34 Ámbitos Avanzados de Aplicación, Criptografía ZK, Consenso y Kernels (M17 - M50)
 import LeanTT.M17_VerifiedDataStructuresBST
 import LeanTT.M18_VerifiedSortingAlgorithms
 import LeanTT.M19_FiniteStateMachinesAndProtocols
@@ -47,10 +51,20 @@ import LeanTT.M37_StreamsAndBisimulation
 import LeanTT.M38_VerifiedAutomaticDifferentiation
 import LeanTT.M39_ProofByReflectionAndBitVectors
 import LeanTT.M40_MiniDependentTypeChecker
+import LeanTT.M41_InformationFlowAndNonInterference
+import LeanTT.M42_FiatShamirAndSigmaProtocols
+import LeanTT.M43_AuthorizationPolicyEngineCedar
+import LeanTT.M44_MerkleTreesAndCryptographicCommitments
+import LeanTT.M45_RefinementTypesAndLiquidPredicates
+import LeanTT.M46_FreeMonadsAndAlgebraicEffects
+import LeanTT.M47_DistributedConsensusAndQuorums
+import LeanTT.M48_CertifiedRedBlackTreeInvariants
+import LeanTT.M49_ProbabilityDistributionsAndMarkovChains
+import LeanTT.M50_BidirectionalElaboratorAndUnification
 
 /-!
 # LeanTT: Cálculo Lambda, Teoría de Tipos Dependientes y Demostración Interactiva en Lean 4
 
-Módulo raíz que importa los **40 módulos ejecutables (`M01`–`M40`)** y los talleres de
-ejercicios y soluciones (`E01` / `S01`).
+Módulo raíz que importa los **50 módulos ejecutables (`M01`–`M50`)** y los **3 talleres de
+ejercicios y solucionarios comentados (`E01`–`E03` y `S01`–`S03`)**.
 -/

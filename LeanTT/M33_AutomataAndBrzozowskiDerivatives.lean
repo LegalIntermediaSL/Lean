@@ -63,8 +63,8 @@ def accepts {α : Type} [DecidableEq α] (r : Regex α) : List α → Bool
 def regexTerminaEnA : Regex Char :=
   .seq (.star (.alt (.char 'a') (.char 'b'))) (.char 'a')
 
-#eval regexTerminaEnA.accepts "abba".data -- true
-#eval regexTerminaEnA.accepts "abbb".data -- false
+#eval regexTerminaEnA.accepts "abba".toList -- true
+#eval regexTerminaEnA.accepts "abbb".toList -- false
 
 /-! ## Teoremas Algebraicos Verificados sobre `accepts` -/
 

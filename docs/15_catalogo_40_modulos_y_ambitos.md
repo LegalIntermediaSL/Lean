@@ -1,6 +1,6 @@
-# Módulo 15: Catálogo General de los 40 Módulos Ejecutables (`LeanTT/M01..M40`) y Talleres de Ejercicios
+# Módulo 15: Catálogo General de los 50 Módulos Ejecutables (`LeanTT/M01..M50`) y 3 Talleres de Ejercicios
 
-Este documento es el mapa maestro de los **40 módulos ejecutables en Lean 4** del directorio [`LeanTT/`](../LeanTT/) y los talleres de ejercicios en [`LeanTT/Exercises/`](../LeanTT/Exercises/).
+Este documento es el mapa maestro de los **50 módulos ejecutables en Lean 4** del directorio [`LeanTT/`](../LeanTT/) y los **3 talleres de ejercicios con solucionarios comentados** en [`LeanTT/Exercises/`](../LeanTT/Exercises/) y [`LeanTT/Solutions/`](../LeanTT/Solutions/).
 
 ---
 
@@ -31,18 +31,20 @@ Este documento es el mapa maestro de los **40 módulos ejecutables en Lean 4** d
 
 ---
 
-## Bloque III: Módulos Especialmente Didácticos Paso a Paso (`M14`–`M16`) y Talleres (`E01`/`S01`)
+## Bloque III: Módulos Especialmente Didácticos (`M14`–`M16`) y 3 Talleres Prácticos (`E01`–`E03`)
 
 | Módulo | Archivo `.lean` | Enfoque Didáctico |
 | :---: | :--- | :--- |
 | **M14** | [`M14_DidacticStepByStepProofs.lean`](../LeanTT/M14_DidacticStepByStepProofs.lean) | **"Tu Primera Demostración Paso a Paso":** Cada línea de prueba incluye en comentarios la captura exacta del **Lean Infoview (`Γ ⊢ Meta`)** antes y después de cada táctica. |
 | **M15** | [`M15_DidacticDependentTypesFromZero.lean`](../LeanTT/M15_DidacticDependentTypesFromZero.lean) | **"Tipos Dependientes con Ejemplos Cotidianos":** Menú del Restaurante ($\Pi$-type), Caja Etiquetada ($\Sigma$-type), Cuenta Bancaria sin Descubierto y Ascensor de 5 Plantas. |
 | **M16** | [`M16_DidacticLambdaCubeAndPTS.lean`](../LeanTT/M16_DidacticLambdaCubeAndPTS.lean) | **"Las 8 Esquinas del Cubo de Barendregt":** Un ejemplo ejecutable para cada uno de los 8 vértices del cubo ($\lambda^\to$ a $\lambda C$). |
-| **E01 / S01** | [`Exercises/E01_WorkoutLambdaAndLogic.lean`](../LeanTT/Exercises/E01_WorkoutLambdaAndLogic.lean) | Taller interactivo de ejercicios con pistas progresivas y solucionario comparado en [`Solutions/S01_WorkoutLambdaAndLogic.lean`](../LeanTT/Solutions/S01_WorkoutLambdaAndLogic.lean). |
+| **E01 / S01** | [`Exercises/E01_WorkoutLambdaAndLogic.lean`](../LeanTT/Exercises/E01_WorkoutLambdaAndLogic.lean) | **Taller 01 (Cálculo $\lambda$ y Lógica):** Combinador `flip`, involución por $\beta$-reducción, disyunción y subtipos ([Solucionario `S01`](../LeanTT/Solutions/S01_WorkoutLambdaAndLogic.lean)). |
+| **E02 / S02** | [`Exercises/E02_WorkoutInductiveFamiliesAndEquality.lean`](../LeanTT/Exercises/E02_WorkoutInductiveFamiliesAndEquality.lean) | **Taller 02 (Familias Inductivas y Vectores):** `head`/`tail` seguros, reconstrucción $\eta$ y leyes funtoriales de `VecE α n` ([Solucionario `S02`](../LeanTT/Solutions/S02_WorkoutInductiveFamiliesAndEquality.lean)). |
+| **E03 / S03** | [`Exercises/E03_WorkoutVerificationAndCryptography.lean`](../LeanTT/Exercises/E03_WorkoutVerificationAndCryptography.lean) | **Taller 03 (Circuitos ZK, Polinomios y Protocolos $\Sigma$):** Puertas R1CS (`NOT`, `AND`, `OR`, `XOR`), esquema de Horner y desafío cero en Schnorr ([Solucionario `S03`](../LeanTT/Solutions/S03_WorkoutVerificationAndCryptography.lean)). |
 
 ---
 
-## Bloque IV: 24 Ámbitos Avanzados de Aplicación y Verificación Formal (`M17`–`M40`)
+## Bloque IV: 34 Ámbitos Avanzados de Aplicación y Verificación Formal (`M17`–`M50`)
 
 | Módulo | Ámbito de Aplicación | Archivo `.lean` | Teoremas Principales Verificados |
 | :---: | :--- | :--- | :--- |
@@ -69,4 +71,14 @@ Este documento es el mapa maestro de los **40 módulos ejecutables en Lean 4** d
 | **M37** | **Flujos Infinitos (`Stream`)** | [`M37_StreamsAndBisimulation.lean`](../LeanTT/M37_StreamsAndBisimulation.lean) | Observaciones coinductivas `head`/`tail`, desplegado `cons_head_tail` y conmutatividad de `tail` con `map`. |
 | **M38** | **Diferenciación Automática (`SciLean`)** | [`M38_VerifiedAutomaticDifferentiation.lean`](../LeanTT/M38_VerifiedAutomaticDifferentiation.lean) | Números Duales $a + b\varepsilon$ ($\varepsilon^2 = 0$), regla de Leibniz y teorema de corrección de *Forward-Mode AD* frente a derivación simbólica. |
 | **M39** | **Pruebas por Reflexión (`Reflection`)** | [`M39_ProofByReflectionAndBitVectors.lean`](../LeanTT/M39_ProofByReflectionAndBitVectors.lean) | Reificación sintáctica, normalizador de monoides `flatten` y cierre de identidades complejas mediante `rfl`. |
-| **M40** | **Mini-Kernel de Tipos Dependientes** | [`M40_MiniDependentTypeChecker.lean`](../LeanTT/M40_MiniDependentTypeChecker.lean) | **Proyecto Cumbre:** Implementación en Lean 4 de un verificador de tipos dependientes con universos, $\Pi$-types, `whnf` y sustitución de De Bruijn. |
+| **M40** | **Mini-Kernel de Tipos Dependientes** | [`M40_MiniDependentTypeChecker.lean`](../LeanTT/M40_MiniDependentTypeChecker.lean) | **Proyecto Cumbre I:** Implementación en Lean 4 de un verificador de tipos dependientes con universos, $\Pi$-types, `whnf` y sustitución de De Bruijn. |
+| **M41** | **Flujo de Información y No-Interferencia** | [`M41_InformationFlowAndNonInterference.lean`](../LeanTT/M41_InformationFlowAndNonInterference.lean) | Retículo de confidencialidad `pub ⊑ₛ sec`, `LowEquiv` y demostración del **Teorema de No-Interferencia** (`non_interference`). |
+| **M42** | **Protocolos $\Sigma$ (Schnorr) y HVZK** | [`M42_FiatShamirAndSigmaProtocols.lean`](../LeanTT/M42_FiatShamirAndSigmaProtocols.lean) | **Completitud**, **2-Special Soundness** (extracción de testigo) y **Simulador Zero-Knowledge (HVZK)** sin conocer el secreto $w$. |
+| **M43** | **Motor de Políticas AWS Cedar** | [`M43_AuthorizationPolicyEngineCedar.lean`](../LeanTT/M43_AuthorizationPolicyEngineCedar.lean) | Inspirado en `cedar-spec`: demostración de `default_deny`, `forbid_overrides_permit` y `global_freeze_denies_all`. |
+| **M44** | **Árboles de Merkle Indexados** | [`M44_MerkleTreesAndCryptographicCommitments.lean`](../LeanTT/M44_MerkleTreesAndCryptographicCommitments.lean) | `MerkleTree h`, `MerkleProof h`, **Completitud de inclusión** y reducción de **Binding** a colisiones explícitas de la función hash. |
+| **M45** | **Tipos de Refinamiento (Liquid Types)** | [`M45_RefinementTypesAndLiquidPredicates.lean`](../LeanTT/M45_RefinementTypesAndLiquidPredicates.lean) | `PosNat`, intervalos acotados `Interval lo hi`, `clamp` verificado y cálculo intrínseco del punto medio `midpoint`. |
+| **M46** | **Mónadas Libres y Efectos Algebraicos** | [`M46_FreeMonadsAndAlgebraicEffects.lean`](../LeanTT/M46_FreeMonadsAndAlgebraicEffects.lean) | Árbol de efectos `KVProg α`, las 3 leyes de mónada, manejador `handleState` y teorema *Read-After-Write*. |
+| **M47** | **Consenso Distribuido y Quórums** | [`M47_DistributedConsensusAndQuorums.lean`](../LeanTT/M47_DistributedConsensusAndQuorums.lean) | Axioma de Intersección de Quórums y demostración formal de **Seguridad de Consenso (`quorum_agreement` / `chosen_unique`)**. |
+| **M48** | **Árboles Rojo-Negro de Okasaki** | [`M48_CertifiedRedBlackTreeInvariants.lean`](../LeanTT/M48_CertifiedRedBlackTreeInvariants.lean) | Las 4 rotaciones de `balance` de Okasaki y demostración de preservación exacta de elementos (`mem_balance`, `mem_insert`). |
+| **M49** | **Distribuciones y Cadenas de Markov** | [`M49_ProbabilityDistributionsAndMarkovChains.lean`](../LeanTT/M49_ProbabilityDistributionsAndMarkovChains.lean) | Inspirado en `VCV-io`: distribuciones discretas `Dist α` y conservación de masa total bajo `map`, `scale` y pasos de Markov (`bind`). |
+| **M50** | **Elaborador Bidireccional (`synth`/`check`)** | [`M50_BidirectionalElaboratorAndUnification.lean`](../LeanTT/M50_BidirectionalElaboratorAndUnification.lean) | **Proyecto Cumbre II:** Sustituciones de metavariables `?m_i`, leyes de composición y elaborador bidireccional que infiere tipos omitidos en lambdas. |

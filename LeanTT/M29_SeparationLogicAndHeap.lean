@@ -120,8 +120,6 @@ theorem pointsTo_sep_ne {a b : Addr} {v1 v2 : Val} {h : Heap}
   subst hab
   rcases hs with ⟨h1, h2, hdisj, _, rfl, rfl⟩
   have hd := hdisj a
-  dsimp [Heap.singleton] at hd
-  rw [if_pos rfl, if_pos rfl] at hd
-  rcases hd with h1 | h2 <;> contradiction
+  simp [Heap.singleton] at hd
 
 end LeanTT.M29

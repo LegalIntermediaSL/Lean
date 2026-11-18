@@ -12,7 +12,7 @@ env:
 
 jobs:
   build:
-    name: Verify all 40 LeanTT Modules & Exercises
+    name: Verify all 50 LeanTT Modules & Exercises
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -21,7 +21,7 @@ jobs:
         run: |
           curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
-      - name: Build and verify all 40 LeanTT modules with Lake
+      - name: Build and verify all 50 LeanTT modules with Lake
         run: |
           lake update
           lake build

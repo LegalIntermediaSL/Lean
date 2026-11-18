@@ -40,11 +40,11 @@ infixl:65 " • " => Path.trans
 /-! ## 1. Las Leyes del Grupoide Fundamental de un Tipo -/
 
 theorem trans_refl_left {α : Type u} {a b : α} (p : a ≡ₚ b) :
-    (.refl • p) = p := by
+    (Path.refl • p) = p := by
   cases p; rfl
 
 theorem trans_refl_right {α : Type u} {a b : α} (p : a ≡ₚ b) :
-    (p • .refl) = p := by
+    (p • Path.refl) = p := by
   cases p; rfl
 
 theorem trans_assoc {α : Type u} {a b c d : α}
@@ -53,11 +53,11 @@ theorem trans_assoc {α : Type u} {a b c d : α}
   cases p; cases q; cases r; rfl
 
 theorem symm_trans {α : Type u} {a b : α} (p : a ≡ₚ b) :
-    (p⁻¹ᵖ • p) = .refl := by
+    (p⁻¹ᵖ • p) = Path.refl := by
   cases p; rfl
 
 theorem trans_symm {α : Type u} {a b : α} (p : a ≡ₚ b) :
-    (p • p⁻¹ᵖ) = .refl := by
+    (p • p⁻¹ᵖ) = Path.refl := by
   cases p; rfl
 
 theorem symm_symm {α : Type u} {a b : α} (p : a ≡ₚ b) :
