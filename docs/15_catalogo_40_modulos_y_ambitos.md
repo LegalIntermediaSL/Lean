@@ -1,6 +1,6 @@
-# Módulo 15: Catálogo General de los 50 Módulos Ejecutables (`LeanTT/M01..M50`) y 3 Talleres de Ejercicios
+# Módulo 15: Catálogo General de los 60 Módulos Ejecutables (`LeanTT/M01..M60`) y 4 Talleres de Ejercicios
 
-Este documento es el mapa maestro de los **50 módulos ejecutables en Lean 4** del directorio [`LeanTT/`](../LeanTT/) y los **3 talleres de ejercicios con solucionarios comentados** en [`LeanTT/Exercises/`](../LeanTT/Exercises/) y [`LeanTT/Solutions/`](../LeanTT/Solutions/).
+Este documento es el mapa maestro de los **60 módulos ejecutables en Lean 4** del directorio [`LeanTT/`](../LeanTT/) y los **4 talleres de ejercicios con solucionarios comentados** en [`LeanTT/Exercises/`](../LeanTT/Exercises/) y [`LeanTT/Solutions/`](../LeanTT/Solutions/).
 
 ---
 
@@ -31,7 +31,7 @@ Este documento es el mapa maestro de los **50 módulos ejecutables en Lean 4** d
 
 ---
 
-## Bloque III: Módulos Especialmente Didácticos (`M14`–`M16`) y 3 Talleres Prácticos (`E01`–`E03`)
+## Bloque III: Módulos Especialmente Didácticos (`M14`–`M16`) y 4 Talleres Prácticos (`E01`–`E04`)
 
 | Módulo | Archivo `.lean` | Enfoque Didáctico |
 | :---: | :--- | :--- |
@@ -41,10 +41,11 @@ Este documento es el mapa maestro de los **50 módulos ejecutables en Lean 4** d
 | **E01 / S01** | [`Exercises/E01_WorkoutLambdaAndLogic.lean`](../LeanTT/Exercises/E01_WorkoutLambdaAndLogic.lean) | **Taller 01 (Cálculo $\lambda$ y Lógica):** Combinador `flip`, involución por $\beta$-reducción, disyunción y subtipos ([Solucionario `S01`](../LeanTT/Solutions/S01_WorkoutLambdaAndLogic.lean)). |
 | **E02 / S02** | [`Exercises/E02_WorkoutInductiveFamiliesAndEquality.lean`](../LeanTT/Exercises/E02_WorkoutInductiveFamiliesAndEquality.lean) | **Taller 02 (Familias Inductivas y Vectores):** `head`/`tail` seguros, reconstrucción $\eta$ y leyes funtoriales de `VecE α n` ([Solucionario `S02`](../LeanTT/Solutions/S02_WorkoutInductiveFamiliesAndEquality.lean)). |
 | **E03 / S03** | [`Exercises/E03_WorkoutVerificationAndCryptography.lean`](../LeanTT/Exercises/E03_WorkoutVerificationAndCryptography.lean) | **Taller 03 (Circuitos ZK, Polinomios y Protocolos $\Sigma$):** Puertas R1CS (`NOT`, `AND`, `OR`, `XOR`), esquema de Horner y desafío cero en Schnorr ([Solucionario `S03`](../LeanTT/Solutions/S03_WorkoutVerificationAndCryptography.lean)). |
+| **E04 / S04** | [`Exercises/E04_WorkoutCompilersSTARKsAndGames.lean`](../LeanTT/Exercises/E04_WorkoutCompilersSTARKsAndGames.lean) | **Taller 04 (CPS, LTL, STARKs/FRI, Vickrey y `wp`):** Continuaciones CPS, distributividad e idempotencia temporal en LTL, diferencia simétrica en FRI y `wp` de Dijkstra ([Solucionario `S04`](../LeanTT/Solutions/S04_WorkoutCompilersSTARKsAndGames.lean)). |
 
 ---
 
-## Bloque IV: 34 Ámbitos Avanzados de Aplicación y Verificación Formal (`M17`–`M50`)
+## Bloque IV: 44 Ámbitos Avanzados de Aplicación y Verificación Formal (`M17`–`M60`)
 
 | Módulo | Ámbito de Aplicación | Archivo `.lean` | Teoremas Principales Verificados |
 | :---: | :--- | :--- | :--- |
