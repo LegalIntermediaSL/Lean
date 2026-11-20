@@ -1,6 +1,6 @@
 # Lección 08: Lenguajes con Tipos Dependientes, Comparativa de Arquitecturas y Proyecto Práctico Integrador
 
-> **Navegación del Mini-Curso:** [⬅️ Lección 07: Igualdad Intensional, Extensional y HoTT](07_igualdad_intensional_extensional_y_hott.md) | [🏠 Índice del Mini-Curso](00_indice_minicurso_ttd.md)
+> **Navegación del Mini-Curso:** [⬅️ Lección 07: Igualdad Intensional, Extensional y HoTT](07_igualdad_intensional_extensional_y_hott.md) | [🏠 Índice](00_indice_minicurso_ttd.md) | [➡️ Lección 09: Semántica Categórica, CwF y Modelos](09_semantica_categorica_cwf_y_modelos.md)
 >
 > **Apartado de Wikipedia ampliado:** Sección *«Lenguajes con tipos dependientes»* (Agda, Coq/Rocq, Idris, Lean, F\*, Epigram, Cayenne, Twelf) en [Teoría de Tipos Dependientes](https://es.wikipedia.org/wiki/Teor%C3%ADa_de_Tipos_Dependientes).
 >
@@ -139,4 +139,4 @@ end MiniCursoTTD.ProyectoFinal
    * [`docs/16_arbol_decision_tacticas_cheatsheet.md`](../16_arbol_decision_tacticas_cheatsheet.md)
    * [`docs/18_glosario_enciclopedico_teoria_de_tipos.md`](../18_glosario_enciclopedico_teoria_de_tipos.md)
 
-⬅️ [**Volver al Índice General del Mini-Curso (`00_indice_minicurso_ttd.md`)**](00_indice_minicurso_ttd.md)
+👉 **Siguiente lección (Ampliación Avanzada):** [**Lección 09 — Semántica Categórica de la Teoría de Tipos Dependientes: Categorías con Familias (CwF), Modelos de Grupoides y Teoría de Tipos Cúbica**](09_semantica_categorica_cwf_y_modelos.md)

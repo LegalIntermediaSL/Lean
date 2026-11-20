@@ -1,4 +1,4 @@
-# Lean 4: Cálculo Lambda, Teoría de Tipos Dependientes y Demostración Formal (50 Módulos + 3 Talleres + Mini-Curso TTD + 21 Guías)
+# Lean 4: Cálculo Lambda, Teoría de Tipos Dependientes y Demostración Formal (60 Módulos + 4 Talleres + Mini-Curso TTD + 22 Guías)
 
 [![Lean 4 Kernel CI](https://github.com/LegalIntermediaSL/Lean/actions/workflows/ci.yml/badge.svg)](https://github.com/LegalIntermediaSL/Lean/actions/workflows/ci.yml)
 [![GitHub Pages Web](https://github.com/LegalIntermediaSL/Lean/actions/workflows/pages.yml/badge.svg)](https://legalintermediasl.github.io/Lean/)
@@ -10,7 +10,7 @@ Bienvenido a este repositorio enciclopédico y curso práctico de **Lean 4** com
 
 ## 🎓 Mini-Curso Completo de Teoría de Tipos Dependientes (Edición Ampliada de Wikipedia)
 
-Un conjunto estructurado de **9 documentos `.md`** en [`docs/curso_teoria_tipos_dependientes/`](docs/curso_teoria_tipos_dependientes/00_indice_minicurso_ttd.md) que constituye un **mini-curso autocontenido de la Teoría de Tipos Dependientes**, ampliando sección por sección el artículo enciclopédico **[Teoría de Tipos Dependientes (Wikipedia)](https://es.wikipedia.org/wiki/Teor%C3%ADa_de_Tipos_Dependientes)** con reglas de inferencia completas, diagramas, historia, código Lean 4 ejecutable y ejercicios resueltos:
+Un conjunto estructurado de **11 documentos `.md`** en [`docs/curso_teoria_tipos_dependientes/`](docs/curso_teoria_tipos_dependientes/00_indice_minicurso_ttd.md) que constituye un **mini-curso autocontenido de la Teoría de Tipos Dependientes**, ampliando sección por sección el artículo enciclopédico **[Teoría de Tipos Dependientes (Wikipedia)](https://es.wikipedia.org/wiki/Teor%C3%ADa_de_Tipos_Dependientes)** con reglas de inferencia completas, diagramas, historia, semántica categórica, implementación de verificadores, código Lean 4 ejecutable y ejercicios resueltos:
 
 | Lección | Documento del Mini-Curso | Apartado de Wikipedia Ampliado y Contenido |
 | :---: | :--- | :--- |
@@ -23,6 +23,8 @@ Un conjunto estructurado de **9 documentos `.md`** en [`docs/curso_teoria_tipos_
 | **Lección 06** | [**06_cubo_lambda_y_sistemas_tipos_puros.md**](docs/curso_teoria_tipos_dependientes/06_cubo_lambda_y_sistemas_tipos_puros.md) | **Sistemas del Cubo Lambda:** Los 3 ejes de Barendregt, Sistemas de Tipos Puros (PTS) y análisis de **$\lambda P$ (LF), $\lambda P2$, $\lambda P\underline{\omega}$ y $\lambda C$ (Cálculo de Construcciones)** |
 | **Lección 07** | [**07_igualdad_intensional_extensional_y_hott.md**](docs/curso_teoria_tipos_dependientes/07_igualdad_intensional_extensional_y_hott.md) | **Familias Inductivas, Igualdad y HoTT:** $W$-types, tipo identidad $\text{Id}_A(a,b)$, eliminador $J$, **TTD Intensional vs. Extensional**, UIP/Axioma $K$ y **Univalencia en HoTT** |
 | **Lección 08** | [**08_lenguajes_comparativa_y_aplicaciones.md**](docs/curso_teoria_tipos_dependientes/08_lenguajes_comparativa_y_aplicaciones.md) | **Lenguajes con Tipos Dependientes y Proyecto Final:** Comparativa técnica entre **Lean 4, Coq/Rocq, Agda, Idris 2 (QTT), F\*, Twelf y Epigram** + Proyecto Integrador en Lean 4 |
+| **Lección 09** | [**09_semantica_categorica_cwf_y_modelos.md**](docs/curso_teoria_tipos_dependientes/09_semantica_categorica_cwf_y_modelos.md) | **Semántica Categórica, CwF y Modelos Cúbicos:** **Categorías con Familias (CwF)** de Dybjer formalizadas en Lean 4, realizabilidad, **Modelo de Grupoides** y **Teoría de Tipos Cúbica (CCHM)** |
+| **Lección 10** | [**10_implementacion_typechecker_nbe_y_elaboracion.md**](docs/curso_teoria_tipos_dependientes/10_implementacion_typechecker_nbe_y_elaboracion.md) | **Implementación de un Typechecker y Elaborador:** Índices vs. Niveles de De Bruijn, **Normalización por Evaluación (NbE)**, algoritmo bidireccional de Coquand y **unificación de patrones de Miller** |
 
 ---
 
@@ -71,16 +73,17 @@ Un conjunto estructurado de **9 documentos `.md`** en [`docs/curso_teoria_tipos_
 | **12** | [12_metaprogramacion_y_kernel.md](docs/12_metaprogramacion_y_kernel.md) | El AST `Lean.Expr` del kernel, `CoreM`/`MetaM`/`TermElabM`/`TacticM`, macros higiénicas, DSLs y creación de tácticas propias |
 | **13** | [13_enlaces_webs_proyectos_y_videos.md](docs/13_enlaces_webs_proyectos_y_videos.md) | **Enlaces web importantes** (`lean4.dev`, `lean-lang.org`, **[TauCeti](https://github.com/TauCetiProject/TauCeti)**), **Criptografía ZK / SNARKs** (**[ArkLib](https://github.com/Verified-zkEVM/ArkLib)**, **[VCV-io](https://github.com/Verified-zkEVM/VCV-io)**, **[CompPoly](https://github.com/Verified-zkEVM/CompPoly)**, **[Clean](https://github.com/Verified-zkEVM/clean)**, **[Verified-zkEVM](https://github.com/Verified-zkEVM)**) y **mejores vídeos de YouTube** |
 | **14** | [**14_tratado_completo_teoria_tipos_dependientes.md**](docs/14_tratado_completo_teoria_tipos_dependientes.md) | **Tratado Completo de la Teoría de Tipos Dependientes desde Cero:** Historia y antecedentes (Frege, Russell, Brouwer, Church, Automath, Martin-Löf, Girard, Coquand), ZFC vs TTD, las 5 reglas canónicas, tipos $\Pi, \Sigma, W, \text{Id}$ y contractibilidad |
-| **15** | [**15_catalogo_40_modulos_y_ambitos.md**](docs/15_catalogo_40_modulos_y_ambitos.md) | **Catálogo General de los 50 Módulos Ejecutables (`M01`–`M50`)** y los 3 talleres de ejercicios (`E01`–`E03`) |
+| **15** | [**15_catalogo_40_modulos_y_ambitos.md**](docs/15_catalogo_40_modulos_y_ambitos.md) | **Catálogo General de los 60 Módulos Ejecutables (`M01`–`M60`)** y los 4 talleres de ejercicios (`E01`–`E04`) |
 | **16** | [**16_arbol_decision_tacticas_cheatsheet.md**](docs/16_arbol_decision_tacticas_cheatsheet.md) | **Cheat Sheet y Árbol de Decisión de Tácticas** + solución de los 7 errores más comunes de Lean 4 |
 | **17** | [**17_guia_migracion_haskell_coq_python_a_lean4.md**](docs/17_guia_migracion_haskell_coq_python_a_lean4.md) | **Guía de Migración a Lean 4** desde Python/TypeScript/Rust, Haskell/OCaml y Coq/Rocq/Agda |
 | **18** | [**18_glosario_enciclopedico_teoria_de_tipos.md**](docs/18_glosario_enciclopedico_teoria_de_tipos.md) | **Glosario Enciclopédico A–Z** de Cálculo Lambda, Teoría de Tipos Dependientes y Lean 4 |
 | **19** | [**19_verificacion_formal_sistemas_criptografia_y_consenso.md**](docs/19_verificacion_formal_sistemas_criptografia_y_consenso.md) | **Verificación de Sistemas Críticos (`M41`–`M49`):** Flujo de Información (No-Interferencia), Protocolos $\Sigma$, AWS Cedar, Árboles de Merkle, Efectos Algebraicos, Consenso Distribuido y Probabilidad Discreta |
 | **20** | [**20_arquitectura_elaborador_bidireccional_y_unificacion.md**](docs/20_arquitectura_elaborador_bidireccional_y_unificacion.md) | **Del Elaborador Bidireccional al Kernel (`M40` + `M50`):** Cómo funcionan `synth` ($\Rightarrow$), `check` ($\Leftarrow$) y las sustituciones de metavariables `?m` antes del Kernel |
+| **21** | [**21_compiladores_cps_starks_ltl_y_teoria_juegos.md**](docs/21_compiladores_cps_starks_ltl_y_teoria_juegos.md) | **Compiladores (CPS / SSA / `wp`), LTL, Tipos de Sesión, STARKs/FRI, Teoría de Juegos, Privacidad Diferencial, Reentrancia EVM y el Kernel Polimórfico (`M51`–`M60`)** |
 
 ---
 
-## 2. Los 50 Módulos Ejecutables en `LeanTT/` (`M01`–`M50`) + 3 Talleres
+## 2. Los 60 Módulos Ejecutables en `LeanTT/` (`M01`–`M60`) + 4 Talleres
 
 | # | Archivo en `LeanTT/` | Bloque / Ámbito | Contenido Práctico y Teoremas Verificados |
 | :-: | :--- | :--- | :--- |
@@ -134,9 +137,20 @@ Un conjunto estructurado de **9 documentos `.md`** en [`docs/curso_teoria_tipos_
 | **48** | [M48_CertifiedRedBlackTreeInvariants.lean](LeanTT/M48_CertifiedRedBlackTreeInvariants.lean) | Árboles Rojo-Negro | Rotaciones de `balance` de Chris Okasaki y demostración formal de preservación de claves (`mem_balance`, `mem_insert`) |
 | **49** | [M49_ProbabilityDistributionsAndMarkovChains.lean](LeanTT/M49_ProbabilityDistributionsAndMarkovChains.lean) | Probabilidad Discreta | Inspirado en `VCV-io`: distribuciones ponderadas `Dist α` y conservación de masa total bajo `map`, `scale` y pasos de Markov |
 | **50** | [**M50_BidirectionalElaboratorAndUnification.lean**](LeanTT/M50_BidirectionalElaboratorAndUnification.lean) | **Proyecto Cumbre II** | **Elaborador Bidireccional y Metavariables en Lean 4:** `MetaTy`, leyes de sustitución y modos `synth` ($\Rightarrow$) / `check` ($\Leftarrow$) |
+| **51** | [M51_ContinuationPassingStyleCPS.lean](LeanTT/M51_ContinuationPassingStyleCPS.lean) | Compiladores CPS | Transformación a *Continuation-Passing Style* (`evalCPS`) y demostración del **Teorema de Plotkin** (`evalCPS e k = k (evalDirect e)`) |
+| **52** | [M52_StaticSingleAssignmentAndRegisterAlloc.lean](LeanTT/M52_StaticSingleAssignmentAndRegisterAlloc.lean) | Compiladores SSA | Instrucciones SSA sobre banco de registros y demostración de preservación semántica de *Constant Folding* (`execProg_foldProg`) |
+| **53** | [M53_LinearTemporalLogicModelChecking.lean](LeanTT/M53_LinearTemporalLogicModelChecking.lean) | Lógica Temporal LTL | Trazas infinitas, operadores $\bigcirc, \Box, \Diamond, \mathcal{U}$, desplegado en punto fijo $\Box \varphi \leftrightarrow \varphi \land \bigcirc \Box \varphi$ e inducción de invariantes |
+| **54** | [M54_ConcurrentProcessCalculusAndSessionDuality.lean](LeanTT/M54_ConcurrentProcessCalculusAndSessionDuality.lean) | Tipos de Sesión | Tipos de sesión binarios de Honda, involutividad `dual (dual s) = s` y progreso libre de *deadlocks* en sincronización de canales |
+| **55** | [M55_STARKsAndFRILowDegreeFolding.lean](LeanTT/M55_STARKsAndFRILowDegreeFolding.lean) | zk-STARKs / FRI | Descomposición par-impar de polinomios, operador de plegado `friFold` y colapso simétrico sobre el subgrupo $\{x, -x\}$ |
+| **56** | [M56_GameTheoryNashEquilibriumAndVCG.lean](LeanTT/M56_GameTheoryNashEquilibriumAndVCG.lean) | Teoría de Juegos | Demostración formal del **Teorema de Vickrey (DSIC)** (`vickrey_truthful_dominant`) y dominancia en el Dilema del Prisionero |
+| **57** | [M57_DifferentialPrivacyAndSensitivity.lean](LeanTT/M57_DifferentialPrivacyAndSensitivity.lean) | Privacidad Diferencial | Sensibilidad $L_1$ de consultas (`HasSensitivity`), subaditividad y comparación de composición paralela ($\max$) vs. secuencial ($+$) |
+| **58** | [M58_SmartContractReentrancyAndCEI.lean](LeanTT/M58_SmartContractReentrancyAndCEI.lean) | Anti-Reentrancia EVM | Patrón *Checks-Effects-Interactions* (CEI) + `ReentrancyGuard`, bloqueo de doble retiro reentrante, conservación de fondos y solvencia |
+| **59** | [M59_SymbolicExecutionAndWP.lean](LeanTT/M59_SymbolicExecutionAndWP.lean) | Lógica de Hoare / `wp` | Transformador de Precondición Más Débil de Dijkstra (`wp c Q`), `hoareTriple_iff_imp_wp` y verificación de intercambio aritmético *in-place* |
+| **60** | [**M60_UniversePolymorphicKernelAndInductives.lean**](LeanTT/M60_UniversePolymorphicKernelAndInductives.lean) | **Proyecto Cumbre III** | **Mini-Kernel CIC con `Sort u`, `imax` y *Large Elimination*:** Impredicatividad de `Prop` y reducción $\iota$ de `boolRec` en tiempo de tipado |
 | **E01** | [Exercises/E01_WorkoutLambdaAndLogic.lean](LeanTT/Exercises/E01_WorkoutLambdaAndLogic.lean) | Taller Práctico 01 | Cálculo $\lambda$, lógica constructiva y subtipos + [Solucionario `S01`](LeanTT/Solutions/S01_WorkoutLambdaAndLogic.lean) |
 | **E02** | [Exercises/E02_WorkoutInductiveFamiliesAndEquality.lean](LeanTT/Exercises/E02_WorkoutInductiveFamiliesAndEquality.lean) | Taller Práctico 02 | Familias inductivas indexadas `VecE α n`, `head`/`tail` seguros y fusión de `map` + [Solucionario `S02`](LeanTT/Solutions/S02_WorkoutInductiveFamiliesAndEquality.lean) |
 | **E03** | [Exercises/E03_WorkoutVerificationAndCryptography.lean](LeanTT/Exercises/E03_WorkoutVerificationAndCryptography.lean) | Taller Práctico 03 | Puertas aritméticas de circuitos ZK (`NOT`, `AND`, `OR`, `XOR`), polinomios y protocolos $\Sigma$ + [Solucionario `S03`](LeanTT/Solutions/S03_WorkoutVerificationAndCryptography.lean) |
+| **E04** | [Exercises/E04_WorkoutCompilersSTARKsAndGames.lean](LeanTT/Exercises/E04_WorkoutCompilersSTARKsAndGames.lean) | Taller Práctico 04 | Compilación CPS, Lógica Temporal LTL, diferencia simétrica en FRI de STARKs, subasta de Vickrey y `wp` + [Solucionario `S04`](LeanTT/Solutions/S04_WorkoutCompilersSTARKsAndGames.lean) |
 
 ---
 

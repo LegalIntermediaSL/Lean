@@ -31,13 +31,15 @@ flowchart TD
     Wiki --> L6["Lección 06:<br/>Sistemas del Cubo Lambda:<br/>λP, λP2, λPω̲ y Cálculo de Construcciones (λC)"]
     Wiki --> L7["Lección 07:<br/>Familias Inductivas, W-Types,<br/>Igualdad Intensional vs Extensional y HoTT"]
     Wiki --> L8["Lección 08:<br/>Lenguajes con Tipos Dependientes<br/>(Lean 4, Coq/Rocq, Agda, Idris 2, F*)<br/>y Proyecto Integrador"]
+    Wiki --> L9["Lección 09:<br/>Semántica Categórica: Categorías con Familias (CwF),<br/>Modelos de Grupoides y Teoría de Tipos Cúbica"]
+    Wiki --> L10["Lección 10:<br/>Implementación de un Typechecker:<br/>De Bruijn, NbE, Tipado Bidireccional y Unificación"]
 ```
 
 ---
 
-## 📚 Plan de Estudios de las 8 Lecciones
+## 📚 Plan de Estudios de las 10 Lecciones
 
-| Lección | Documento `.md` | Apartado de Wikipedia que Amplía | Conceptos Clave y Código Lean 4 |
+| Lección | Documento `.md` | Apartado de Wikipedia / Ampliación | Conceptos Clave y Código Lean 4 |
 | :---: | :--- | :--- | :--- |
 | **01** | [**01_introduccion_e_historia_ttd.md**](01_introduccion_e_historia_ttd.md) | Introducción e **Historia** | Qué significa que un tipo dependa de un valor (`Vec α n`, `Matrix m n`); Paradoja de Russell (1901), BHK, `Automath` (1967), Martin-Löf (1971–1984), Paradoja de Girard y diferencia entre ZFC ($\in$) y TTD ($:$). |
 | **02** | [**02_juicios_contextos_y_universos.md**](02_juicios_contextos_y_universos.md) | **Definición formal** (Universos y Familias) | Telescopios $\Gamma$, los 4 juicios de Martin-Löf, **Universos al estilo de Russell vs. Tarski** ($\mathcal{U}_i$ vs $\text{El}$), `Sort u`, `Prop`, función `imax`, familias $B : A \to \mathcal{U}_i$ y las 5 reglas canónicas. |
@@ -47,6 +49,8 @@ flowchart TD
 | **06** | [**06_cubo_lambda_y_sistemas_tipos_puros.md**](06_cubo_lambda_y_sistemas_tipos_puros.md) | **Sistemas del cubo lambda** | Los 3 ejes de Barendregt y análisis detallado de los **4 sistemas con tipos dependientes**: $\lambda P$ (LF), $\lambda P2$, $\lambda P\underline{\omega}$ y $\lambda C$ (Cálculo de Construcciones), formulados como Sistemas de Tipos Puros (PTS). |
 | **07** | [**07_igualdad_intensional_extensional_y_hott.md**](07_igualdad_intensional_extensional_y_hott.md) | **Igualdad, $W$-Types y Teoría Homotópica (HoTT)** | Árboles bien fundados ($W$-types), tipo identidad $\text{Id}_A(a,b)$, eliminador $J$, transporte, **TTD Intensional vs Extensional** (regla de reflexión), UIP/Axioma $K$ y el **Axioma de Univalencia** en HoTT. |
 | **08** | [**08_lenguajes_comparativa_y_aplicaciones.md**](08_lenguajes_comparativa_y_aplicaciones.md) | **Lenguajes con tipos dependientes** | Comparativa arquitectónica profunda entre **Lean 4, Coq/Rocq, Agda, Idris 2 (QTT), F\*, Twelf y Epigram**, criterios de diseño (borrado de tipos, Perceus, tácticas) y **Taller Práctico Integrador**. |
+| **09** | [**09_semantica_categorica_cwf_y_modelos.md**](09_semantica_categorica_cwf_y_modelos.md) | **Semántica Categórica, CwF y Modelos** | **Categorías con Familias (CwF)** de Dybjer formalizadas en Lean 4, modelos de realizabilidad, **Modelo de Grupoides** (Hofmann-Streicher) y **Teoría de Tipos Cúbica** (CCHM) con univalencia computable. |
+| **10** | [**10_implementacion_typechecker_nbe_y_elaboracion.md**](10_implementacion_typechecker_nbe_y_elaboracion.md) | **Implementación: NbE, Elaboración y Unificación** | Arquitectura en 4 fases de un asistente real: Índices vs. Niveles de De Bruijn, **Normalización por Evaluación (NbE)**, algoritmo bidireccional de Coquand y **unificación de patrones de Miller**. |
 
 ---
 
