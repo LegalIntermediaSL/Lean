@@ -5,6 +5,17 @@
   * [14. Tratado Completo de TTD desde Cero](docs/14_tratado_completo_teoria_tipos_dependientes.md)
   * [15. Catálogo de los 50 Módulos y 3 Talleres](docs/15_catalogo_40_modulos_y_ambitos.md)
 
+* **Mini-Curso TTD (Wikipedia Ampliada)**
+  * [00. Índice del Mini-Curso TTD](docs/curso_teoria_tipos_dependientes/00_indice_minicurso_ttd.md)
+  * [01. Introducción, Historia y ZFC vs TTD](docs/curso_teoria_tipos_dependientes/01_introduccion_e_historia_ttd.md)
+  * [02. Juicios, Telescopios y Universos](docs/curso_teoria_tipos_dependientes/02_juicios_contextos_y_universos.md)
+  * [03. El Tipo Π (Funciones Dependientes)](docs/curso_teoria_tipos_dependientes/03_tipos_pi_funciones_dependientes.md)
+  * [04. El Tipo Σ (Pares Dependientes)](docs/curso_teoria_tipos_dependientes/04_tipos_sigma_pares_dependientes.md)
+  * [05. Curry-Howard en Lógica de Predicados](docs/curso_teoria_tipos_dependientes/05_curry_howard_y_logica_predicados.md)
+  * [06. Sistemas del Cubo Lambda (λP a λC)](docs/curso_teoria_tipos_dependientes/06_cubo_lambda_y_sistemas_tipos_puros.md)
+  * [07. Igualdad Intensional, Extensional y HoTT](docs/curso_teoria_tipos_dependientes/07_igualdad_intensional_extensional_y_hott.md)
+  * [08. Lenguajes (Lean, Coq, Agda, Idris) y Proyecto](docs/curso_teoria_tipos_dependientes/08_lenguajes_comparativa_y_aplicaciones.md)
+
 * **Monografías Teóricas (01–12, 19–20)**
   * [01. Cálculo Lambda y Cubo de Barendregt](docs/01_calculo_lambda.md)
   * [02. Tipos Dependientes: Π, Σ y Subtipos](docs/02_tipos_dependientes_pi_sigma.md)

@@ -1,6 +1,8 @@
 # Módulo 14: Tratado Completo de la Teoría de Tipos Dependientes — Desde sus Orígenes Históricos y Filosóficos hasta el Kernel de Lean 4
 
 > **Archivo Lean ejecutable asociado:** [`LeanTT/M13_FoundationsOfDependentTypeTheory.lean`](../LeanTT/M13_FoundationsOfDependentTypeTheory.lean)
+>
+> **🎓 Mini-Curso Modular en 8 Lecciones (Edición Ampliada de Wikipedia):** Si prefieres estudiar la Teoría de Tipos Dependientes como un curso progresivo dividido en lecciones temáticas (siguiendo y ampliando la estructura de [Teoría de Tipos Dependientes en Wikipedia](https://es.wikipedia.org/wiki/Teor%C3%ADa_de_Tipos_Dependientes) con ejercicios resueltos en cada capítulo), visita el [**Mini-Curso de Teoría de Tipos Dependientes (`docs/curso_teoria_tipos_dependientes/00_indice_minicurso_ttd.md`)**](curso_teoria_tipos_dependientes/00_indice_minicurso_ttd.md).
 
 Este documento ofrece una exposición exhaustiva, autocontenida y **desde cero absoluto** de la **Teoría de Tipos Dependientes (TTD)**. No asume conocimientos previos de lógica matemática avanzada ni de teoría de categorías: comienza explicando **por qué nació la teoría de tipos**, recorre toda su **historia intelectual (1879–presente)** y construye **paso a paso** cada pieza del edificio formal que hoy impulsa a **Lean 4**.
 

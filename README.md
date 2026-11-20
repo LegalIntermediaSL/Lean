@@ -1,10 +1,28 @@
-# Lean 4: Cálculo Lambda, Teoría de Tipos Dependientes y Demostración Formal (50 Módulos + 3 Talleres + 21 Guías)
+# Lean 4: Cálculo Lambda, Teoría de Tipos Dependientes y Demostración Formal (50 Módulos + 3 Talleres + Mini-Curso TTD + 21 Guías)
 
 [![Lean 4 Kernel CI](https://github.com/LegalIntermediaSL/Lean/actions/workflows/ci.yml/badge.svg)](https://github.com/LegalIntermediaSL/Lean/actions/workflows/ci.yml)
 [![GitHub Pages Web](https://github.com/LegalIntermediaSL/Lean/actions/workflows/pages.yml/badge.svg)](https://legalintermediasl.github.io/Lean/)
 [![Open in Lean 4 Web Playground](https://img.shields.io/badge/Lean_4_Playground-Ejecutar_Online-blue?logo=lean)](https://live.lean-lang.org/)
 
 Bienvenido a este repositorio enciclopédico y curso práctico de **Lean 4** como **asistente de demostraciones** (*proof assistant*) y **lenguaje de programación funcional dependientemente tipado**, con una cobertura exhaustiva del **Cálculo Lambda ($\lambda$)**, la **Teoría de Tipos Dependientes (MLTT / CIC)** y la **Verificación Formal de Sistemas, Compiladores, Criptografía ZK y Consenso Distribuido**.
+
+---
+
+## 🎓 Mini-Curso Completo de Teoría de Tipos Dependientes (Edición Ampliada de Wikipedia)
+
+Un conjunto estructurado de **9 documentos `.md`** en [`docs/curso_teoria_tipos_dependientes/`](docs/curso_teoria_tipos_dependientes/00_indice_minicurso_ttd.md) que constituye un **mini-curso autocontenido de la Teoría de Tipos Dependientes**, ampliando sección por sección el artículo enciclopédico **[Teoría de Tipos Dependientes (Wikipedia)](https://es.wikipedia.org/wiki/Teor%C3%ADa_de_Tipos_Dependientes)** con reglas de inferencia completas, diagramas, historia, código Lean 4 ejecutable y ejercicios resueltos:
+
+| Lección | Documento del Mini-Curso | Apartado de Wikipedia Ampliado y Contenido |
+| :---: | :--- | :--- |
+| **Índice** | [**00_indice_minicurso_ttd.md**](docs/curso_teoria_tipos_dependientes/00_indice_minicurso_ttd.md) | **Portada, Mapa Conceptual y Plan de Estudios** del Mini-Curso de Teoría de Tipos Dependientes |
+| **Lección 01** | [**01_introduccion_e_historia_ttd.md**](docs/curso_teoria_tipos_dependientes/01_introduccion_e_historia_ttd.md) | **Introducción e Historia:** ¿Qué es un tipo dependiente? De Russell, Church, BHK y `Automath` a Martin-Löf, Girard y Lean 4; comparativa ZFC vs. TTD |
+| **Lección 02** | [**02_juicios_contextos_y_universos.md**](docs/curso_teoria_tipos_dependientes/02_juicios_contextos_y_universos.md) | **Definición Formal I:** Contextos (telescopios $\Gamma$), los 4 juicios de Martin-Löf, **Universos al estilo de Russell vs. Tarski** ($\mathcal{U}_i$ vs. $\text{El}$), familias $B : A \to \mathcal{U}_i$ y las 5 reglas canónicas |
+| **Lección 03** | [**03_tipos_pi_funciones_dependientes.md**](docs/curso_teoria_tipos_dependientes/03_tipos_pi_funciones_dependientes.md) | **Definición Formal II — El Tipo $\Pi$:** Producto dependiente $\prod_{x:A} B(x)$, reglas formales, fibraciones y secciones, reducción a $A \to B$, polimorfismo y funciones de aridad variable |
+| **Lección 04** | [**04_tipos_sigma_pares_dependientes.md**](docs/curso_teoria_tipos_dependientes/04_tipos_sigma_pares_dependientes.md) | **Definición Formal III — El Tipo $\Sigma$:** Suma dependiente $\sum_{x:A} B(x)$, pares dependientes $\langle a, b \rangle$, `Sigma` vs. `Subtype` vs. `Exists`, y demostración del **Axioma de Elección Constructivo** |
+| **Lección 05** | [**05_curry_howard_y_logica_predicados.md**](docs/curso_teoria_tipos_dependientes/05_curry_howard_y_logica_predicados.md) | **Correspondencia de Curry-Howard-Lambek:** Lógica de predicados ($\Pi \leftrightarrow \forall$, $\Sigma \leftrightarrow \exists$), triple adjunción $\Sigma_f \dashv f^* \dashv \Pi_f$ de Lawvere y demostraciones en Lean 4 |
+| **Lección 06** | [**06_cubo_lambda_y_sistemas_tipos_puros.md**](docs/curso_teoria_tipos_dependientes/06_cubo_lambda_y_sistemas_tipos_puros.md) | **Sistemas del Cubo Lambda:** Los 3 ejes de Barendregt, Sistemas de Tipos Puros (PTS) y análisis de **$\lambda P$ (LF), $\lambda P2$, $\lambda P\underline{\omega}$ y $\lambda C$ (Cálculo de Construcciones)** |
+| **Lección 07** | [**07_igualdad_intensional_extensional_y_hott.md**](docs/curso_teoria_tipos_dependientes/07_igualdad_intensional_extensional_y_hott.md) | **Familias Inductivas, Igualdad y HoTT:** $W$-types, tipo identidad $\text{Id}_A(a,b)$, eliminador $J$, **TTD Intensional vs. Extensional**, UIP/Axioma $K$ y **Univalencia en HoTT** |
+| **Lección 08** | [**08_lenguajes_comparativa_y_aplicaciones.md**](docs/curso_teoria_tipos_dependientes/08_lenguajes_comparativa_y_aplicaciones.md) | **Lenguajes con Tipos Dependientes y Proyecto Final:** Comparativa técnica entre **Lean 4, Coq/Rocq, Agda, Idris 2 (QTT), F\*, Twelf y Epigram** + Proyecto Integrador en Lean 4 |
 
 ---
 
