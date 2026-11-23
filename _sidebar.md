@@ -3,7 +3,7 @@
   * [00. VS Code, Librerías y Tutoriales](docs/00_vscode_ecosistema_y_tutoriales.md)
   * [13. Webs, TauCeti, zkEVM y Vídeos](docs/13_enlaces_webs_proyectos_y_videos.md)
   * [14. Tratado Completo de TTD desde Cero](docs/14_tratado_completo_teoria_tipos_dependientes.md)
-  * [15. Catálogo de los 60 Módulos y 4 Talleres](docs/15_catalogo_40_modulos_y_ambitos.md)
+  * [15. Catálogo de los 70 Módulos y 5 Talleres](docs/15_catalogo_40_modulos_y_ambitos.md)
 
 * **Mini-Curso TTD (Wikipedia Ampliada)**
   * [00. Índice del Mini-Curso TTD](docs/curso_teoria_tipos_dependientes/00_indice_minicurso_ttd.md)
@@ -18,7 +18,7 @@
   * [09. Semántica Categórica, CwF y Modelos Cúbicos](docs/curso_teoria_tipos_dependientes/09_semantica_categorica_cwf_y_modelos.md)
   * [10. Implementación: NbE, Elaboración y Miller](docs/curso_teoria_tipos_dependientes/10_implementacion_typechecker_nbe_y_elaboracion.md)
 
-* **Monografías Teóricas (01–12, 19–21)**
+* **Monografías Teóricas (01–12, 19–22)**
   * [01. Cálculo Lambda y Cubo de Barendregt](docs/01_calculo_lambda.md)
   * [02. Tipos Dependientes: Π, Σ y Subtipos](docs/02_tipos_dependientes_pi_sigma.md)
   * [03. Universos Sort u, Prop y Girard](docs/03_jerarquia_universos_y_prop.md)
@@ -34,6 +34,7 @@
   * [19. Seguridad, Protocolos Σ, Cedar y Consenso](docs/19_verificacion_formal_sistemas_criptografia_y_consenso.md)
   * [20. Elaborador Bidireccional vs Kernel](docs/20_arquitectura_elaborador_bidireccional_y_unificacion.md)
   * [21. CPS, SSA, LTL, STARKs/FRI, Juegos y Kernel M60](docs/21_compiladores_cps_starks_ltl_y_teoria_juegos.md)
+  * [22. QTT, Post-Cuántica LWE, IA, Wasm, CRDTs y M70](docs/22_qtt_postcuantica_ia_wasm_crdts_y_positividad.md)
 
 * **Cheat Sheets y Glosario (16–18)**
   * [16. Árbol de Decisión de Tácticas](docs/16_arbol_decision_tacticas_cheatsheet.md)

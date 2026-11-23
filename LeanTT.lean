@@ -15,7 +15,7 @@ import LeanTT.M10_MetatheorySTLC
 import LeanTT.M11_OperationalSemantics
 import LeanTT.M12_MetaprogrammingAndTactics
 
--- Bloque III: Módulos Especialmente Didácticos Paso a Paso (M14 - M16) y Talleres de Ejercicios (E01 - E04)
+-- Bloque III: Módulos Especialmente Didácticos Paso a Paso (M14 - M16) y Talleres de Ejercicios (E01 - E05)
 import LeanTT.M14_DidacticStepByStepProofs
 import LeanTT.M15_DidacticDependentTypesFromZero
 import LeanTT.M16_DidacticLambdaCubeAndPTS
@@ -27,8 +27,10 @@ import LeanTT.Exercises.E03_WorkoutVerificationAndCryptography
 import LeanTT.Solutions.S03_WorkoutVerificationAndCryptography
 import LeanTT.Exercises.E04_WorkoutCompilersSTARKsAndGames
 import LeanTT.Solutions.S04_WorkoutCompilersSTARKsAndGames
+import LeanTT.Exercises.E05_WorkoutQTTPostQuantumAndHardware
+import LeanTT.Solutions.S05_WorkoutQTTPostQuantumAndHardware
 
--- Bloque IV: 44 Ámbitos Avanzados de Aplicación, Compiladores, Criptografía ZK, Consenso y Kernels (M17 - M60)
+-- Bloque IV: 54 Ámbitos Avanzados de Aplicación, Compiladores, Criptografía ZK/LWE, IA, Hardware y Kernels (M17 - M70)
 import LeanTT.M17_VerifiedDataStructuresBST
 import LeanTT.M18_VerifiedSortingAlgorithms
 import LeanTT.M19_FiniteStateMachinesAndProtocols
@@ -73,10 +75,20 @@ import LeanTT.M57_DifferentialPrivacyAndSensitivity
 import LeanTT.M58_SmartContractReentrancyAndCEI
 import LeanTT.M59_SymbolicExecutionAndWP
 import LeanTT.M60_UniversePolymorphicKernelAndInductives
+import LeanTT.M61_QuantitativeTypeTheoryQTT
+import LeanTT.M62_PostQuantumLatticeCryptoLWE
+import LeanTT.M63_VerifiedNeuralNetworkReLURobustness
+import LeanTT.M64_WebAssemblyStackTypeValidator
+import LeanTT.M65_ConflictFreeReplicatedDataTypesCRDT
+import LeanTT.M66_ReversibleAndQuantumGateLogic
+import LeanTT.M67_MultiAgentEpistemicLogicS5
+import LeanTT.M68_TermRewritingSystemsAndTermination
+import LeanTT.M69_VerifiedHardwareAdderAndALU
+import LeanTT.M70_PatternUnificationAndStrictPositivity
 
 /-!
 # LeanTT: Cálculo Lambda, Teoría de Tipos Dependientes y Demostración Interactiva en Lean 4
 
-Módulo raíz que importa los **60 módulos ejecutables (`M01`–`M60`)** y los **4 talleres de
-ejercicios y solucionarios comentados (`E01`–`E04` y `S01`–`S04`)**.
+Módulo raíz que importa los **70 módulos ejecutables (`M01`–`M70`)** y los **5 talleres de
+ejercicios y solucionarios comentados (`E01`–`E05` y `S01`–`S05`)**.
 -/

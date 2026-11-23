@@ -1,6 +1,6 @@
-# Módulo 15: Catálogo General de los 60 Módulos Ejecutables (`LeanTT/M01..M60`) y 4 Talleres de Ejercicios
+# Módulo 15: Catálogo General de los 70 Módulos Ejecutables (`LeanTT/M01..M70`) y 5 Talleres de Ejercicios
 
-Este documento es el mapa maestro de los **60 módulos ejecutables en Lean 4** del directorio [`LeanTT/`](../LeanTT/) y los **4 talleres de ejercicios con solucionarios comentados** en [`LeanTT/Exercises/`](../LeanTT/Exercises/) y [`LeanTT/Solutions/`](../LeanTT/Solutions/).
+Este documento es el mapa maestro de los **70 módulos ejecutables en Lean 4** del directorio [`LeanTT/`](../LeanTT/) y los **5 talleres de ejercicios con solucionarios comentados** en [`LeanTT/Exercises/`](../LeanTT/Exercises/) y [`LeanTT/Solutions/`](../LeanTT/Solutions/).
 
 ---
 
@@ -31,7 +31,7 @@ Este documento es el mapa maestro de los **60 módulos ejecutables en Lean 4** d
 
 ---
 
-## Bloque III: Módulos Especialmente Didácticos (`M14`–`M16`) y 4 Talleres Prácticos (`E01`–`E04`)
+## Bloque III: Módulos Especialmente Didácticos (`M14`–`M16`) y 5 Talleres Prácticos (`E01`–`E05`)
 
 | Módulo | Archivo `.lean` | Enfoque Didáctico |
 | :---: | :--- | :--- |
@@ -42,10 +42,11 @@ Este documento es el mapa maestro de los **60 módulos ejecutables en Lean 4** d
 | **E02 / S02** | [`Exercises/E02_WorkoutInductiveFamiliesAndEquality.lean`](../LeanTT/Exercises/E02_WorkoutInductiveFamiliesAndEquality.lean) | **Taller 02 (Familias Inductivas y Vectores):** `head`/`tail` seguros, reconstrucción $\eta$ y leyes funtoriales de `VecE α n` ([Solucionario `S02`](../LeanTT/Solutions/S02_WorkoutInductiveFamiliesAndEquality.lean)). |
 | **E03 / S03** | [`Exercises/E03_WorkoutVerificationAndCryptography.lean`](../LeanTT/Exercises/E03_WorkoutVerificationAndCryptography.lean) | **Taller 03 (Circuitos ZK, Polinomios y Protocolos $\Sigma$):** Puertas R1CS (`NOT`, `AND`, `OR`, `XOR`), esquema de Horner y desafío cero en Schnorr ([Solucionario `S03`](../LeanTT/Solutions/S03_WorkoutVerificationAndCryptography.lean)). |
 | **E04 / S04** | [`Exercises/E04_WorkoutCompilersSTARKsAndGames.lean`](../LeanTT/Exercises/E04_WorkoutCompilersSTARKsAndGames.lean) | **Taller 04 (CPS, LTL, STARKs/FRI, Vickrey y `wp`):** Continuaciones CPS, distributividad e idempotencia temporal en LTL, diferencia simétrica en FRI y `wp` de Dijkstra ([Solucionario `S04`](../LeanTT/Solutions/S04_WorkoutCompilersSTARKsAndGames.lean)). |
+| **E05 / S05** | [`Exercises/E05_WorkoutQTTPostQuantumAndHardware.lean`](../LeanTT/Exercises/E05_WorkoutQTTPostQuantumAndHardware.lean) | **Taller 05 (QTT, Post-Cuántica LWE, ReLU, CRDTs y Hardware):** Escalado en QTT, desencriptado LWE, puntos fijos de ReLU y simetría de *Full-Adder* ([Solucionario `S05`](../LeanTT/Solutions/S05_WorkoutQTTPostQuantumAndHardware.lean)). |
 
 ---
 
-## Bloque IV: 44 Ámbitos Avanzados de Aplicación y Verificación Formal (`M17`–`M60`)
+## Bloque IV: 54 Ámbitos Avanzados de Aplicación y Verificación Formal (`M17`–`M70`)
 
 | Módulo | Ámbito de Aplicación | Archivo `.lean` | Teoremas Principales Verificados |
 | :---: | :--- | :--- | :--- |
@@ -93,3 +94,13 @@ Este documento es el mapa maestro de los **60 módulos ejecutables en Lean 4** d
 | **M58** | **Reentrancia EVM y Patrón CEI** | [`M58_SmartContractReentrancyAndCEI.lean`](../LeanTT/M58_SmartContractReentrancyAndCEI.lean) | Protección *Checks-Effects-Interactions* + `ReentrancyGuard`: bloqueo de llamadas reentrantes, conservación de patrimonio y solvencia. |
 | **M59** | **Lógica de Hoare y Dijkstra `wp`** | [`M59_SymbolicExecutionAndWP.lean`](../LeanTT/M59_SymbolicExecutionAndWP.lean) | Transformador de precondición más débil `wp c Q`, teorema `hoareTriple_iff_imp_wp` y verificación de intercambio aritmético *in-place*. |
 | **M60** | **Kernel Polimórfico con `Sort u` y *Large Elimination*** | [`M60_UniversePolymorphicKernelAndInductives.lean`](../LeanTT/M60_UniversePolymorphicKernelAndInductives.lean) | **Proyecto Cumbre III:** Jerarquía `Sort u`, función `imaxLevel` para impredicatividad de `Prop` y eliminador dependiente `boolRec` en el kernel. |
+| **M61** | **Teoría de Tipos Cuantitativa (QTT)** | [`M61_QuantitativeTypeTheoryQTT.lean`](../LeanTT/M61_QuantitativeTypeTheoryQTT.lean) | Semianillo de multiplicidades $\{0, 1, \omega\}$ estilo Idris 2 y demostración de **Borrado Estático de Tipos (`scaleCtx_zero_eq_zeroCtx`)**. |
+| **M62** | **Criptografía Post-Cuántica LWE** | [`M62_PostQuantumLatticeCryptoLWE.lean`](../LeanTT/M62_PostQuantumLatticeCryptoLWE.lean) | Esquema *Learning With Errors* (Regev/Kyber), cancelación de máscara y **corrección de desencriptado con ruido acotado** (`lwe_decrypt_correct`). |
+| **M63** | **IA Segura: Redes Neuronales ReLU e IBP** | [`M63_VerifiedNeuralNetworkReLURobustness.lean`](../LeanTT/M63_VerifiedNeuralNetworkReLURobustness.lean) | Propiedades algebraicas de $\text{ReLU}(x)$ y solidez formal de **Interval Bound Propagation (`reluIBP_sound`)** ante perturbaciones adversariales. |
+| **M64** | **Máquina Virtual WebAssembly (Wasm)** | [`M64_WebAssemblyStackTypeValidator.lean`](../LeanTT/M64_WebAssemblyStackTypeValidator.lean) | Validador estático de pila de tipos de Wasm y demostración de **Type Soundness (`wasm_instr_type_soundness`)**: progreso sin *underflow* + preservación. |
+| **M65** | **CRDTs Distribuidos y Convergencia** | [`M65_ConflictFreeReplicatedDataTypesCRDT.lean`](../LeanTT/M65_ConflictFreeReplicatedDataTypesCRDT.lean) | Semirretículo de unión `GCounter3` (conmutatividad, asociatividad, idempotencia de `merge`) y **Convergencia Eventual Fuerte (SEC)**. |
+| **M66** | **Computación Reversible y Puertas Cuánticas** | [`M66_ReversibleAndQuantumGateLogic.lean`](../LeanTT/M66_ReversibleAndQuantumGateLogic.lean) | Involutividad de `CNOT`, `Toffoli` y `Fredkin`, conservación de peso de Hamming y **síntesis exacta de `SWAP` con 3 puertas `CNOT`**. |
+| **M67** | **Lógica Epistémica Multi-Agente ($S5_n$)** | [`M67_MultiAgentEpistemicLogicS5.lean`](../LeanTT/M67_MultiAgentEpistemicLogicS5.lean) | Conocimiento individual ($K_a$), compartido ($E$) y distribuido ($D$), axiomas $K, T, 4, 5$ y jerarquía $E\varphi \to K_a\varphi \to D\varphi$. |
+| **M68** | **Sistemas de Reescritura (TRS) y Lankford** | [`M68_TermRewritingSystemsAndTermination.lean`](../LeanTT/M68_TermRewritingSystemsAndTermination.lean) | **Interpretaciones Polinómicas de Lankford** y decrecimiento estricto de la distribución $a\cdot(b+c) \to (a\cdot b) + (a\cdot c)$. |
+| **M69** | **Verificación de Hardware Digital (ALU)** | [`M69_VerifiedHardwareAdderAndALU.lean`](../LeanTT/M69_VerifiedHardwareAdderAndALU.lean) | Verificación formal a nivel de puertas booleanas de *Half-Adder*, *Full-Adder* (`fullAdder_correct`) y sumador *Ripple-Carry* (`rippleAdder2_correct`). |
+| **M70** | **Positividad Estricta y Unificación de Miller** | [`M70_PatternUnificationAndStrictPositivity.lean`](../LeanTT/M70_PatternUnificationAndStrictPositivity.lean) | **Proyecto Cumbre IV:** Comprobador nuclear `isStrictlyPositive` (bloqueo de la paradoja de Curry) y corrección del unificador de patrones de Miller. |

@@ -1,4 +1,4 @@
-# Lean 4: Cálculo Lambda, Teoría de Tipos Dependientes y Demostración Formal (60 Módulos + 4 Talleres + Mini-Curso TTD + 22 Guías)
+# Lean 4: Cálculo Lambda, Teoría de Tipos Dependientes y Demostración Formal (70 Módulos + 5 Talleres + Mini-Curso TTD + 23 Guías)
 
 [![Lean 4 Kernel CI](https://github.com/LegalIntermediaSL/Lean/actions/workflows/ci.yml/badge.svg)](https://github.com/LegalIntermediaSL/Lean/actions/workflows/ci.yml)
 [![GitHub Pages Web](https://github.com/LegalIntermediaSL/Lean/actions/workflows/pages.yml/badge.svg)](https://legalintermediasl.github.io/Lean/)
@@ -73,17 +73,18 @@ Un conjunto estructurado de **11 documentos `.md`** en [`docs/curso_teoria_tipos
 | **12** | [12_metaprogramacion_y_kernel.md](docs/12_metaprogramacion_y_kernel.md) | El AST `Lean.Expr` del kernel, `CoreM`/`MetaM`/`TermElabM`/`TacticM`, macros higiénicas, DSLs y creación de tácticas propias |
 | **13** | [13_enlaces_webs_proyectos_y_videos.md](docs/13_enlaces_webs_proyectos_y_videos.md) | **Enlaces web importantes** (`lean4.dev`, `lean-lang.org`, **[TauCeti](https://github.com/TauCetiProject/TauCeti)**), **Criptografía ZK / SNARKs** (**[ArkLib](https://github.com/Verified-zkEVM/ArkLib)**, **[VCV-io](https://github.com/Verified-zkEVM/VCV-io)**, **[CompPoly](https://github.com/Verified-zkEVM/CompPoly)**, **[Clean](https://github.com/Verified-zkEVM/clean)**, **[Verified-zkEVM](https://github.com/Verified-zkEVM)**) y **mejores vídeos de YouTube** |
 | **14** | [**14_tratado_completo_teoria_tipos_dependientes.md**](docs/14_tratado_completo_teoria_tipos_dependientes.md) | **Tratado Completo de la Teoría de Tipos Dependientes desde Cero:** Historia y antecedentes (Frege, Russell, Brouwer, Church, Automath, Martin-Löf, Girard, Coquand), ZFC vs TTD, las 5 reglas canónicas, tipos $\Pi, \Sigma, W, \text{Id}$ y contractibilidad |
-| **15** | [**15_catalogo_40_modulos_y_ambitos.md**](docs/15_catalogo_40_modulos_y_ambitos.md) | **Catálogo General de los 60 Módulos Ejecutables (`M01`–`M60`)** y los 4 talleres de ejercicios (`E01`–`E04`) |
+| **15** | [**15_catalogo_40_modulos_y_ambitos.md**](docs/15_catalogo_40_modulos_y_ambitos.md) | **Catálogo General de los 70 Módulos Ejecutables (`M01`–`M70`)** y los 5 talleres de ejercicios (`E01`–`E05`) |
 | **16** | [**16_arbol_decision_tacticas_cheatsheet.md**](docs/16_arbol_decision_tacticas_cheatsheet.md) | **Cheat Sheet y Árbol de Decisión de Tácticas** + solución de los 7 errores más comunes de Lean 4 |
 | **17** | [**17_guia_migracion_haskell_coq_python_a_lean4.md**](docs/17_guia_migracion_haskell_coq_python_a_lean4.md) | **Guía de Migración a Lean 4** desde Python/TypeScript/Rust, Haskell/OCaml y Coq/Rocq/Agda |
 | **18** | [**18_glosario_enciclopedico_teoria_de_tipos.md**](docs/18_glosario_enciclopedico_teoria_de_tipos.md) | **Glosario Enciclopédico A–Z** de Cálculo Lambda, Teoría de Tipos Dependientes y Lean 4 |
 | **19** | [**19_verificacion_formal_sistemas_criptografia_y_consenso.md**](docs/19_verificacion_formal_sistemas_criptografia_y_consenso.md) | **Verificación de Sistemas Críticos (`M41`–`M49`):** Flujo de Información (No-Interferencia), Protocolos $\Sigma$, AWS Cedar, Árboles de Merkle, Efectos Algebraicos, Consenso Distribuido y Probabilidad Discreta |
 | **20** | [**20_arquitectura_elaborador_bidireccional_y_unificacion.md**](docs/20_arquitectura_elaborador_bidireccional_y_unificacion.md) | **Del Elaborador Bidireccional al Kernel (`M40` + `M50`):** Cómo funcionan `synth` ($\Rightarrow$), `check` ($\Leftarrow$) y las sustituciones de metavariables `?m` antes del Kernel |
 | **21** | [**21_compiladores_cps_starks_ltl_y_teoria_juegos.md**](docs/21_compiladores_cps_starks_ltl_y_teoria_juegos.md) | **Compiladores (CPS / SSA / `wp`), LTL, Tipos de Sesión, STARKs/FRI, Teoría de Juegos, Privacidad Diferencial, Reentrancia EVM y el Kernel Polimórfico (`M51`–`M60`)** |
+| **22** | [**22_qtt_postcuantica_ia_wasm_crdts_y_positividad.md**](docs/22_qtt_postcuantica_ia_wasm_crdts_y_positividad.md) | **Teoría de Tipos Cuantitativa (QTT), Criptografía Post-Cuántica (LWE), IA Segura (ReLU/IBP), WebAssembly, CRDTs, Puertas Cuánticas, Lógica Epistémica, TRS, Hardware y Positividad Estricta (`M61`–`M70`)** |
 
 ---
 
-## 2. Los 60 Módulos Ejecutables en `LeanTT/` (`M01`–`M60`) + 4 Talleres
+## 2. Los 70 Módulos Ejecutables en `LeanTT/` (`M01`–`M70`) + 5 Talleres
 
 | # | Archivo en `LeanTT/` | Bloque / Ámbito | Contenido Práctico y Teoremas Verificados |
 | :-: | :--- | :--- | :--- |
@@ -147,10 +148,21 @@ Un conjunto estructurado de **11 documentos `.md`** en [`docs/curso_teoria_tipos
 | **58** | [M58_SmartContractReentrancyAndCEI.lean](LeanTT/M58_SmartContractReentrancyAndCEI.lean) | Anti-Reentrancia EVM | Patrón *Checks-Effects-Interactions* (CEI) + `ReentrancyGuard`, bloqueo de doble retiro reentrante, conservación de fondos y solvencia |
 | **59** | [M59_SymbolicExecutionAndWP.lean](LeanTT/M59_SymbolicExecutionAndWP.lean) | Lógica de Hoare / `wp` | Transformador de Precondición Más Débil de Dijkstra (`wp c Q`), `hoareTriple_iff_imp_wp` y verificación de intercambio aritmético *in-place* |
 | **60** | [**M60_UniversePolymorphicKernelAndInductives.lean**](LeanTT/M60_UniversePolymorphicKernelAndInductives.lean) | **Proyecto Cumbre III** | **Mini-Kernel CIC con `Sort u`, `imax` y *Large Elimination*:** Impredicatividad de `Prop` y reducción $\iota$ de `boolRec` en tiempo de tipado |
+| **61** | [M61_QuantitativeTypeTheoryQTT.lean](LeanTT/M61_QuantitativeTypeTheoryQTT.lean) | Tipos Cuantitativos QTT | Semianillo de multiplicidades $\{0, 1, \omega\}$ estilo Idris 2 y demostración de **Borrado Estático de Tipos (`scaleCtx_zero_eq_zeroCtx`)** |
+| **62** | [M62_PostQuantumLatticeCryptoLWE.lean](LeanTT/M62_PostQuantumLatticeCryptoLWE.lean) | Post-Cuántica LWE | Cifrado basado en retículos *Learning With Errors* (Regev/Kyber), cancelación de máscara y **corrección de desencriptado con ruido acotado** |
+| **63** | [M63_VerifiedNeuralNetworkReLURobustness.lean](LeanTT/M63_VerifiedNeuralNetworkReLURobustness.lean) | IA Segura / ReLU IBP | Monotonía e idempotencia de $\text{ReLU}(x)$ y solidez formal de **Interval Bound Propagation (`reluIBP_sound`)** ante perturbaciones |
+| **64** | [M64_WebAssemblyStackTypeValidator.lean](LeanTT/M64_WebAssemblyStackTypeValidator.lean) | Máquina Virtual Wasm | Validador estático de pila de tipos WebAssembly y demostración de **Type Soundness (`wasm_instr_type_soundness`)** |
+| **65** | [M65_ConflictFreeReplicatedDataTypesCRDT.lean](LeanTT/M65_ConflictFreeReplicatedDataTypesCRDT.lean) | Sistemas CRDTs | Semirretículo `GCounter3` (conmutatividad, asociatividad, idempotencia de `merge`) y **Convergencia Eventual Fuerte** |
+| **66** | [M66_ReversibleAndQuantumGateLogic.lean](LeanTT/M66_ReversibleAndQuantumGateLogic.lean) | Puertas Cuánticas | Involutividad reversible de `CNOT`, `Toffoli` y `Fredkin`, conservación de peso de Hamming y **síntesis de `SWAP` con 3 `CNOT`** |
+| **67** | [M67_MultiAgentEpistemicLogicS5.lean](LeanTT/M67_MultiAgentEpistemicLogicS5.lean) | Lógica Epistémica $S5_n$ | Conocimiento individual ($K_a$), compartido ($E$) y distribuido ($D$), axiomas $K, T, 4, 5$ y jerarquía $E\varphi \to K_a\varphi \to D\varphi$ |
+| **68** | [M68_TermRewritingSystemsAndTermination.lean](LeanTT/M68_TermRewritingSystemsAndTermination.lean) | Reescritura TRS | **Interpretaciones Polinómicas de Lankford** y decrecimiento estricto de la expansión distributiva $a\cdot(b+c) \to a\cdot b + a\cdot c$ |
+| **69** | [M69_VerifiedHardwareAdderAndALU.lean](LeanTT/M69_VerifiedHardwareAdderAndALU.lean) | Hardware Digital RTL | Verificación a nivel de puertas booleanas de *Half-Adder*, *Full-Adder* (`fullAdder_correct`) y sumador *Ripple-Carry* (`rippleAdder2_correct`) |
+| **70** | [**M70_PatternUnificationAndStrictPositivity.lean**](LeanTT/M70_PatternUnificationAndStrictPositivity.lean) | **Proyecto Cumbre IV** | **Positividad Estricta en el Kernel (`isStrictlyPositive`) y Unificación de Patrones de Miller (`miller_pattern_unification_sound`)** |
 | **E01** | [Exercises/E01_WorkoutLambdaAndLogic.lean](LeanTT/Exercises/E01_WorkoutLambdaAndLogic.lean) | Taller Práctico 01 | Cálculo $\lambda$, lógica constructiva y subtipos + [Solucionario `S01`](LeanTT/Solutions/S01_WorkoutLambdaAndLogic.lean) |
 | **E02** | [Exercises/E02_WorkoutInductiveFamiliesAndEquality.lean](LeanTT/Exercises/E02_WorkoutInductiveFamiliesAndEquality.lean) | Taller Práctico 02 | Familias inductivas indexadas `VecE α n`, `head`/`tail` seguros y fusión de `map` + [Solucionario `S02`](LeanTT/Solutions/S02_WorkoutInductiveFamiliesAndEquality.lean) |
 | **E03** | [Exercises/E03_WorkoutVerificationAndCryptography.lean](LeanTT/Exercises/E03_WorkoutVerificationAndCryptography.lean) | Taller Práctico 03 | Puertas aritméticas de circuitos ZK (`NOT`, `AND`, `OR`, `XOR`), polinomios y protocolos $\Sigma$ + [Solucionario `S03`](LeanTT/Solutions/S03_WorkoutVerificationAndCryptography.lean) |
 | **E04** | [Exercises/E04_WorkoutCompilersSTARKsAndGames.lean](LeanTT/Exercises/E04_WorkoutCompilersSTARKsAndGames.lean) | Taller Práctico 04 | Compilación CPS, Lógica Temporal LTL, diferencia simétrica en FRI de STARKs, subasta de Vickrey y `wp` + [Solucionario `S04`](LeanTT/Solutions/S04_WorkoutCompilersSTARKsAndGames.lean) |
+| **E05** | [Exercises/E05_WorkoutQTTPostQuantumAndHardware.lean](LeanTT/Exercises/E05_WorkoutQTTPostQuantumAndHardware.lean) | Taller Práctico 05 | Escalado de contextos en QTT, desencriptado LWE, puntos fijos de ReLU, CRDTs y simetría de *Full-Adder* + [Solucionario `S05`](LeanTT/Solutions/S05_WorkoutQTTPostQuantumAndHardware.lean) |
 
 ---
 
