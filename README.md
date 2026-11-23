@@ -1,4 +1,4 @@
-# Lean 4: Cálculo Lambda, Teoría de Tipos Dependientes y Demostración Formal (70 Módulos + 5 Talleres + Mini-Curso TTD + 23 Guías)
+# Lean 4: Cálculo Lambda, Teoría de Tipos Dependientes y Demostración Formal (70 Módulos + 5 Talleres + 3 Mini-Cursos + 23 Guías)
 
 [![Lean 4 Kernel CI](https://github.com/LegalIntermediaSL/Lean/actions/workflows/ci.yml/badge.svg)](https://github.com/LegalIntermediaSL/Lean/actions/workflows/ci.yml)
 [![GitHub Pages Web](https://github.com/LegalIntermediaSL/Lean/actions/workflows/pages.yml/badge.svg)](https://legalintermediasl.github.io/Lean/)
@@ -8,11 +8,11 @@ Bienvenido a este repositorio enciclopédico y curso práctico de **Lean 4** com
 
 ---
 
-## 🎓 Mini-Curso Completo de Teoría de Tipos Dependientes (Edición Ampliada de Wikipedia)
+## 🎓 Mini-Curso I: Teoría de Tipos Dependientes (Edición Ampliada de Wikipedia — 11 Documentos)
 
 Un conjunto estructurado de **11 documentos `.md`** en [`docs/curso_teoria_tipos_dependientes/`](docs/curso_teoria_tipos_dependientes/00_indice_minicurso_ttd.md) que constituye un **mini-curso autocontenido de la Teoría de Tipos Dependientes**, ampliando sección por sección el artículo enciclopédico **[Teoría de Tipos Dependientes (Wikipedia)](https://es.wikipedia.org/wiki/Teor%C3%ADa_de_Tipos_Dependientes)** con reglas de inferencia completas, diagramas, historia, semántica categórica, implementación de verificadores, código Lean 4 ejecutable y ejercicios resueltos:
 
-| Lección | Documento del Mini-Curso | Apartado de Wikipedia Ampliado y Contenido |
+| Lección | Documento del Mini-Curso I | Apartado de Wikipedia Ampliado y Contenido |
 | :---: | :--- | :--- |
 | **Índice** | [**00_indice_minicurso_ttd.md**](docs/curso_teoria_tipos_dependientes/00_indice_minicurso_ttd.md) | **Portada, Mapa Conceptual y Plan de Estudios** del Mini-Curso de Teoría de Tipos Dependientes |
 | **Lección 01** | [**01_introduccion_e_historia_ttd.md**](docs/curso_teoria_tipos_dependientes/01_introduccion_e_historia_ttd.md) | **Introducción e Historia:** ¿Qué es un tipo dependiente? De Russell, Church, BHK y `Automath` a Martin-Löf, Girard y Lean 4; comparativa ZFC vs. TTD |
@@ -25,6 +25,38 @@ Un conjunto estructurado de **11 documentos `.md`** en [`docs/curso_teoria_tipos
 | **Lección 08** | [**08_lenguajes_comparativa_y_aplicaciones.md**](docs/curso_teoria_tipos_dependientes/08_lenguajes_comparativa_y_aplicaciones.md) | **Lenguajes con Tipos Dependientes y Proyecto Final:** Comparativa técnica entre **Lean 4, Coq/Rocq, Agda, Idris 2 (QTT), F\*, Twelf y Epigram** + Proyecto Integrador en Lean 4 |
 | **Lección 09** | [**09_semantica_categorica_cwf_y_modelos.md**](docs/curso_teoria_tipos_dependientes/09_semantica_categorica_cwf_y_modelos.md) | **Semántica Categórica, CwF y Modelos Cúbicos:** **Categorías con Familias (CwF)** de Dybjer formalizadas en Lean 4, realizabilidad, **Modelo de Grupoides** y **Teoría de Tipos Cúbica (CCHM)** |
 | **Lección 10** | [**10_implementacion_typechecker_nbe_y_elaboracion.md**](docs/curso_teoria_tipos_dependientes/10_implementacion_typechecker_nbe_y_elaboracion.md) | **Implementación de un Typechecker y Elaborador:** Índices vs. Niveles de De Bruijn, **Normalización por Evaluación (NbE)**, algoritmo bidireccional de Coquand y **unificación de patrones de Miller** |
+
+---
+
+## λ Mini-Curso II: Cálculo Lambda, Lógica Combinatoria y Máquinas Abstractas (7 Documentos)
+
+Un segundo mini-curso modular en [`docs/curso_calculo_lambda/`](docs/curso_calculo_lambda/00_indice_minicurso_lambda.md) que amplía los artículos enciclopédicos de **[Cálculo lambda](https://es.wikipedia.org/wiki/C%C3%A1lculo_lambda)** y **[Cálculo lambda tipado](https://es.wikipedia.org/wiki/C%C3%A1lculo_lambda_tipado)**:
+
+| Lección | Documento del Mini-Curso II | Contenido Principal |
+| :---: | :--- | :--- |
+| **Índice** | [**00_indice_minicurso_lambda.md**](docs/curso_calculo_lambda/00_indice_minicurso_lambda.md) | **Portada y Plan de Estudios** del Mini-Curso de Cálculo Lambda |
+| **Lección 01** | [**01_sintaxis_variables_y_debruijn.md**](docs/curso_calculo_lambda/01_sintaxis_variables_y_debruijn.md) | Orígenes (Church 1932), variables libres/ligadas, captura, $\alpha$-equivalencia e **Índices de De Bruijn** en Lean 4 |
+| **Lección 02** | [**02_reducciones_beta_eta_y_confluencia.md**](docs/curso_calculo_lambda/02_reducciones_beta_eta_y_confluencia.md) | Las 6 reducciones ($\beta, \eta, \delta, \iota, \zeta, \pi$), estrategias CBN/CBV/Lazy y **Teorema de Confluencia de Church-Rosser** |
+| **Lección 03** | [**03_codificaciones_church_scott_y_punto_fijo.md**](docs/curso_calculo_lambda/03_codificaciones_church_scott_y_punto_fijo.md) | **Codificaciones de Church y de Scott** (booleanos, numerales, predecesor de Kleene) y combinadores de punto fijo ($Y, \Theta, Z$) |
+| **Lección 04** | [**04_logica_combinatoria_ski_y_abstraccion.md**](docs/curso_calculo_lambda/04_logica_combinatoria_ski_y_abstraccion.md) | **Lógica Combinatoria ($S, K, I, B, C, W$)** de Schönfinkel-Curry y compilador de **Bracket Abstraction** $[x]^*\,t$ en Lean 4 |
+| **Lección 05** | [**05_calculo_lambda_tipado_stlc_y_sistema_f.md**](docs/curso_calculo_lambda/05_calculo_lambda_tipado_stlc_y_sistema_f.md) | **STLC ($\lambda^\to$)**, relaciones lógicas de Tait para **Normalización Fuerte**, **Sistema $F$** y **Parametricidad de Reynolds** |
+| **Lección 06** | [**06_maquinas_abstractas_krivine_cek_y_nbe.md**](docs/curso_calculo_lambda/06_maquinas_abstractas_krivine_cek_y_nbe.md) | Clausuras, entornos, implementación completa de la **Máquina Abstracta de Krivine (KAM)**, máquina CEK y **NbE** en Lean 4 |
+
+---
+
+## 🔐 Mini-Curso III: Criptografía ZK (SNARKs/STARKs), Post-Cuántica (LWE) y Smart Contracts en Lean 4 (7 Documentos)
+
+Un tercer mini-curso práctico en [`docs/curso_criptografia_zk_lean4/`](docs/curso_criptografia_zk_lean4/00_indice_minicurso_zk_y_cripto.md) conectado con el ecosistema `Verified-zkEVM` (`Clean`, `CompPoly`, `ArkLib`, `VCV-io`):
+
+| Lección | Documento del Mini-Curso III | Contenido Principal |
+| :---: | :--- | :--- |
+| **Índice** | [**00_indice_minicurso_zk_y_cripto.md**](docs/curso_criptografia_zk_lean4/00_indice_minicurso_zk_y_cripto.md) | **Portada y Mapa Conceptual** del Mini-Curso de Criptografía Verificada y Smart Contracts |
+| **Lección 01** | [**01_aritmetizacion_circuitos_r1cs_y_plonk.md**](docs/curso_criptografia_zk_lean4/01_aritmetizacion_circuitos_r1cs_y_plonk.md) | **Aritmetización R1CS / PlonKish:** Bugs *under-constrained* y verificación de *Soundness & Completeness* de puertas y multiplexores |
+| **Lección 02** | [**02_polinomios_computables_y_sumcheck.md**](docs/curso_criptografia_zk_lean4/02_polinomios_computables_y_sumcheck.md) | **Polinomios Computables (`CompPoly`)**, Lema de Schwartz-Zippel y **Completitud Perfecta del Protocolo Sum-Check (`ArkLib`)** |
+| **Lección 03** | [**03_protocolos_sigma_schnorr_y_fiat_shamir.md**](docs/curso_criptografia_zk_lean4/03_protocolos_sigma_schnorr_y_fiat_shamir.md) | **Protocolos $\Sigma$ (Schnorr):** Demostración en Lean 4 de Completitud, **2-Special Soundness**, **Simulador HVZK** y Fiat-Shamir |
+| **Lección 04** | [**04_starks_transparentes_merkle_y_fri.md**](docs/curso_criptografia_zk_lean4/04_starks_transparentes_merkle_y_fri.md) | **zk-STARKs Transparentes:** Árboles de Merkle dependientes y **Ecuación Colineal de Verificación de Ronda de FRI** |
+| **Lección 05** | [**05_criptografia_postcuantica_reticulos_lwe.md**](docs/curso_criptografia_zk_lean4/05_criptografia_postcuantica_reticulos_lwe.md) | **Criptografía Post-Cuántica LWE (Regev/Kyber):** Presupuesto de ruido $|e| < q/4$, desencriptado exacto y suma homomórfica |
+| **Lección 06** | [**06_verificacion_smart_contracts_evm_y_cei.md**](docs/curso_criptografia_zk_lean4/06_verificacion_smart_contracts_evm_y_cei.md) | **Smart Contracts EVM y Teoría de Juegos:** Conservación de tokens, **Patrón Anti-Reentrancia CEI** y **Subasta de Vickrey (DSIC)** |
 
 ---
 

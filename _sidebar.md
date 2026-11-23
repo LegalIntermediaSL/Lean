@@ -5,7 +5,7 @@
   * [14. Tratado Completo de TTD desde Cero](docs/14_tratado_completo_teoria_tipos_dependientes.md)
   * [15. Catálogo de los 70 Módulos y 5 Talleres](docs/15_catalogo_40_modulos_y_ambitos.md)
 
-* **Mini-Curso TTD (Wikipedia Ampliada)**
+* **Mini-Curso I: Teoría de Tipos Dependientes**
   * [00. Índice del Mini-Curso TTD](docs/curso_teoria_tipos_dependientes/00_indice_minicurso_ttd.md)
   * [01. Introducción, Historia y ZFC vs TTD](docs/curso_teoria_tipos_dependientes/01_introduccion_e_historia_ttd.md)
   * [02. Juicios, Telescopios y Universos](docs/curso_teoria_tipos_dependientes/02_juicios_contextos_y_universos.md)
@@ -17,6 +17,24 @@
   * [08. Lenguajes (Lean, Coq, Agda, Idris) y Proyecto](docs/curso_teoria_tipos_dependientes/08_lenguajes_comparativa_y_aplicaciones.md)
   * [09. Semántica Categórica, CwF y Modelos Cúbicos](docs/curso_teoria_tipos_dependientes/09_semantica_categorica_cwf_y_modelos.md)
   * [10. Implementación: NbE, Elaboración y Miller](docs/curso_teoria_tipos_dependientes/10_implementacion_typechecker_nbe_y_elaboracion.md)
+
+* **Mini-Curso II: Cálculo Lambda y Máquinas**
+  * [00. Índice del Mini-Curso Lambda](docs/curso_calculo_lambda/00_indice_minicurso_lambda.md)
+  * [01. Sintaxis λ, Captura y De Bruijn](docs/curso_calculo_lambda/01_sintaxis_variables_y_debruijn.md)
+  * [02. Reducciones β/η/δ/ι/ζ y Church-Rosser](docs/curso_calculo_lambda/02_reducciones_beta_eta_y_confluencia.md)
+  * [03. Church, Scott, Kleene y Punto Fijo (Y, Θ, Z)](docs/curso_calculo_lambda/03_codificaciones_church_scott_y_punto_fijo.md)
+  * [04. Lógica Combinatoria SKI y Bracket Abstraction](docs/curso_calculo_lambda/04_logica_combinatoria_ski_y_abstraccion.md)
+  * [05. STLC, Normalización Fuerte y Sistema F](docs/curso_calculo_lambda/05_calculo_lambda_tipado_stlc_y_sistema_f.md)
+  * [06. Máquina de Krivine (KAM), CEK y NbE](docs/curso_calculo_lambda/06_maquinas_abstractas_krivine_cek_y_nbe.md)
+
+* **Mini-Curso III: Criptografía ZK, LWE y EVM**
+  * [00. Índice del Mini-Curso Criptografía ZK](docs/curso_criptografia_zk_lean4/00_indice_minicurso_zk_y_cripto.md)
+  * [01. Aritmetización R1CS/PlonK y Puertas ZK](docs/curso_criptografia_zk_lean4/01_aritmetizacion_circuitos_r1cs_y_plonk.md)
+  * [02. Polinomios Horner y Protocolo Sum-Check](docs/curso_criptografia_zk_lean4/02_polinomios_computables_y_sumcheck.md)
+  * [03. Protocolos Σ (Schnorr), HVZK y Fiat-Shamir](docs/curso_criptografia_zk_lean4/03_protocolos_sigma_schnorr_y_fiat_shamir.md)
+  * [04. zk-STARKs, Árboles de Merkle y Plegado FRI](docs/curso_criptografia_zk_lean4/04_starks_transparentes_merkle_y_fri.md)
+  * [05. Post-Cuántica de Retículos (LWE / Kyber)](docs/curso_criptografia_zk_lean4/05_criptografia_postcuantica_reticulos_lwe.md)
+  * [06. Smart Contracts EVM, Patrón CEI y Vickrey](docs/curso_criptografia_zk_lean4/06_verificacion_smart_contracts_evm_y_cei.md)
 
 * **Monografías Teóricas (01–12, 19–22)**
   * [01. Cálculo Lambda y Cubo de Barendregt](docs/01_calculo_lambda.md)
