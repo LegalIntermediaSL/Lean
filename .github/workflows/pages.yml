@@ -12,10 +12,7 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: false
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -28,12 +25,17 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - name: Upload artifact
+      - name: Prepare static site directory (_site)
+        run: |
+          mkdir -p _site
+          cp index.html README.md _sidebar.md .nojekyll LICENSE LeanTT.lean Main.lean _site/
+          cp -r docs LeanTT _site/
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: '.'
+          path: '_site'
+      - name: Wait for artifact indexing propagation
+        run: sleep 5
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

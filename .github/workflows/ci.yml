@@ -7,12 +7,9 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   build:
-    name: Verify all 70 LeanTT Modules & 5 Workshops
+    name: Verify all 70 LeanTT Modules, 5 Workshops & CLI Suite
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -21,7 +18,8 @@ jobs:
         run: |
           curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
-      - name: Build and verify all 70 LeanTT modules and 5 workshops with Lake
+      - name: Build and verify all 70 LeanTT modules, 5 workshops and CLI with Lake
         run: |
           lake update
           lake build
+          lake exe leantt

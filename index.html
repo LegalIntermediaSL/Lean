@@ -11,11 +11,11 @@
   <style>
     :root {
       --theme-color: #38bdf8;
-      --sidebar-width: 290px;
+      --sidebar-width: 295px;
     }
     .lean-playground-btn {
       display: inline-block;
-      margin: 6px 0 14px 0;
+      margin: 6px 8px 14px 0;
       padding: 6px 12px;
       background: linear-gradient(135deg, #0284c7, #2563eb);
       color: #ffffff !important;
@@ -25,10 +25,22 @@
       text-decoration: none !important;
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
       transition: transform 0.15s ease, opacity 0.15s ease;
+      cursor: pointer;
+      border: none;
     }
     .lean-playground-btn:hover {
       transform: translateY(-1px);
       opacity: 0.92;
+    }
+    .lean-playground-btn.secondary {
+      background: linear-gradient(135deg, #334155, #475569);
+    }
+    .lean-viewer-banner {
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      background: rgba(56, 189, 248, 0.08);
+      border-left: 4px solid #38bdf8;
+      border-radius: 6px;
     }
   </style>
 </head>
@@ -44,14 +56,71 @@
       search: {
         maxAge: 86400000,
         paths: 'auto',
-        placeholder: 'Buscar teoremas, tácticas, tipos Π/Σ...',
+        placeholder: 'Buscar teoremas, tácticas, tipos Π/Σ, módulos M01-M70...',
         noData: 'Sin resultados',
         depth: 4
       },
       plugins: [
         function(hook, vm) {
+          // 1. Interceptar clics en enlaces a archivos `.lean` para abrirlos en el visor integrado
+          document.addEventListener('click', function(e) {
+            var link = e.target.closest('a');
+            if (!link) return;
+            var href = link.getAttribute('href') || '';
+            if (href.indexOf('.lean') !== -1 && href.indexOf('http') !== 0) {
+              e.preventDefault();
+              var cleanPath = href.replace(/^#\/?/, '').replace(/^\.\.\//, '').replace(/^\.\//, '');
+              if (cleanPath.indexOf('LeanTT/') !== 0 && cleanPath !== 'LeanTT.lean' && cleanPath !== 'Main.lean') {
+                var idx = cleanPath.indexOf('LeanTT/');
+                if (idx !== -1) cleanPath = cleanPath.substring(idx);
+              }
+              window.location.hash = '#/view-lean?file=' + encodeURIComponent(cleanPath);
+            }
+          });
+
+          // 2. Renderizar el visor interactivo cuando la ruta es `#/view-lean?file=...`
+          hook.afterEach(function(html, next) {
+            if (vm.route.path === '/view-lean' && vm.route.query && vm.route.query.file) {
+              var filePath = vm.route.query.file;
+              fetch(filePath)
+                .then(function(res) {
+                  if (!res.ok) throw new Error('No se pudo cargar ' + filePath);
+                  return res.text();
+                })
+                .then(function(code) {
+                  var escaped = code
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;');
+                  var playUrl = 'https://live.lean-lang.org/#code=' + encodeURIComponent(code);
+                  var ghUrl = 'https://github.com/LegalIntermediaSL/Lean/blob/main/' + filePath;
+                  var viewerHtml =
+                    '<div class="lean-viewer-banner">' +
+                      '<h2 style="margin-top:0">📄 Módulo Ejecutable Lean 4: <code>' + filePath + '</code></h2>' +
+                      '<p>Verificado formalmente por el Kernel de Lean 4 (<code>0 sorry</code>).</p>' +
+                      '<a class="lean-playground-btn" href="' + playUrl + '" target="_blank" rel="noopener noreferrer">' +
+                        '▶ Abrir módulo completo en Lean 4 Web Playground (live.lean-lang.org)' +
+                      '</a>' +
+                      '<a class="lean-playground-btn secondary" href="' + ghUrl + '" target="_blank" rel="noopener noreferrer">' +
+                        '🔗 Ver archivo en GitHub' +
+                      '</a>' +
+                      '<a class="lean-playground-btn secondary" href="#/">' +
+                        '⬅ Volver al Índice' +
+                      '</a>' +
+                    '</div>' +
+                    '<pre data-lang="lean"><code class="lang-lean">' + escaped + '</code></pre>';
+                  next(viewerHtml);
+                })
+                .catch(function(err) {
+                  next('<p>Error al cargar el archivo Lean: <code>' + err.message + '</code></p>');
+                });
+            } else {
+              next(html);
+            }
+          });
+
+          // 3. Añadir botón "Ejecutar en Lean 4 Web Playground" a cada bloque de código Lean en las guías
           hook.doneEach(function() {
-            // Añadir botón "Abrir en Lean 4 Web Playground" a cada bloque de código Lean
             var blocks = document.querySelectorAll('pre[data-lang="lean"] code');
             blocks.forEach(function(codeEl) {
               var pre = codeEl.parentElement;
@@ -63,7 +132,7 @@
                 btn.target = '_blank';
                 btn.rel = 'noopener noreferrer';
                 btn.className = 'lean-playground-btn';
-                btn.innerText = '▶ Ejecutar este ejemplo en Lean 4 Web Playground (live.lean-lang.org)';
+                btn.innerText = '▶ Ejecutar este código en Lean 4 Web Playground (live.lean-lang.org)';
                 pre.insertAdjacentElement('afterend', btn);
               }
             });
