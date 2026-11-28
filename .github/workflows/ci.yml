@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Verify all 80 LeanTT Modules, 6 Workshops, Doc Snippets & CLI Suite
+    name: Verify all 81 LeanTT Modules, 6 Workshops, Doc Snippets & CLI Suite
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -18,7 +18,7 @@ jobs:
         run: |
           curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
-      - name: Build and verify all 80 LeanTT modules, 6 workshops and CLI with Lake
+      - name: Build and verify all 81 LeanTT modules, 6 workshops and CLI with Lake
         run: |
           lake update
           lake build

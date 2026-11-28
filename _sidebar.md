@@ -3,7 +3,16 @@
   * [00. VS Code, Librerías y Tutoriales](/docs/00_vscode_ecosistema_y_tutoriales.md)
   * [13. Webs, TauCeti, zkEVM y Vídeos](/docs/13_enlaces_webs_proyectos_y_videos.md)
   * [14. Tratado Completo de TTD desde Cero](/docs/14_tratado_completo_teoria_tipos_dependientes.md)
-  * [15. Catálogo de los 80 Módulos y 6 Talleres](/docs/15_catalogo_40_modulos_y_ambitos.md)
+  * [15. Catálogo de los 81 Módulos y 6 Talleres](/docs/15_catalogo_40_modulos_y_ambitos.md)
+  * [24. Artículo: Demostrar Paso a Paso + IA](/docs/24_articulo_anatomia_demostracion_lean4_e_ia.md)
+
+* **Cuadernos: Demostraciones Paso a Paso + IA**
+  * [00. Índice de Cuadernos (.md + .ipynb)](/docs/cuadernos_demostracion_e_ia/00_indice_cuadernos_demostracion_e_ia.md)
+  * [01. Del Papel al Infoview Paso a Paso](/docs/cuadernos_demostracion_e_ia/01_cuaderno_del_papel_al_infoview_paso_a_paso.md)
+  * [02. Inducción, Blueprints y calc (Nicómaco)](/docs/cuadernos_demostracion_e_ia/02_cuaderno_induccion_nicomaco_y_calc.md)
+  * [03. Cuando la Inducción Falla (generalizing)](/docs/cuadernos_demostracion_e_ia/03_cuaderno_cuando_la_induccion_falla_generalizacion.md)
+  * [04. Bucle IA ↔ Compilador (Auto-Reparación)](/docs/cuadernos_demostracion_e_ia/04_cuaderno_bucle_ia_compilador_autoreparacion.md)
+  * [05. Prompts, AGENTS.md y Auditoría Formal](/docs/cuadernos_demostracion_e_ia/05_cuaderno_plantillas_prompts_agents_y_auditoria.md)
 
 * **Mini-Curso I: Teoría de Tipos Dependientes**
   * [00. Índice del Mini-Curso TTD](/docs/curso_teoria_tipos_dependientes/00_indice_minicurso_ttd.md)

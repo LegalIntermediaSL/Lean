@@ -8,7 +8,7 @@ Ejecuta en vivo una batería de pruebas y demostraciones computacionales a trav�
 
 def main : IO Unit := do
   IO.println "=========================================================================="
-  IO.println "  LeanTT — Suite Ejecutable de Teoría de Tipos y Física (80 Módulos)      "
+  IO.println "  LeanTT — Suite Ejecutable de Teoría de Tipos y Física (81 Módulos)      "
   IO.println "=========================================================================="
   IO.println ""
 
@@ -65,5 +65,10 @@ def main : IO Unit := do
   let gkStep         := LeanTT.M80.conjugatePauliSymbolic .H (LeanTT.M80.conjugatePauliSymbolic .S ⟨false, .X⟩)
   IO.println s!"[M74/M79/M80 - Cumbre V] Cono de luz ds²={photonInterval} | Teleportación={repr teleKet} | OptCirc={repr optCirc} | GK={repr gkStep}"
 
+  -- 11. Anatomía de Demostraciones y Blueprints para IA (M81: Teorema de Nicómaco y fastRev)
+  let nic10 := (LeanTT.M81.sumCubes 10, LeanTT.M81.sumN 10 * LeanTT.M81.sumN 10)
+  let revDemo := LeanTT.M81.fastRev [1, 2, 3, 4, 5]
+  IO.println s!"[M81 - Proof & AI] Nicómaco n=10: cubos={nic10.1}, cuadradoSuma={nic10.2} | fastRev={repr revDemo}"
+
   IO.println ""
-  IO.println "✅ Todos los 80 módulos (M01-M80) y 6 talleres (E01-E06) verificados y ejecutados con éxito."
+  IO.println "✅ Todos los 81 módulos (M01-M81) y 6 talleres (E01-E06) verificados y ejecutados con éxito."

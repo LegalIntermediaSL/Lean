@@ -99,10 +99,11 @@ import LeanTT.M77_PauliCliffordAlgebraAndUnitarity
 import LeanTT.M78_QuantumEntanglementAndBellStates
 import LeanTT.M79_NoCloningTeleportationAndDeutschJozsa
 import LeanTT.M80_VerifiedQuantumCircuitCompilerAndStabilizers
+import LeanTT.M81_ProofAnatomyAndAIScaffolding
 
 /-!
 # LeanTT: Cálculo Lambda, Teoría de Tipos Dependientes, Física Matemática y Demostración Interactiva en Lean 4
 
-Módulo raíz que importa los **80 módulos ejecutables (`M01`–`M80`)** y los **6 talleres de
+Módulo raíz que importa los **81 módulos ejecutables (`M01`–`M81`)** y los **6 talleres de
 ejercicios y solucionarios comentados (`E01`–`E06` y `S01`–`S06`)**.
 -/

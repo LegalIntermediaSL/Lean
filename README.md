@@ -1,4 +1,4 @@
-# Lean 4: Cálculo Lambda, Teoría de Tipos Dependientes, Física Matemática y Demostración Formal (80 Módulos + 6 Talleres + 4 Mini-Cursos + 24 Guías)
+# Lean 4: Cálculo Lambda, Teoría de Tipos Dependientes, Física Matemática e IA Formal (81 Módulos + 6 Talleres + 4 Mini-Cursos + 5 Cuadernos `.ipynb` + 25 Guías)
 
 [![Lean 4 Kernel CI](https://github.com/LegalIntermediaSL/Lean/actions/workflows/ci.yml/badge.svg)](https://github.com/LegalIntermediaSL/Lean/actions/workflows/ci.yml)
 [![GitHub Pages Web](https://github.com/LegalIntermediaSL/Lean/actions/workflows/pages.yml/badge.svg)](https://legalintermediasl.github.io/Lean/)
@@ -76,6 +76,21 @@ Un cuarto mini-curso autocontenido en [`docs/curso_fisica_matematica_lean4/`](do
 
 ---
 
+## 🤖📓 Artículo Especial + 5 Cuadernos Ejecutables (`.md` + Jupyter `.ipynb`): Cómo Demostrar Paso a Paso en Lean 4 y Cómo Instruir a una IA
+
+Una guía práctica completa ([**Artículo 24**](docs/24_articulo_anatomia_demostracion_lean4_e_ia.md) + módulo [`M81`](LeanTT/M81_ProofAnatomyAndAIScaffolding.lean) + **5 cuadernos duales** en [`docs/cuadernos_demostracion_e_ia/`](docs/cuadernos_demostracion_e_ia/00_indice_cuadernos_demostracion_e_ia.md) y [`notebooks/`](notebooks/01_del_papel_al_infoview_paso_a_paso.ipynb)) que muestra fotograma a fotograma cómo se construye una demostración en Lean 4 y cómo se instruye a un agente de IA (*Blueprint + Compiler-in-the-Loop + Spec-Audit*) para demostrar sin alucinaciones:
+
+| # | Cuaderno Web (Playground) | Jupyter Notebook (`.ipynb` pre-ejecutado) | Contenido Paso a Paso |
+| :-: | :--- | :--- | :--- |
+| **Art.** | [**24_articulo_anatomia_demostracion_lean4_e_ia.md**](docs/24_articulo_anatomia_demostracion_lean4_e_ia.md) | *(Guía maestra + Plantilla `AGENTS.md`)* | Las 6 fases de una demostración en Lean 4, recorrido completo del **Teorema de Nicómaco**, las **7 reglas operativas para IA** y plantillas copiables |
+| **01** | [**01_cuaderno_del_papel_al_infoview_paso_a_paso.md**](docs/cuadernos_demostracion_e_ia/01_cuaderno_del_papel_al_infoview_paso_a_paso.md) | [`01_del_papel_al_infoview_paso_a_paso.ipynb`](notebooks/01_del_papel_al_infoview_paso_a_paso.ipynb) | Trazas reales del Infoview con `trace_state`, modo táctico vs. modo término $\lambda$ e inspección de `#print` |
+| **02** | [**02_cuaderno_induccion_nicomaco_y_calc.md**](docs/cuadernos_demostracion_e_ia/02_cuaderno_induccion_nicomaco_y_calc.md) | [`02_induccion_teorema_nicomaco_y_calc.ipynb`](notebooks/02_induccion_teorema_nicomaco_y_calc.ipynb) | Especificación sin divisiones truncadas, *Blueprint* de 3 lemas y cadenas `calc` para $\sum k^3 = (\sum k)^2$ |
+| **03** | [**03_cuaderno_cuando_la_induccion_falla_generalizacion.md**](docs/cuadernos_demostracion_e_ia/03_cuaderno_cuando_la_induccion_falla_generalizacion.md) | [`03_generalizacion_invariantes_y_acumuladores.ipynb`](notebooks/03_generalizacion_invariantes_y_acumuladores.ipynb) | Reproducción del bloqueo inductivo con acumuladores (`fastRev`) y desbloqueo con `induction ... generalizing acc` |
+| **04** | [**04_cuaderno_bucle_ia_compilador_autoreparacion.md**](docs/cuadernos_demostracion_e_ia/04_cuaderno_bucle_ia_compilador_autoreparacion.md) | [`04_bucle_ia_compilador_autoreparacion.ipynb`](notebooks/04_bucle_ia_compilador_autoreparacion.ipynb) | Casos reales de error de `lean` (`omega` no lineal, asociatividad en `rw`, anillos compuestos) y auto-reparación en 2 iteraciones |
+| **05** | [**05_cuaderno_plantillas_prompts_agents_y_auditoria.md**](docs/cuadernos_demostracion_e_ia/05_cuaderno_plantillas_prompts_agents_y_auditoria.md) | [`05_prompts_agents_y_auditoria_formal.ipynb`](notebooks/05_prompts_agents_y_auditoria_formal.ipynb) | Detector automático en Python de *reward hacking* (`sorryAx`, `axiom` ilegal, vacuidad) y escaneo global del repositorio |
+
+---
+
 ## 🧭 Rutas de Aprendizaje Recomendadas
 
 * **🟢 Ruta 1 — Empezar desde Cero (Paso a Paso y Didáctica):**
@@ -102,7 +117,7 @@ Un cuarto mini-curso autocontenido en [`docs/curso_fisica_matematica_lean4/`](do
 
 ---
 
-## 1. Las 24 Monografías y Guías de Referencia (`docs/`)
+## 1. Las 25 Monografías y Guías de Referencia (`docs/`)
 
 | Doc | Guía en `docs/` | Contenido Principal |
 | :---: | :--- | :--- |
@@ -121,7 +136,7 @@ Un cuarto mini-curso autocontenido en [`docs/curso_fisica_matematica_lean4/`](do
 | **12** | [12_metaprogramacion_y_kernel.md](docs/12_metaprogramacion_y_kernel.md) | El AST `Lean.Expr` del kernel, `CoreM`/`MetaM`/`TermElabM`/`TacticM`, macros higiénicas, DSLs y creación de tácticas propias |
 | **13** | [13_enlaces_webs_proyectos_y_videos.md](docs/13_enlaces_webs_proyectos_y_videos.md) | **Enlaces web importantes** (`lean4.dev`, `lean-lang.org`, **[TauCeti](https://github.com/TauCetiProject/TauCeti)**), **Criptografía ZK / SNARKs** (**[ArkLib](https://github.com/Verified-zkEVM/ArkLib)**, **[VCV-io](https://github.com/Verified-zkEVM/VCV-io)**, **[CompPoly](https://github.com/Verified-zkEVM/CompPoly)**, **[Clean](https://github.com/Verified-zkEVM/clean)**, **[Verified-zkEVM](https://github.com/Verified-zkEVM)**) y **mejores vídeos de YouTube** |
 | **14** | [**14_tratado_completo_teoria_tipos_dependientes.md**](docs/14_tratado_completo_teoria_tipos_dependientes.md) | **Tratado Completo de la Teoría de Tipos Dependientes desde Cero:** Historia y antecedentes (Frege, Russell, Brouwer, Church, Automath, Martin-Löf, Girard, Coquand), ZFC vs TTD, las 5 reglas canónicas, tipos $\Pi, \Sigma, W, \text{Id}$ y contractibilidad |
-| **15** | [**15_catalogo_40_modulos_y_ambitos.md**](docs/15_catalogo_40_modulos_y_ambitos.md) | **Catálogo General de los 80 Módulos Ejecutables (`M01`–`M80`)** y los 6 talleres de ejercicios (`E01`–`E06`) |
+| **15** | [**15_catalogo_40_modulos_y_ambitos.md**](docs/15_catalogo_40_modulos_y_ambitos.md) | **Catálogo General de los 81 Módulos Ejecutables (`M01`–`M81`)** y los 6 talleres de ejercicios (`E01`–`E06`) |
 | **16** | [**16_arbol_decision_tacticas_cheatsheet.md**](docs/16_arbol_decision_tacticas_cheatsheet.md) | **Cheat Sheet y Árbol de Decisión de Tácticas** + solución de los 7 errores más comunes de Lean 4 |
 | **17** | [**17_guia_migracion_haskell_coq_python_a_lean4.md**](docs/17_guia_migracion_haskell_coq_python_a_lean4.md) | **Guía de Migración a Lean 4** desde Python/TypeScript/Rust, Haskell/OCaml y Coq/Rocq/Agda |
 | **18** | [**18_glosario_enciclopedico_teoria_de_tipos.md**](docs/18_glosario_enciclopedico_teoria_de_tipos.md) | **Glosario Enciclopédico A–Z** de Cálculo Lambda, Teoría de Tipos Dependientes y Lean 4 |
@@ -130,10 +145,11 @@ Un cuarto mini-curso autocontenido en [`docs/curso_fisica_matematica_lean4/`](do
 | **21** | [**21_compiladores_cps_starks_ltl_y_teoria_juegos.md**](docs/21_compiladores_cps_starks_ltl_y_teoria_juegos.md) | **Compiladores (CPS / SSA / `wp`), LTL, Tipos de Sesión, STARKs/FRI, Teoría de Juegos, Privacidad Diferencial, Reentrancia EVM y el Kernel Polimórfico (`M51`–`M60`)** |
 | **22** | [**22_qtt_postcuantica_ia_wasm_crdts_y_positividad.md**](docs/22_qtt_postcuantica_ia_wasm_crdts_y_positividad.md) | **Teoría de Tipos Cuantitativa (QTT), Criptografía Post-Cuántica (LWE), IA Segura (ReLU/IBP), WebAssembly, CRDTs, Puertas Cuánticas, Lógica Epistémica, TRS, Hardware y Positividad Estricta (`M61`–`M70`)** |
 | **23** | [**23_fisica_matematica_mecanica_clasica_y_cuantica.md**](docs/23_fisica_matematica_mecanica_clasica_y_cuantica.md) | **Física Matemática, Mecánica Lagrangiana/Noether, Geometría Simpléctica, Relatividad de Minkowski, Estadística, Mecánica Cuántica y Gottesman-Knill (`M71`–`M80`)** |
+| **24** | [**24_articulo_anatomia_demostracion_lean4_e_ia.md**](docs/24_articulo_anatomia_demostracion_lean4_e_ia.md) | **Artículo Especial: Cómo se Construye una Demostración en Lean 4 Paso a Paso y Cómo se Instruye a una IA (`M81` + 5 Cuadernos `.ipynb`)** |
 
 ---
 
-## 2. Los 80 Módulos Ejecutables en `LeanTT/` (`M01`–`M80`) + 6 Talleres
+## 2. Los 81 Módulos Ejecutables en `LeanTT/` (`M01`–`M81`) + 6 Talleres
 
 | # | Archivo en `LeanTT/` | Bloque / Ámbito | Contenido Práctico y Teoremas Verificados |
 | :-: | :--- | :--- | :--- |
@@ -217,6 +233,7 @@ Un cuarto mini-curso autocontenido en [`docs/curso_fisica_matematica_lean4/`](do
 | **78** | [M78_QuantumEntanglementAndBellStates.lean](LeanTT/M78_QuantumEntanglementAndBellStates.lean) | Entrelazamiento / Bell | Producto tensorial, invariante de Segre-Schmidt y **demostración formal de entrelazamiento de la base de Bell** |
 | **79** | [M79_NoCloningTeleportationAndDeutschJozsa.lean](LeanTT/M79_NoCloningTeleportationAndDeutschJozsa.lean) | Protocolos Cuánticos | **Teorema de No-Clonación**, **Teleportación Cuántica de 3 Qubits** en las 4 ramas y **Algoritmo de Deutsch** |
 | **80** | [**M80_VerifiedQuantumCircuitCompilerAndStabilizers.lean**](LeanTT/M80_VerifiedQuantumCircuitCompilerAndStabilizers.lean) | **Proyecto Cumbre V** | **Optimizador Verificado de Circuitos Cuánticos (`denoteCircuit1_optimize1`), síntesis de `CZ` y Teorema de Gottesman-Knill** |
+| **81** | [M81_ProofAnatomyAndAIScaffolding.lean](LeanTT/M81_ProofAnatomyAndAIScaffolding.lean) | Demostraciones + IA | **Teorema de Nicómaco** por *Blueprint*, generalización de acumuladores (`fastRev`) y auditoría *Spec-Audit* de no-vacuidad |
 | **E01** | [Exercises/E01_WorkoutLambdaAndLogic.lean](LeanTT/Exercises/E01_WorkoutLambdaAndLogic.lean) | Taller Práctico 01 | Cálculo $\lambda$, lógica constructiva y subtipos + [Solucionario `S01`](LeanTT/Solutions/S01_WorkoutLambdaAndLogic.lean) |
 | **E02** | [Exercises/E02_WorkoutInductiveFamiliesAndEquality.lean](LeanTT/Exercises/E02_WorkoutInductiveFamiliesAndEquality.lean) | Taller Práctico 02 | Familias inductivas indexadas `VecE α n`, `head`/`tail` seguros y fusión de `map` + [Solucionario `S02`](LeanTT/Solutions/S02_WorkoutInductiveFamiliesAndEquality.lean) |
 | **E03** | [Exercises/E03_WorkoutVerificationAndCryptography.lean](LeanTT/Exercises/E03_WorkoutVerificationAndCryptography.lean) | Taller Práctico 03 | Puertas aritméticas de circuitos ZK (`NOT`, `AND`, `OR`, `XOR`), polinomios y protocolos $\Sigma$ + [Solucionario `S03`](LeanTT/Solutions/S03_WorkoutVerificationAndCryptography.lean) |

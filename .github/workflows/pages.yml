@@ -29,7 +29,7 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html README.md _sidebar.md .nojekyll LICENSE LeanTT.lean Main.lean _site/
-          cp -r docs LeanTT _site/
+          cp -r docs LeanTT notebooks _site/
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:

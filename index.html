@@ -92,13 +92,13 @@
       search: {
         maxAge: 86400000,
         paths: 'auto',
-        placeholder: 'Buscar teoremas, tácticas, tipos Π/Σ, módulos M01-M70...',
+        placeholder: 'Buscar teoremas, tácticas, tipos Π/Σ, física, IA, M01-M81...',
         noData: 'Sin resultados',
         depth: 4
       },
       plugins: [
         function(hook, vm) {
-          // 1. Interceptar clics en enlaces a archivos `.lean` desde cualquier profundidad de carpetas
+          // 1. Interceptar clics en enlaces a archivos `.lean` e `.ipynb` desde cualquier profundidad de carpetas
           document.addEventListener('click', function(e) {
             var link = e.target.closest('a');
             if (!link) return;
@@ -109,6 +109,12 @@
               var idx = cleanPath.indexOf('LeanTT/');
               if (idx > 0) cleanPath = cleanPath.substring(idx);
               window.location.hash = '#/view-lean?file=' + encodeURIComponent(cleanPath);
+            } else if (href.indexOf('.ipynb') !== -1 && href.indexOf('http') !== 0) {
+              e.preventDefault();
+              var nbPath = resolveRepoPath(vm.route.path, href);
+              var nbIdx = nbPath.indexOf('notebooks/');
+              if (nbIdx > 0) nbPath = nbPath.substring(nbIdx);
+              window.open('https://github.com/LegalIntermediaSL/Lean/blob/main/' + nbPath, '_blank', 'noopener,noreferrer');
             }
           });
 

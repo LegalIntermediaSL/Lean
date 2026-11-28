@@ -1,6 +1,6 @@
-# Módulo 15: Catálogo General de los 80 Módulos Ejecutables (`LeanTT/M01..M80`) y 6 Talleres de Ejercicios
+# Módulo 15: Catálogo General de los 81 Módulos Ejecutables (`LeanTT/M01..M81`) y 6 Talleres de Ejercicios
 
-Este documento es el mapa maestro de los **80 módulos ejecutables en Lean 4** del directorio [`LeanTT/`](../LeanTT/) y los **6 talleres de ejercicios con solucionarios comentados** en [`LeanTT/Exercises/`](../LeanTT/Exercises/) y [`LeanTT/Solutions/`](../LeanTT/Solutions/).
+Este documento es el mapa maestro de los **81 módulos ejecutables en Lean 4** del directorio [`LeanTT/`](../LeanTT/) y los **6 talleres de ejercicios con solucionarios comentados** en [`LeanTT/Exercises/`](../LeanTT/Exercises/) y [`LeanTT/Solutions/`](../LeanTT/Solutions/).
 
 ---
 
@@ -115,3 +115,4 @@ Este documento es el mapa maestro de los **80 módulos ejecutables en Lean 4** d
 | **M78** | **Entrelazamiento y Base de Bell** | [`M78_QuantumEntanglementAndBellStates.lean`](../LeanTT/M78_QuantumEntanglementAndBellStates.lean) | Producto tensorial $\mathcal{H}_2 \otimes \mathcal{H}_2$, invariante de Segre-Schmidt y **prueba formal de inseparabilidad de $\lvert\Phi^\pm\rangle, \lvert\Psi^\pm\rangle$**. |
 | **M79** | **No-Clonación, Teleportación y Deutsch** | [`M79_NoCloningTeleportationAndDeutschJozsa.lean`](../LeanTT/M79_NoCloningTeleportationAndDeutschJozsa.lean) | **Teorema de No-Clonación de Wootters-Zurek**, **Teleportación Cuántica de 3 Qubits** en las 4 ramas y **Algoritmo de Deutsch**. |
 | **M80** | **Compilador Cuántico y Gottesman-Knill** | [`M80_VerifiedQuantumCircuitCompilerAndStabilizers.lean`](../LeanTT/M80_VerifiedQuantumCircuitCompilerAndStabilizers.lean) | **Proyecto Cumbre V:** Optimizador *peephole* verificado (`denoteCircuit1_optimize1`), síntesis de `CZ` y **Teorema de Gottesman-Knill**. |
+| **M81** | **Anatomía de Pruebas y Blueprints para IA** | [`M81_ProofAnatomyAndAIScaffolding.lean`](../LeanTT/M81_ProofAnatomyAndAIScaffolding.lean) | **Teorema de Nicómaco** ($\sum k^3 = (\sum k)^2$), generalización de acumuladores (`fastRev`) y certificados *Spec-Audit* de no-vacuidad. |
