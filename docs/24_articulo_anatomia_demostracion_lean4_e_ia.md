@@ -1,6 +1,7 @@
 # Artículo Especial (Módulo 24): Cómo se Construye una Demostración en Lean 4 Paso a Paso y Cómo se Instruye a una IA para Hacerlo sin Alucinaciones
 
 > **Material ejecutable que acompaña a este artículo:**
+> * **Artículo complementario de arquitectura de búsqueda IA:** [**Artículo 25 — Estrategia de la IA para Formalizar Demostraciones (Puente LSP/MCP, Autoformalización, MCTS, DSP y RAG Mathlib)**](25_estrategia_ia_formalizacion_y_busqueda_pruebas.md).
 > * **Módulo Lean 4 verificado:** [`LeanTT/M81_ProofAnatomyAndAIScaffolding.lean`](../LeanTT/M81_ProofAnatomyAndAIScaffolding.lean) (`0 sorry`, `0 warnings`).
 > * **Colección de 5 Cuadernos Web Interactivos (con ejecución en Playground):** [**Índice de Cuadernos Web (`docs/cuadernos_demostracion_e_ia/`)**](cuadernos_demostracion_e_ia/00_indice_cuadernos_demostracion_e_ia.md).
 > * **Colección de 5 Jupyter Notebooks (`.ipynb`) pre-ejecutados contra `lean v4.35.0`:**

@@ -1,4 +1,4 @@
-# Lean 4: Cálculo Lambda, Teoría de Tipos Dependientes, Física Matemática e IA Formal (81 Módulos + 6 Talleres + 4 Mini-Cursos + 5 Cuadernos `.ipynb` + 25 Guías)
+# Lean 4: Cálculo Lambda, Teoría de Tipos Dependientes, Física Matemática e IA Formal (81 Módulos + 6 Talleres + 4 Mini-Cursos + 5 Cuadernos `.ipynb` + 26 Guías)
 
 [![Lean 4 Kernel CI](https://github.com/LegalIntermediaSL/Lean/actions/workflows/ci.yml/badge.svg)](https://github.com/LegalIntermediaSL/Lean/actions/workflows/ci.yml)
 [![GitHub Pages Web](https://github.com/LegalIntermediaSL/Lean/actions/workflows/pages.yml/badge.svg)](https://legalintermediasl.github.io/Lean/)
@@ -82,7 +82,8 @@ Una guía práctica completa ([**Artículo 24**](docs/24_articulo_anatomia_demos
 
 | # | Cuaderno Web (Playground) | Jupyter Notebook (`.ipynb` pre-ejecutado) | Contenido Paso a Paso |
 | :-: | :--- | :--- | :--- |
-| **Art.** | [**24_articulo_anatomia_demostracion_lean4_e_ia.md**](docs/24_articulo_anatomia_demostracion_lean4_e_ia.md) | *(Guía maestra + Plantilla `AGENTS.md`)* | Las 6 fases de una demostración en Lean 4, recorrido completo del **Teorema de Nicómaco**, las **7 reglas operativas para IA** y plantillas copiables |
+| **Art. 24** | [**24_articulo_anatomia_demostracion_lean4_e_ia.md**](docs/24_articulo_anatomia_demostracion_lean4_e_ia.md) | *(Guía maestra + Plantilla `AGENTS.md`)* | Las 6 fases de una demostración en Lean 4, recorrido completo del **Teorema de Nicómaco**, las **7 reglas operativas para IA** y plantillas copiables |
+| **Art. 25** | [**25_estrategia_ia_formalizacion_y_busqueda_pruebas.md**](docs/25_estrategia_ia_formalizacion_y_busqueda_pruebas.md) | *(Arquitectura de Agentes Demostradores)* | Las 4 etapas: puente **Pantograph/LeanDojo/MCP**, **Auto-formalización** (y trampa $x/0=0$), **MCTS vs. Draft-Sketch-Prove (DSP)** y **RAG sobre Mathlib** |
 | **01** | [**01_cuaderno_del_papel_al_infoview_paso_a_paso.md**](docs/cuadernos_demostracion_e_ia/01_cuaderno_del_papel_al_infoview_paso_a_paso.md) | [`01_del_papel_al_infoview_paso_a_paso.ipynb`](notebooks/01_del_papel_al_infoview_paso_a_paso.ipynb) | Trazas reales del Infoview con `trace_state`, modo táctico vs. modo término $\lambda$ e inspección de `#print` |
 | **02** | [**02_cuaderno_induccion_nicomaco_y_calc.md**](docs/cuadernos_demostracion_e_ia/02_cuaderno_induccion_nicomaco_y_calc.md) | [`02_induccion_teorema_nicomaco_y_calc.ipynb`](notebooks/02_induccion_teorema_nicomaco_y_calc.ipynb) | Especificación sin divisiones truncadas, *Blueprint* de 3 lemas y cadenas `calc` para $\sum k^3 = (\sum k)^2$ |
 | **03** | [**03_cuaderno_cuando_la_induccion_falla_generalizacion.md**](docs/cuadernos_demostracion_e_ia/03_cuaderno_cuando_la_induccion_falla_generalizacion.md) | [`03_generalizacion_invariantes_y_acumuladores.ipynb`](notebooks/03_generalizacion_invariantes_y_acumuladores.ipynb) | Reproducción del bloqueo inductivo con acumuladores (`fastRev`) y desbloqueo con `induction ... generalizing acc` |
@@ -117,7 +118,7 @@ Una guía práctica completa ([**Artículo 24**](docs/24_articulo_anatomia_demos
 
 ---
 
-## 1. Las 25 Monografías y Guías de Referencia (`docs/`)
+## 1. Las 26 Monografías y Guías de Referencia (`docs/`)
 
 | Doc | Guía en `docs/` | Contenido Principal |
 | :---: | :--- | :--- |
@@ -146,6 +147,7 @@ Una guía práctica completa ([**Artículo 24**](docs/24_articulo_anatomia_demos
 | **22** | [**22_qtt_postcuantica_ia_wasm_crdts_y_positividad.md**](docs/22_qtt_postcuantica_ia_wasm_crdts_y_positividad.md) | **Teoría de Tipos Cuantitativa (QTT), Criptografía Post-Cuántica (LWE), IA Segura (ReLU/IBP), WebAssembly, CRDTs, Puertas Cuánticas, Lógica Epistémica, TRS, Hardware y Positividad Estricta (`M61`–`M70`)** |
 | **23** | [**23_fisica_matematica_mecanica_clasica_y_cuantica.md**](docs/23_fisica_matematica_mecanica_clasica_y_cuantica.md) | **Física Matemática, Mecánica Lagrangiana/Noether, Geometría Simpléctica, Relatividad de Minkowski, Estadística, Mecánica Cuántica y Gottesman-Knill (`M71`–`M80`)** |
 | **24** | [**24_articulo_anatomia_demostracion_lean4_e_ia.md**](docs/24_articulo_anatomia_demostracion_lean4_e_ia.md) | **Artículo Especial: Cómo se Construye una Demostración en Lean 4 Paso a Paso y Cómo se Instruye a una IA (`M81` + 5 Cuadernos `.ipynb`)** |
+| **25** | [**25_estrategia_ia_formalizacion_y_busqueda_pruebas.md**](docs/25_estrategia_ia_formalizacion_y_busqueda_pruebas.md) | **Estrategia de la IA para Formalizar Hipótesis:** Puente LSP/MCP (`Pantograph`/`LeanDojo`), Autoformalización, **MCTS vs. Draft-Sketch-Prove (DSP)** y **RAG Mathlib** |
 
 ---
 

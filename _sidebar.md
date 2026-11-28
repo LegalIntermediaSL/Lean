@@ -5,6 +5,7 @@
   * [14. Tratado Completo de TTD desde Cero](/docs/14_tratado_completo_teoria_tipos_dependientes.md)
   * [15. Catálogo de los 81 Módulos y 6 Talleres](/docs/15_catalogo_40_modulos_y_ambitos.md)
   * [24. Artículo: Demostrar Paso a Paso + IA](/docs/24_articulo_anatomia_demostracion_lean4_e_ia.md)
+  * [25. Estrategia IA: Autoformalización, MCTS y DSP](/docs/25_estrategia_ia_formalizacion_y_busqueda_pruebas.md)
 
 * **Cuadernos: Demostraciones Paso a Paso + IA**
   * [00. Índice de Cuadernos (.md + .ipynb)](/docs/cuadernos_demostracion_e_ia/00_indice_cuadernos_demostracion_e_ia.md)
