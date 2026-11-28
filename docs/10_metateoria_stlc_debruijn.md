@@ -30,6 +30,8 @@ $$\texttt{Term} : \texttt{Ctx} \to \texttt{Ty} \to \texttt{Type}$$
 Un contexto $\Gamma$ es una lista de tipos `List Ty`, donde la cabeza de la lista representa la variable ligada más recientemente:
 
 ```lean
+namespace DemoSTLC
+
 inductive Ty : Type where
   | nat  : Ty
   | bool : Ty
@@ -41,6 +43,8 @@ abbrev Ctx := List Ty
 inductive Var : Ctx → Ty → Type where
   | zero : {Γ : Ctx} → {τ : Ty} → Var (τ :: Γ) τ
   | succ : {Γ : Ctx} → {σ τ : Ty} → Var Γ τ → Var (σ :: Γ) τ
+
+end DemoSTLC
 ```
 
 ### Ejemplo 2.1: Cómo Representan los Constructores de `Var` la Regla de Variable
@@ -68,10 +72,14 @@ $$
 $$
 
 ```lean
+namespace DemoSTLC
+
 inductive Term : Ctx → Ty → Type where
   | var : {Γ : Ctx} → {τ : Ty} → Var Γ τ → Term Γ τ
   | lam : {Γ : Ctx} → {σ τ : Ty} → Term (σ :: Γ) τ → Term Γ (σ ⇒ τ)
   | app : {Γ : Ctx} → {σ τ : Ty} → Term Γ (σ ⇒ τ) → Term Γ σ → Term Γ τ
+
+end DemoSTLC
 ```
 
 ---
@@ -103,9 +111,26 @@ Gracias a ello, la evaluación `eval : Term Γ τ → Env Γ → τ.denote` mape
 Demostremos en Lean 4 que evaluar un término renombrado `t.rename ρ` en un entorno `env : Env Δ` es idéntico a evaluar `t` en el entorno reindexado:
 
 ```lean
+namespace DemoSTLC
+
+def Ty.denote : Ty → Type
+  | .nat  => Nat
+  | .bool => Bool
+  | σ ⇒ τ => σ.denote → τ.denote
+
+inductive Env : Ctx → Type where
+  | nil  : Env []
+  | cons : {Γ : Ctx} → {τ : Ty} → τ.denote → Env Γ → Env (τ :: Γ)
+
+def Env.lookup : {Γ : Ctx} → {τ : Ty} → Env Γ → Var Γ τ → τ.denote
+  | _ :: _, _, .cons v _,   .zero   => v
+  | _ :: _, _, .cons _ env, .succ x => env.lookup x
+
 -- Reindexación de un entorno `Env Δ` a lo largo de un renombramiento `ρ : Ren Γ Δ`:
 def Env.reindex {Γ Δ : Ctx} (ρ : ∀ {τ}, Var Γ τ → Var Δ τ) (env : Env Δ) : Env Γ :=
   match Γ with
   | []      => .nil
   | _ :: _  => .cons (env.lookup (ρ .zero)) (env.reindex (fun x => ρ (.succ x)))
+
+end DemoSTLC
 ```

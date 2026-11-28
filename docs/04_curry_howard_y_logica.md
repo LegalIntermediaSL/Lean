@@ -38,6 +38,8 @@ El isomorfismo de Curry-Howard se extiende con el trabajo de Joachim Lambek a un
 Con la única excepción de la implicación $P \to Q$ y el cuantificador universal $\forall x : A,\, P(x)$ (que son primitivos del kernel mediante `Expr.forallE`), **todas las demás conectivas lógicas de Lean 4 son simples tipos inductivos definidos en la librería estándar**:
 
 ```lean
+namespace PreludioLogica
+
 -- 1. Verdad (1 constructor sin argumentos):
 inductive True : Prop where
   | intro : True
@@ -65,6 +67,8 @@ structure Iff (a b : Prop) : Prop where
   intro ::
   mp  : a → b
   mpr : b → a
+
+end PreludioLogica
 ```
 
 ### Ejemplo 2.1: Reducción de Cortes = $\beta/\iota$-Reducción
@@ -95,8 +99,10 @@ theorem forall_modus_ponens {α : Type} {P Q : α → Prop}
 ### 3.2 El Cuantificador Existencial (`∃ x : α, P x`)
 Se define en la librería estándar como la versión en `Prop` de un $\Sigma$-type:
 ```lean
+namespace PreludioExistencial
 inductive Exists {α : Sort u} (p : α → Prop) : Prop where
   | intro (w : α) (h : p w) : Exists p
+end PreludioExistencial
 ```
 
 ```lean
@@ -145,7 +151,7 @@ theorem lem_imp_dne (lem : LEM) : DNE :=
 
 -- 2. DNE → Peirce (Constructivo):
 theorem dne_imp_peirce (dne : DNE) : Peirce :=
-  fun P Q hpqp =>
+  fun P _Q hpqp =>
     dne P (fun hnp =>
       have hp : P := hpqp (fun hp => False.elim (hnp hp))
       hnp hp)

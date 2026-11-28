@@ -104,21 +104,19 @@ def filterVec {α : Type} (p : α → Bool) :
     {n : Nat} → Vec α n → (m : Nat) × Vec α m × PLift (m ≤ n)
   | 0, .nil =>
     ⟨0, .nil, ⟨Nat.le_refl 0⟩⟩
-  | k + 1, .cons x xs =>
+  | _ + 1, .cons x xs =>
     let ⟨m, vCola, ⟨hCola⟩⟩ := filterVec p xs
     if p x then
       ⟨m + 1, .cons x vCola, ⟨Nat.succ_le_succ hCola⟩⟩
     else
-      ⟨m, vCola, ⟨Nat.le_step hCola⟩⟩
+      ⟨m, vCola, ⟨Nat.le_succ_of_le hCola⟩⟩
 
 /-- 5. DEMOSTRACIÓN POR CURRY-HOWARD E INDUCCIÓN SOBRE EL TIPO IDENTIDAD (`Id`):
     Para toda longitud `n : Nat` y todo vector `v : Vec α n`, mapear la función identidad
     devuelve exactamente `v` (Lecciones 05 y 07). -/
 theorem mapVec_id {α : Type u} : ∀ {n : Nat} (v : Vec α n), mapVec (fun x => x) v = v
   | 0,     .nil       => rfl
-  | _ + 1, .cons x xs => by
-    dsimp [mapVec]
-    rw [mapVec_id xs]
+  | _ + 1, .cons x xs => congrArg (Vec.cons x) (mapVec_id xs)
 
 end MiniCursoTTD.ProyectoFinal
 ```

@@ -88,7 +88,7 @@ theorem estructuracion_ejemplo {P Q R S : Prop}
 
 Un bloque `calc` en Lean 4 puede mezclar **distintas relaciones** (`=`, `≤`, `<`) siempre que exista una instancia de la clase de tipos dependiente `Trans`:
 
-```lean
+```text
 class Trans (r : α → β → Sort u) (s : β → γ → Sort v) (t : outParam (α → γ → Sort w)) where
   trans : r a b → s b c → t a c
 ```
@@ -118,4 +118,5 @@ theorem reescribir_bajo_lambda :
     ext n       -- entra bajo el ligador `fun n => ...`
     rw [Nat.add_zero]
   -- Ahora la meta es `List.map (fun n => n) [1, 2, 3] = [1, 2, 3]`, que es `rfl`!
+  rfl
 ```

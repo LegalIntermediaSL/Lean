@@ -32,7 +32,7 @@ Si intentas cuantificar sobre un universo $\mathcal{U}$ para definir un nuevo ti
 
 En el kernel de Lean 4 (`Lean.Level`), los niveles de universo se construyen inductivamente mediante cuatro constructores:
 
-```lean
+```text
 inductive Level where
   | zero   : Level                   -- 0
   | succ   : Level → Level           -- u + 1
@@ -93,7 +93,7 @@ $$\text{imax}(u, 0) = 0, \qquad \text{imax}(u, v + 1) = \max(u, v + 1)$$
 ## 4. Polimorfismo de Universos en la Práctica (`universe u v` y `.{u, v}`)
 
 Si definieras `Lista` fijándola únicamente para `α : Type 0`:
-```lean
+```text
 inductive ListaFija (α : Type 0) : Type 0 where ...
 ```
 no podrías construir una `ListaFija (Type 0)` porque `Type 0` vive en `Type 1`.

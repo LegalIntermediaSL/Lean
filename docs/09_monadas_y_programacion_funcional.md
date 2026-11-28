@@ -17,7 +17,7 @@
 
 En Lean 4, la programación con efectos se estructura mediante constructores de tipos $m : \texttt{Type } u \to \texttt{Type } v$:
 
-```lean
+```text
 -- 1. Functor: permite aplicar una función pura `α → β` dentro de un contexto `f α`
 class Functor (f : Type u → Type v) : Type (max (u+1) v) where
   map : {α β : Type u} → (α → β) → f α → f β
@@ -37,7 +37,7 @@ class Monad (m : Type u → Type v) extends Applicative m, Bind m : Type (max (u
 
 En Lean 4, el cumplimiento de las leyes algebraicas de un funtor o una mónada se captura mediante clases proposicionales dedicadas:
 
-```lean
+```text
 class LawfulFunctor (f : Type u → Type v) [Functor f] : Prop where
   map_const : (Functor.mapConst : α → f β → f α) = Functor.map ∘ Function.const β
   id_map    : ∀ (x : f α), id <$> x = x
@@ -79,7 +79,7 @@ theorem miEstado_bind_assoc {σ α β γ : Type}
 ## 3. Cómo Desazucara Lean 4 la Notación `do` (`let mut`, `for`, `return`)
 
 1. **Secuenciación básica:**
-   ```lean
+   ```text
    do
      let x ← m1
      m2 x

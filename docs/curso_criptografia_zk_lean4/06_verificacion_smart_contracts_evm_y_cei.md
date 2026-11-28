@@ -54,13 +54,35 @@ En las subastas de gobernanza, liquidaciones DeFi o asignación de espacio en bl
 En [`LeanTT/M56_GameTheoryNashEquilibriumAndVCG.lean`](../../LeanTT/M56_GameTheoryNashEquilibriumAndVCG.lean) formalizamos la **Subasta de Segundo Precio de Vickrey** y demostramos en cuatro líneas gracias a `split` y `omega` que decir la verdad (`b1 = v1`) domina a cualquier estrategia alternativa `b1'`:
 
 ```lean
-import LeanTT.M56_GameTheoryNashEquilibriumAndVCG
-import LeanTT.M58_SmartContractReentrancyAndCEI
-
 namespace CursoZK.Leccion06
 
-open LeanTT.M56
-open LeanTT.M58
+structure VaultState where
+  vault     : Nat
+  userBal   : Nat
+  withdrawn : Nat
+  locked    : Bool
+  deriving Repr, DecidableEq
+
+def IsSolvent (s : VaultState) : Prop := s.userBal ≤ s.vault
+
+@[simp] def beginWithdrawCEI (s : VaultState) (amount : Nat) : VaultState :=
+  if s.locked then s
+  else if amount ≤ s.userBal ∧ amount ≤ s.vault then
+    { vault := s.vault - amount, userBal := s.userBal - amount,
+      withdrawn := s.withdrawn + amount, locked := true }
+  else s
+
+@[simp] def endWithdrawCEI (s : VaultState) : VaultState :=
+  { s with locked := false }
+
+theorem cei_preserves_solvency (s : VaultState) (amount : Nat) (hSolvent : IsSolvent s) :
+    IsSolvent (beginWithdrawCEI s amount) := by
+  dsimp [IsSolvent, beginWithdrawCEI] at hSolvent ⊢
+  split
+  · exact hSolvent
+  · split
+    · dsimp; omega
+    · exact hSolvent
 
 /-- TEOREMA INTEGRADO (Solvencia de Ciclo Completo de Retiro CEI + Liberación de Cerrojo):
     Si una bóveda comienza solvente (`IsSolvent s`), ejecutar un retiro completo con el patrón CEI
@@ -89,9 +111,7 @@ Demuestra en Lean 4 que si un usuario intenta retirar una cantidad `amount > s.u
 <summary>💡 <b>Ver Solución Comentada en Lean 4</b></summary>
 
 ```lean
-import LeanTT.M58_SmartContractReentrancyAndCEI
-
-open LeanTT.M58
+open CursoZK.Leccion06
 
 theorem withdraw_over_balance_is_noop (s : VaultState) (amount : Nat)
     (hOver : s.userBal < amount) :

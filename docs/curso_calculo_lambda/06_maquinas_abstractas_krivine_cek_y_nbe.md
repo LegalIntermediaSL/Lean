@@ -60,10 +60,10 @@ inductive KAMTerm where
   | lit : Nat → KAMTerm
   deriving Repr, DecidableEq
 
-/-- Una Clausura de Krivine empaqueta un término `KAMTerm` con su entorno léxico ` List Closure` -/
+/-- Una Clausura de Krivine empaqueta un término `KAMTerm` con su entorno léxico `List Closure` -/
 inductive Closure where
   | mk : KAMTerm → List Closure → Closure
-  deriving Repr, DecidableEq
+  deriving Repr
 
 /-- Búsqueda por índice de De Bruijn en el entorno de clausuras -/
 @[simp]

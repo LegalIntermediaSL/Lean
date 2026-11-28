@@ -60,11 +60,18 @@ Los esquemas basados en LWE (como TFHE, BGV, BFV y CKKS) permiten además realiz
 Al sumar dos textos cifrados $c_1 = a_1 s + e_1 + \text{msg}_1$ y $c_2 = a_2 s + e_2 + \text{msg}_2$, sus ruidos se suman ($e_1 + e_2$). Demostremos en Lean 4 que si cada texto cifrado tiene un ruido acotado por la mitad del presupuesto ($|e_1| < K/2$ y $|e_2| < K/2$), su combinación homomórfica sigue dentro del presupuesto de ruido total $(-K, K)$:
 
 ```lean
-import LeanTT.M62_PostQuantumLatticeCryptoLWE
-
 namespace CursoZK.Leccion05
 
-open LeanTT.M62
+@[simp] def encodeBitLWE (K : Int) (m : Bool) : Int := if m then 2 * K else 0
+@[simp] def lweEncrypt (K s a e : Int) (m : Bool) : Int := a * s + e + encodeBitLWE K m
+@[simp] def lweUnmask (s a c : Int) : Int := c - a * s
+@[simp] def lweDecode (K v : Int) : Bool := decide (K ≤ v)
+@[simp] def lweDecrypt (K s a c : Int) : Bool := lweDecode K (lweUnmask s a c)
+
+@[simp] theorem lweUnmask_lweEncrypt (K s a e : Int) (m : Bool) :
+    lweUnmask s a (lweEncrypt K s a e m) = e + encodeBitLWE K m := by
+  dsimp [lweUnmask, lweEncrypt]
+  omega
 
 /-- TEOREMA (Conservación del Presupuesto de Ruido en Suma Homomórfica LWE):
     Si dos muestras LWE tienen ruidos individuales `e1, e2` acotados por un semi-presupuesto `B`
@@ -91,9 +98,7 @@ Demuestra en Lean 4 que si el ruido $e$ se sale de la cota $|e| < K$ y alcanza $
 <summary>💡 <b>Ver Solución Comentada en Lean 4</b></summary>
 
 ```lean
-import LeanTT.M62_PostQuantumLatticeCryptoLWE
-
-open LeanTT.M62
+open CursoZK.Leccion05
 
 /-- Cuando el ruido `e = K` invade el radio de decisión `K`, el bit `false` se corrompe a `true`: -/
 theorem lwe_decryption_failure_when_noise_reaches_K (K s a : Int) :

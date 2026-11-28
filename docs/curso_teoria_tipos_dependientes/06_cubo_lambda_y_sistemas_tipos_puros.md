@@ -147,9 +147,13 @@ example : IterarConstructor Option 2 Nat = Option (Option Nat) := rfl
 -- Ejemplo en el vértice supremo λC (1,1,1):
 -- Una función que cuantifica simultáneamente sobre un operador de tipos `F : Type → Type` ((□, □)),
 -- un tipo `α : Type` ((□, *)), un valor natural `n : Nat` ((*, □)) y un término `x` ((*, *)):
+def IterarConstructorC (F : Type → Type) : Nat → Type → Type
+  | 0,     α => α
+  | n + 1, α => F (IterarConstructorC F n α)
+
 def envolverNVeces
     (F : Type → Type) (pureF : {β : Type} → β → F β)
-    (α : Type) (n : Nat) (x : α) : IterarConstructor F n α :=
+    (α : Type) (n : Nat) (x : α) : IterarConstructorC F n α :=
   match n with
   | 0     => x
   | k + 1 => pureF (envolverNVeces F pureF α k x)

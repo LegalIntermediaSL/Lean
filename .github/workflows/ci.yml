@@ -23,3 +23,6 @@ jobs:
           lake update
           lake build
           lake exe leantt
+      - name: Verify all Markdown internal links and executable Lean 4 Playground snippets
+        run: |
+          python3 scripts/check_doc_snippets.py

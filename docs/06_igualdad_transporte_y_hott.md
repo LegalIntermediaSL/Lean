@@ -49,11 +49,13 @@ theorem zero_add_prop (n : Nat) : 0 + n = n := by
 
 Recordemos la definición del tipo identidad:
 ```lean
+namespace PreludioEq
 inductive Eq {α : Sort u} (a : α) : α → Prop where
   | refl : Eq a a
+end PreludioEq
 ```
 Y su eliminador (regla $J$ de Paulin-Mohring):
-```lean
+```text
 Eq.rec :
   {α : Sort u} → {a : α} →
   {motive : (b : α) → a = b → Sort v} →
@@ -79,6 +81,8 @@ Veamos cómo funciona al concatenar dos vectores `xs : Vec α m` e `ys : Vec α 
 * Necesitamos transportar `ys : Vec α n` a lo largo de la igualdad `Nat.zero_add n : 0 + n = n` (invertida):
 
 ```lean
+namespace DemoTransporte
+
 inductive Vec (α : Type u) : Nat → Type u where
   | nil  : Vec α 0
   | cons : {n : Nat} → α → Vec α n → Vec α (n + 1)
@@ -86,6 +90,8 @@ inductive Vec (α : Type u) : Nat → Type u where
 def Vec.append {α : Type u} {m n : Nat} : Vec α m → Vec α n → Vec α (m + n)
   | .nil,       ys => (Nat.zero_add n).symm ▸ ys
   | .cons x xs, ys => (Nat.succ_add _ n).symm ▸ .cons x (Vec.append xs ys)
+
+end DemoTransporte
 ```
 
 ---
@@ -107,6 +113,8 @@ $$\text{motive}(x) := P\; x\; v$$
 1. **Generalizar o revertir el término dependiente junto con su prueba antes de hacer `cases h` o `subst h`:**
    Si `h : n = m` donde `m` o `n` es una variable libre, la táctica **`subst h`** (o **`cases h`**) elimina simultáneamente la variable `m` en `v` y en todo el contexto sin construir un motivo mal tipado:
    ```lean
+   open DemoTransporte
+
    theorem resolver_con_subst {α : Type} {n m : Nat}
        (P : (k : Nat) → Vec α k → Prop)
        (v : Vec α n) (h : n = m) (hp : P n v) :
@@ -127,8 +135,10 @@ $$\text{motive}(x) := P\; x\; v$$
 Introducida por Conor McBride (1999), la igualdad heterogénea `HEq a b` (escrita `a ≍ b`) permite afirmar que $a : \alpha$ y $b : \beta$ son iguales aunque sus tipos $\alpha$ y $\beta$ no sean definicionalmente iguales:
 
 ```lean
+namespace PreludioHEq
 inductive HEq {α : Sort u} (a : α) : {β : Sort u} → β → Prop where
   | refl : HEq a a
+end PreludioHEq
 ```
 
 Propiedades clave en Lean 4:

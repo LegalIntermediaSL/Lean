@@ -283,8 +283,10 @@ def sumarTres : Aridad 3 :=
 
 ### Ejercicio 1: Combinador $W$ (Duplicador $\lambda f.\, \lambda x.\, f\; x\; x$) a partir de $S, K, I$
 ```lean
-def W {α β : Type} (f : α → α → β) (x : α) : β :=
-  f x x
+def I {α : Type} (x : α) : α := x
+def K {α β : Type} (x : α) (_ : β) : α := x
+def S {α β γ : Type} (f : α → β → γ) (g : α → β) (x : α) : γ := f x (g x)
+def W {α β : Type} (f : α → α → β) (x : α) : β := f x x
 
 -- Solución: `W = S S (K I)`
 theorem w_from_ski {α β : Type} (f : α → α → β) (x : α) :

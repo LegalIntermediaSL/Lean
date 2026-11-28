@@ -131,7 +131,7 @@ Es una de las mayores proezas de la informática formal moderna (más de **1.6 m
   * `fun_prop` / `continuity` / `measurability`: Demuestra automáticamente que una función compuesta es continua, diferenciable o medible.
 
 **Cómo añadir Mathlib4 a un `lakefile.lean`:**
-```lean
+```text
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4.git"
 ```

@@ -78,4 +78,55 @@ def runAudit {s1 s2 : SessionState} {α : Type} : Protocol s1 s2 α → List Str
 
 #eval runAudit sesionValida
 
+/-! ## Leyes Algebraicas de Mónada Indexada de Atkey y Homomorfismo de Auditoría -/
+
+/-- LEY 1 (Identidad Izquierda de la Mónada Indexada): `.pure a >>>= k = k a` -/
+@[simp]
+theorem seqProtocol_pure_left {s1 s2 : SessionState} {α β : Type}
+    (a : α) (k : α → Protocol s1 s2 β) :
+    (.pure a >>>= k) = k a :=
+  rfl
+
+/-- LEY 2 (Identidad Derecha de la Mónada Indexada): `p >>>= Protocol.pure = p` -/
+@[simp]
+theorem seqProtocol_pure_right {s1 s2 : SessionState} {α : Type}
+    (p : Protocol s1 s2 α) :
+    (p >>>= fun a => .pure a) = p := by
+  induction p with
+  | pure a          => rfl
+  | bind st next ih =>
+    dsimp [seqProtocol]
+    congr 1
+    funext u
+    exact ih u
+
+/-- LEY 3 (Asociatividad de la Composición de Sesiones Tipadas):
+    `((p >>>= f) >>>= g) = (p >>>= fun a => f a >>>= g)` -/
+theorem seqProtocol_assoc {s1 s2 s3 s4 : SessionState} {α β γ : Type}
+    (p : Protocol s1 s2 α)
+    (f : α → Protocol s2 s3 β)
+    (g : β → Protocol s3 s4 γ) :
+    ((p >>>= f) >>>= g) = (p >>>= fun a => f a >>>= g) := by
+  induction p with
+  | pure a          => rfl
+  | bind st next ih =>
+    dsimp [seqProtocol]
+    congr 1
+    funext u
+    exact ih u f
+
+/-- TEOREMA DE HOMOMORFISMO DE AUDITORÍA:
+    Auditar la composición secuencial `p >>>= k` concatena exactamente las trazas de auditoría
+    de `p` con las trazas de `k` aplicado al resultado intermedio! -/
+theorem runAudit_seqProtocol {s1 s2 s3 : SessionState} {α β : Type}
+    (p : Protocol s1 s2 α) (k : α → Protocol s2 s3 β) :
+    runAudit (p >>>= k) =
+      let (logs1, res1) := runAudit p
+      let (logs2, res2) := runAudit (k res1)
+      (logs1 ++ logs2, res2) := by
+  induction p with
+  | pure a          => rfl
+  | bind st next ih =>
+    simp only [seqProtocol, runAudit, ih (), List.cons_append]
+
 end LeanTT.M19

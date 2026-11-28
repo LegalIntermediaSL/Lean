@@ -54,10 +54,12 @@ Para entender la diferencia entre las distintas escuelas de la Teoría de Tipos 
 En Lean 4, el tipo identidad `Eq` se define como una familia inductiva con un parámetro `(a : α)` y un índice `: α → Prop`:
 
 ```lean
+namespace DemoIdentidad
 inductive Eq {α : Sort u} (a : α) : α → Prop where
   | refl : Eq a a
+end DemoIdentidad
 ```
-*(El constructor `Eq.refl a` se abrevia `rfl : a = a`).*
+*(En el preludio de Lean 4, el constructor `Eq.refl a` se abrevia `rfl : a = a`).*
 
 ### 3.1 El Transporte (`Eq.rec` / `subst`): Cómo Mover un Dato de $P(a)$ a $P(b)$
 Si tenemos una familia de tipos $P : A \to \texttt{Sort } v$, una prueba de igualdad $h : a =_A b$ y un habitante $x : P(a)$, la regla de eliminación de la igualdad nos permite **transportar** $x$ a lo largo de la igualdad $h$ para obtener un habitante de la fibra $P(b)$:
@@ -68,7 +70,8 @@ def transportar {A : Sort u} {P : A → Sort v} {a b : A} (h : a = b) (x : P a) 
 ```
 Por ejemplo, si tienes un vector `v : Vec α (n + m)` y necesitas un `Vec α (m + n)`, basta transportar `v` a lo largo del teorema `Nat.add_comm n m : n + m = m + n`:
 ```lean
-def conmutarLongitudVec {α : Type u} {n m : Nat} (v : Vec α (n + m)) : Vec α (m + n) :=
+def conmutarLongitudVec {Vec : Type u → Nat → Type u} {α : Type u} {n m : Nat}
+    (v : Vec α (n + m)) : Vec α (m + n) :=
   Nat.add_comm n m ▸ v
 ```
 
@@ -137,7 +140,7 @@ Demuestra en Lean 4, usando reconocimiento de patrones sobre la igualdad (`match
 
 ```lean
 /-- Acción de una función no dependiente sobre caminos (`ap` / `congrArg`): -/
-def ap {A : Type u} {B : Type v} (f : A → B) {a1 a2 : A} (p : a1 = a2) :
+theorem ap {A : Type u} {B : Type v} (f : A → B) {a1 a2 : A} (p : a1 = a2) :
     f a1 = f a2 :=
   match p with
   | rfl => rfl
@@ -145,7 +148,7 @@ def ap {A : Type u} {B : Type v} (f : A → B) {a1 a2 : A} (p : a1 = a2) :
 /-- Acción de una sección dependiente sobre caminos (`apd` en el libro de HoTT):
     Observa que `g a1 : P a1` y `g a2 : P a2` viven en fibras distintas, por lo que
     comparamos `p ▸ g a1` con `g a2` dentro de la fibra `P a2`! -/
-def apd {A : Type u} {P : A → Type v} (g : (x : A) → P x) {a1 a2 : A} (p : a1 = a2) :
+theorem apd {A : Type u} {P : A → Type v} (g : (x : A) → P x) {a1 a2 : A} (p : a1 = a2) :
     p ▸ g a1 = g a2 :=
   match p with
   | rfl => rfl

@@ -148,7 +148,7 @@ $$(\exists x : A,\, P(x) \land Q) \leftrightarrow (\exists x : A,\, P(x)) \land 
 <summary>💡 <b>Ver Solución Comentada en Lean 4</b></summary>
 
 ```lean
-theorem exists_and_right {A : Type} {P : A → Prop} {Q : Prop} :
+theorem exists_and_right_ttd {A : Type} {P : A → Prop} {Q : Prop} :
     (∃ x, P x ∧ Q) ↔ (∃ x, P x) ∧ Q :=
   ⟨ fun ⟨x, ⟨hpx, hq⟩⟩ => ⟨⟨x, hpx⟩, hq⟩
   , fun ⟨⟨x, hpx⟩, hq⟩ => ⟨x, ⟨hpx, hq⟩⟩ ⟩

@@ -77,7 +77,7 @@ def CNat : Type 1 := (α : Type) → (α → α) → α → α
 def cZero : CNat := fun _ _ x => x
 def cSucc (n : CNat) : CNat := fun α f x => f (n α f x)
 def cAdd  (m n : CNat) : CNat := fun α f x => m α f (n α f x)
-def cMul  (m n : CNat) : CNat := fun α f x => m α (n α f)
+def cMul  (m n : CNat) : CNat := fun α f x => m α (n α f) x
 
 /-- El Truco del Dentista de Kleene (1935) para el Predecesor de Church `cPred`:
     Iteramos sobre pares `(Nat × Nat)` comenzando en `(0, 0)` con el paso `(a, b) ↦ (b, b + 1)`
@@ -124,7 +124,7 @@ def c1 : CNat := cSucc cZero
 
 /-- `cExp m n` calcula `m^n` aplicando `n` veces la multiplicación por `m` a partir de `1`: -/
 def cExp (m n : CNat) : CNat :=
-  fun α => n (α → α) (m α)
+  fun α f x => n (α → α) (m α) f x
 
 theorem church_dos_al_cubo : toNat (cExp c2 c3) = 8 := rfl
 ```

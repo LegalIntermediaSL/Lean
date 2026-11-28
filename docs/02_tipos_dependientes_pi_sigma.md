@@ -85,16 +85,16 @@ def identidad : (α : Type) → α → α :=
   fun _ x => x
 
 -- Familia dependiente de un valor booleano:
-def TipoSegunFlag (esEntero : Bool) : Type :=
+abbrev TipoSegunFlag (esEntero : Bool) : Type :=
   if esEntero then Int else String
 
 -- Sección global de la familia `TipoSegunFlag`:
 def negarOInvertir : (b : Bool) → (x : TipoSegunFlag b) → TipoSegunFlag b
   | true,  (n : Int)    => -n
-  | false, (s : String) => String.mk s.data.reverse
+  | false, (s : String) => String.ofList s.toList.reverse
 
-#eval negarOInvertir true 42        -- -42 : Int
-#eval negarOInvertir false "LAMBDA" -- "ADBMAL" : String
+#eval negarOInvertir true (42 : Int)        -- -42 : Int
+#eval negarOInvertir false ("LAMBDA" : String) -- "ADBMAL" : String
 ```
 
 ### Ejemplo 3.2: Tuplas Heterogéneas N-arias (`HList` / `NProduct`)
@@ -117,8 +117,8 @@ def TipoEnIndice : (αs : List Type) → Fin αs.length → Type
 
 /-- Proyección heterogénea tipada: extrae el elemento en la posición `i` con su tipo exacto! -/
 def HList.get : {αs : List Type} → HList αs → (i : Fin αs.length) → TipoEnIndice αs i
-  | _ :: _,  (x, _),  ⟨0, _⟩     => x
-  | _ :: αs, (_, xs), ⟨k + 1, h⟩ => xs.get ⟨k, Nat.lt_of_succ_lt_succ h⟩
+  | _ :: _, (x, _),  ⟨0, _⟩     => x
+  | _ :: _, (_, xs), ⟨k + 1, h⟩ => xs.get ⟨k, Nat.lt_of_succ_lt_succ h⟩
 
 #eval filaTabla.get ⟨0, by decide⟩ -- 101 : Nat
 #eval filaTabla.get ⟨1, by decide⟩ -- "Alonzo Church" : String
@@ -132,9 +132,11 @@ def HList.get : {αs : List Type} → HList αs → (i : Fin αs.length) → Tip
 En Lean 4, la suma dependiente en `Type` está definida en la librería estándar como:
 
 ```lean
+namespace PreludioSigma
 structure Sigma {α : Type u} (β : α → Type v) where
   fst : α
   snd : β fst
+end PreludioSigma
 ```
 
 * Notación: `Σ (x : α), β x` o `(x : α) × β x`.
@@ -207,9 +209,11 @@ es un **teorema trivialmente demostrable** porque una prueba constructiva de que
 El tipo `Subtype` se define en el preludio de Lean 4 como:
 
 ```lean
+namespace PreludioSubtype
 structure Subtype {α : Sort u} (p : α → Prop) where
   val : α
   property : p val
+end PreludioSubtype
 ```
 con la notación `{ x : α // p x }`.
 
@@ -242,8 +246,7 @@ inductive ColType where
   | flag : ColType
   deriving DecidableEq, Repr
 
-@[simp]
-def ColType.toLeanType : ColType → Type
+abbrev ColType.toLeanType : ColType → Type
   | .int  => Int
   | .text => String
   | .flag => Bool
@@ -251,13 +254,13 @@ def ColType.toLeanType : ColType → Type
 abbrev Schema := List (String × ColType)
 
 /-- Una fila `Row s` es un tipo dependiente del esquema `s : Schema` -/
-def Row : Schema → Type
+abbrev Row : Schema → Type
   | []            => Unit
   | (_, ct) :: s' => ct.toLeanType × Row s'
 
-def esquemaEmpleados : Schema :=
+abbrev esquemaEmpleados : Schema :=
   [("id", .int), ("nombre", .text), ("activo", .flag)]
 
 def empleado1 : Row esquemaEmpleados :=
-  (1, ("Kurt Gödel", (true, ())))
+  ((1 : Int), ("Kurt Gödel", (true, ())))
 ```

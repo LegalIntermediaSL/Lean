@@ -19,7 +19,7 @@
 
 En el Cálculo de Construcciones Inductivas (formulado por Thierry Coquand y Christine Paulin-Mohring, y refinado por Peter Dybjer como *Inductive Families*), una declaración inductiva general tiene la forma:
 
-```lean
+```text
 inductive I (p₁ : P₁) ... (pₘ : Pₘ) : (i₁ : X₁) → ... → (iₖ : Xₖ) → Sort u where
   | c₁ : (a₁ : A₁) → ... → I p₁ ... pₘ t₁ ... tₖ
   | c₂ : ...
@@ -47,8 +47,10 @@ inductive Vec (α : Type u) : Nat → Type u where
 ### Ejemplo 2.2: `Eq` en Lean 4 (1 Parámetro `a : α`, 1 Índice `: α`)
 Observa cómo se define la igualdad en Lean 4:
 ```lean
+namespace PreludioEq
 inductive Eq {α : Sort u} (a : α) : α → Prop where
   | refl : Eq a a
+end PreludioEq
 ```
 * El extremo izquierdo `a : α` es un **parámetro**.
 * El extremo derecho `: α` es un **índice** (que el constructor `refl` instancia a `a`).
@@ -79,9 +81,15 @@ example (n : Nat) (h : 0 = Nat.succ n) : False :=
 
 ### 4.1 El Subconjunto Finito Canónico `Fin n` y Matrices Tipadas `Matrix α m n`
 ```lean
+namespace DemoMatrix
+inductive Vec (α : Type u) : Nat → Type u where
+  | nil  : Vec α 0
+  | cons : {n : Nat} → α → Vec α n → Vec α (n + 1)
+
 -- Una matriz de `m` filas y `n` columnas como un vector de vectores:
 abbrev Matrix (α : Type u) (m n : Nat) :=
-   LeanTT.M05.Vec (LeanTT.M05.Vec α n) m
+  Vec (Vec α n) m
+end DemoMatrix
 ```
 Con esta definición, una función `transpose : Matrix α m n → Matrix α n m` o la multiplicación matricial `mul : Matrix Nat m k → Matrix Nat k n → Matrix Nat m n` hacen que un error de dimensiones entre matrices sea un **error de compilación estático**.
 
@@ -160,8 +168,10 @@ inductive OrdBrouwer : Type where
 Mediante el predicado inductivo de **Accesibilidad (`Acc`)** definido en el núcleo:
 
 ```lean
-inductive Acc {α : Sort u} (r : α → α → Prop) (x : α) : Prop where
-  | intro (h : (y : α) → r y x → Acc r y) : Acc r x
+namespace PreludioAcc
+inductive Acc {α : Sort u} (r : α → α → Prop) : α → Prop where
+  | intro (x : α) (h : (y : α) → r y x → Acc r y) : Acc r x
+end PreludioAcc
 ```
 Un elemento $x$ es accesible respecto a la relación $<$ si no existe ninguna cadena infinita descendente $\dots < x_2 < x_1 < x$. Una relación es **bien fundada (`WellFounded r`)** si todo elemento $x : \alpha$ es accesible.
 
@@ -169,13 +179,12 @@ En Lean 4, las cláusulas `termination_by` y `decreasing_by` automatizan complet
 
 ```lean
 def euclidesGcd (a b : Nat) : Nat :=
-  if h : b = 0 then
-    a
-  else
-    euclidesGcd b (a % b)
+  match b with
+  | 0      => a
+  | b' + 1 => euclidesGcd (b' + 1) (a % (b' + 1))
 termination_by b
 decreasing_by
-  exact Nat.mod_lt a (Nat.pos_of_ne_zero h)
+  exact Nat.mod_lt a (Nat.succ_pos b')
 
 #eval euclidesGcd 1071 462 -- 21
 ```

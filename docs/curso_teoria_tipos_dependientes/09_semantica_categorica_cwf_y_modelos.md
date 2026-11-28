@@ -67,19 +67,17 @@ En Lean 4 podemos formalizar en unas pocas líneas cómo el universo de tipos `T
 ```lean
 namespace MiniCursoTTD.Leccion09
 
-universe u
-
 /-- En el Modelo Estándar de Familias en Lean 4:
-    - Un Contexto `Γ` se interpreta como un tipo `Type u` (el conjunto de entornos válidos).
+    - Un Contexto `Γ` se interpreta como un tipo `Type` (el conjunto de entornos válidos).
     - Una Sustitución `σ : Sub Δ Γ` es simplemente una función `Δ → Γ`. -/
-abbrev CtxModel := Type u
-abbrev SubModel (Δ Γ : CtxModel) : Type u := Δ → Γ
+abbrev CtxModel := Type
+abbrev SubModel (Δ Γ : CtxModel) : Type := Δ → Γ
 
-/-- Un Tipo dependiente sobre el contexto `Γ` es una familia `Γ → Type u` -/
-abbrev TyModel (Γ : CtxModel) : Type (u + 1) := Γ → Type u
+/-- Un Tipo dependiente sobre el contexto `Γ` es una familia `Γ → Type` -/
+abbrev TyModel (Γ : CtxModel) : Type 1 := Γ → Type
 
 /-- Un Término de tipo `A` en el contexto `Γ` es una sección dependiente `(γ : Γ) → A γ` -/
-abbrev TmModel (Γ : CtxModel) (A : TyModel Γ) : Type u := (γ : Γ) → A γ
+abbrev TmModel (Γ : CtxModel) (A : TyModel Γ) : Type := (γ : Γ) → A γ
 
 /-- Sustitución contravariante en tipos: `A[σ]` es la composición `fun δ => A (σ δ)` -/
 def substTy {Δ Γ : CtxModel} (A : TyModel Γ) (σ : SubModel Δ Γ) : TyModel Δ :=

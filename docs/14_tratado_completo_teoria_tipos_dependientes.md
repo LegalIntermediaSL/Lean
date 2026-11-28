@@ -240,7 +240,7 @@ def FibraBooleana : Bool → Type
 
 -- Y ahora usamos de nuevo el eliminador dependiente de `Bool` sobre el motivo `FibraBooleana`
 -- para construir un elemento de `FibraBooleana b` para cada `b : Bool`:
-def seccionBooleana (b : Bool) : FibraBooleana b :=
+noncomputable def seccionBooleana (b : Bool) : FibraBooleana b :=
   Bool.rec
     (motive := FibraBooleana)
     (10, 20)                  -- tiene tipo `FibraBooleana false` ≡ `Nat × Nat`
@@ -257,8 +257,11 @@ En la Teoría de Tipos Dependientes existen **dos mecanismos complementarios** p
 #### Mecanismo 1: Familias Definidas por Recursión (*Large Elimination*)
 Definimos una función ordinaria en Lean cuyo tipo de retorno es `Type u`, haciendo reconocimiento de patrones sobre $a : A$:
 ```lean
-/-- `VectorRecursivo α n` calcula el tipo `α × (α × ... × Unit)` por recursión sobre `n` -/
-def VectorRecursivo (α : Type u) : Nat → Type u
+namespace DemoTTD
+universe u
+
+/-- `VectorRecursivo α n` calcula el tipo `α × (α × ... × PUnit)` por recursión sobre `n` -/
+abbrev VectorRecursivo (α : Type u) : Nat → Type u
   | 0     => PUnit
   | n + 1 => α × VectorRecursivo α n
 
@@ -266,6 +269,8 @@ def VectorRecursivo (α : Type u) : Nat → Type u
 -- `head` y `tail` son simples proyecciones `.1` y `.2`:
 def headRec {α : Type u} {n : Nat} (v : VectorRecursivo α (n + 1)) : α :=
   v.1
+
+end DemoTTD
 ```
 
 #### Mecanismo 2: Familias Inductivas Indexadas (Esquema de Dybjer)
@@ -288,6 +293,8 @@ El tipo $\Pi (x : A),\, B(x)$ (escrito `(x : A) → B x` o `∀ x : A, B x`) es 
 5. **Unicidad ($\eta$):** $(\texttt{fun } x \Rightarrow f\; x) \;\equiv\; f : (x : A) \to B(x)$.
 
 ```lean
+open DemoTTD
+
 -- Ejemplo en Lean 4: una función dependiente que para cada `n : Nat`
 -- devuelve el vector `[0, 1, ..., n - 1]` de longitud exacta `n`:
 def rangoTipado : (n : Nat) → VectorRecursivo Nat n
@@ -314,6 +321,8 @@ Dado $A : \texttt{Type } u$ y $B : A \to \texttt{Type } v$, el tipo $\Sigma (x :
 5. **Unicidad ($\eta$):** $\langle \text{fst}(p), \text{snd}(p) \rangle \equiv p$.
 
 ```lean
+open DemoTTD
+
 -- Ejemplo: El tipo de todos los polígonos regulares donde empaquetamos el número de lados `n`
 -- junto con las coordenadas de sus `n` vértices y la garantía `n ≥ 3`:
 structure PoligonoEmpaquetado where
@@ -427,31 +436,33 @@ def martinLofJ {A : Sort u}
   | rfl => diag a
 
 /-- Demostración del inverso de un camino (`symm`) usando `martinLofJ`: -/
-def invCamino {A : Sort u} {a b : A} (p : a = b) : b = a :=
-  martinLofJ (fun x y _ => y = x) (fun x => rfl) p
+theorem invCamino {A : Sort u} {a b : A} (p : a = b) : b = a :=
+  martinLofJ (fun x y _ => y = x) (fun _ => rfl) p
 
 /-- Demostración de la composición de caminos (`trans`) usando `martinLofJ`: -/
-def compCamino {A : Sort u} {a b c : A} (p : a = b) (q : b = c) : a = c :=
+theorem compCamino {A : Sort u} {a b c : A} (p : a = b) (q : b = c) : a = c :=
   martinLofJ (fun x y _ => (y = c) → (x = c)) (fun _ r => r) p q
 ```
 
-### Ejemplo 8.2: ElEspacio Total de Caminos $\Sigma (y : A),\, (a = y)$ es Contráctil
+### Ejemplo 8.2: El Espacio Total de Caminos $\Sigma (y : A),\, (a = y)$ es Contráctil
 En teoría de tipos dependientes (y en HoTT), el lema fundamental que explica por qué funciona el eliminador $J$ es que el **espacio total de todos los puntos $y : A$ unidos a un punto base fijo $a : A$ mediante un camino $p : a = y$**, es decir:
 $$\text{BasadoEn}(a) :\equiv \Sigma (y : A),\, (a = y)$$
 tiene un único elemento salvo igualdad: el centro de contracción $\langle a, \texttt{rfl}_a \rangle$.
 
 ```lean
-/-- El espacio de caminos con origen fijo en `a` -/
-def EspacioBasado {A : Type u} (a : A) : Type u :=
-  (y : A) × (a = y)
+universe u
 
-/-- El centro de contracción `(a, rfl)` -/
+/-- El espacio de caminos con origen fijo en `a` (usando `Σ'` / `PSigma`, polimórfico en `Prop`) -/
+def EspacioBasado {A : Type u} (a : A) : Type u :=
+  Σ' (y : A), a = y
+
+/-- El centro de contracción `⟨a, rfl⟩` -/
 def centroBasado {A : Type u} (a : A) : EspacioBasado a :=
   ⟨a, rfl⟩
 
 /-- Teorema de Contractibilidad del Espacio Basado:
-    Todo par dependiente `⟨y, p⟩ : (y : A) × (a = y)` es igual al centro `⟨a, rfl⟩`! -/
-theorem espacioBasado_contractil {A : Type u} {a : A} ( w : EspacioBasado a ) :
+    Todo par dependiente `⟨y, p⟩ : Σ' (y : A), a = y` es igual al centro `⟨a, rfl⟩`! -/
+theorem espacioBasado_contractil {A : Type u} {a : A} (w : EspacioBasado a) :
     w = centroBasado a := by
   rcases w with ⟨y, rfl⟩
   rfl

@@ -112,10 +112,10 @@ Podemos modelar ambos estilos en **Lean 4** en apenas unas líneas para ver su e
 ```lean
 -- 1. ESTILO DE RUSSELL (nativo en Lean 4):
 -- `Type` es un universo de Russell: una función `Bool → Type` devuelve tipos directamente.
-def FamiliaRussell (b : Bool) : Type :=
+abbrev FamiliaRussell (b : Bool) : Type :=
   if b then Nat else Bool
 
-def ejemploRussell : FamiliaRussell true := 42
+def ejemploRussell : FamiliaRussell true := (42 : Nat)
 
 -- 2. ESTILO DE TARSKI (codificado explícitamente):
 -- Definimos un universo de códigos `CodigoU` y su función decodificadora `El : CodigoU → Type`.
@@ -124,17 +124,16 @@ inductive CodigoU where
   | bool : CodigoU
   | prod : CodigoU → CodigoU → CodigoU
 
-@[simp]
-def El : CodigoU → Type
+abbrev El : CodigoU → Type
   | .nat        => Nat
   | .bool       => Bool
   | .prod c1 c2 => El c1 × El c2
 
-def familiaTarski (b : Bool) : CodigoU :=
+abbrev familiaTarski (b : Bool) : CodigoU :=
   if b then .nat else .bool
 
 -- Para habitar el tipo asociado a `familiaTarski true`, aplicamos el decodificador `El`:
-def ejemploTarski : El (familiaTarski true) := 42
+def ejemploTarski : El (familiaTarski true) := (42 : Nat)
 ```
 
 ---
@@ -213,8 +212,7 @@ inductive CodigoU2 where
   | bool    : CodigoU2
   | funType : CodigoU2 → CodigoU2 → CodigoU2
 
-@[simp]
-def El2 : CodigoU2 → Type
+abbrev El2 : CodigoU2 → Type
   | .nat           => Nat
   | .bool          => Bool
   | .funType c1 c2 => El2 c1 → El2 c2

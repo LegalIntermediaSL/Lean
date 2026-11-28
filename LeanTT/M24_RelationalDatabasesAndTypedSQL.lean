@@ -62,6 +62,34 @@ theorem selectWhere_and {s : Schema} (p q : Row s → Bool) (tbl : Table s) :
     selectWhere p (selectWhere q tbl) = selectWhere (fun r => p r && q r) tbl := by
   simp [selectWhere, List.filter_filter]
 
+/-- `WHERE TRUE` actúa como la identidad sobre cualquier tabla tipada -/
+@[simp]
+theorem selectWhere_true {s : Schema} (tbl : Table s) :
+    selectWhere (fun _ => true) tbl = tbl := by
+  simp [selectWhere]
+
+/-- `WHERE FALSE` devuelve siempre la tabla vacía manteniendo el esquema `s` -/
+@[simp]
+theorem selectWhere_false {s : Schema} (tbl : Table s) :
+    selectWhere (fun _ => false) tbl = [] := by
+  simp [selectWhere]
+
+/-- Distributividad de `SELECT WHERE` sobre `UNION ALL` (`++` de tablas): -/
+theorem selectWhere_unionAll {s : Schema} (p : Row s → Bool) (t1 t2 : Table s) :
+    selectWhere p (t1 ++ t2) = selectWhere p t1 ++ selectWhere p t2 := by
+  simp [selectWhere, List.filter_append]
+
+/-- Teorema de Cardinalidad del Producto Cartesiano (`CROSS JOIN`):
+    El número de filas de `crossJoin t1 t2` es exactamente `t1.length * t2.length`. -/
+theorem length_crossJoin {s1 s2 : Schema} (t1 : Table s1) (t2 : Table s2) :
+    (crossJoin t1 t2).length = t1.length * t2.length := by
+  induction t1 with
+  | nil =>
+    simp [crossJoin]
+  | cons r1 rs ih =>
+    simp only [crossJoin, List.flatMap_cons, List.length_append, List.length_map, List.length_cons] at *
+    rw [ih, Nat.add_mul, Nat.one_mul, Nat.add_comm]
+
 /-! ## Ejemplo Práctico de Consulta Relacional Tipada -/
 
 def UsuariosSchema : Schema :=

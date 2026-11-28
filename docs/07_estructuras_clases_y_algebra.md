@@ -23,6 +23,9 @@ $$(x_1 : A_1)\; (x_2 : A_2(x_1))\; (x_3 : A_3(x_1, x_2)) \dots (x_n : A_n(x_1, \
 En Lean 4, el comando `structure` empaqueta cualquier telescopio en un único tipo con proyecciones con nombre y $\eta$-conversión definicional:
 
 ```lean
+namespace DemoCat
+universe u v
+
 /-- Una categoría pequeña expresada como una estructura dependiente (telescopio de 6 niveles): -/
 structure MiniCategoria where
   Obj       : Type u
@@ -33,6 +36,8 @@ structure MiniCategoria where
   comp_id   : ∀ {X Y : Obj} (f : Hom X Y), comp f (id Y) = f
   comp_assoc: ∀ {W X Y Z : Obj} (f : Hom W X) (g : Hom X Y) (h : Hom Y Z),
                 comp (comp f g) h = comp f (comp g h)
+
+end DemoCat
 ```
 Observa cómo cada campo depende de los anteriores:
 * `Hom` depende del campo `Obj`.
@@ -41,7 +46,11 @@ Observa cómo cada campo depende de los anteriores:
 
 ### Ejemplo 1.1: La Categoría `Types` de los Tipos y Funciones de Lean 4
 ```lean
-def CategoriaDeTipos : MiniCategoria.{u, u} where
+open DemoCat
+
+universe u
+
+def CategoriaDeTipos : MiniCategoria.{u + 1, u} where
   Obj        := Type u
   Hom A B    := A → B
   id _ x     := x
@@ -59,7 +68,7 @@ Al formalizar álgebra o topología en teoría de tipos dependientes existen dos
 
 ### 2.1 Enfoque Empaquetado (*Bundled* — el estilo de `MiniCategoria` arriba)
 El tipo portador (`carrier : Type u`) es un **campo dentro de la estructura**:
-```lean
+```text
 structure GrupoEmpaquetado where
   carrier : Type u
   mul     : carrier → carrier → carrier
@@ -117,7 +126,7 @@ instance {α : Type u} : Membresia (List α) α where
   mem x xs := x ∈ xs
 
 instance : Membresia String Char where
-  mem c s := c ∈ s.data
+  mem c s := c ∈ s.toList
 ```
 Gracias a `outParam`, cuando Lean ve `Membresia.mem x miString`, sabe que el contenedor es `String` e infiere inmediatamente que `x` debe ser de tipo `Char`.
 

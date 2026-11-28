@@ -69,17 +69,50 @@ $$2 \cdot x \cdot P_{\text{fold}}(\alpha, x^2) \;=\; (x + \alpha) \cdot P(x) + (
 Demostremos en Lean 4 tanto las ecuaciones de descomposición como la **Ecuación Colineal de Verificación de FRI** que liga directamente $P(x)$, $P(-x)$ y $P_{\text{fold}}(\alpha, x^2)$:
 
 ```lean
-import LeanTT.M55_STARKsAndFRILowDegreeFolding
-
 namespace CursoZK.Leccion04
 
-open LeanTT.M55
+structure PolyDeg3 where
+  c0 : Int
+  c1 : Int
+  c2 : Int
+  c3 : Int
+  deriving Repr, DecidableEq
+
+structure PolyDeg1 where
+  a0 : Int
+  a1 : Int
+  deriving Repr, DecidableEq
+
+@[simp] def evalDeg3 (P : PolyDeg3) (x : Int) : Int :=
+  P.c0 + P.c1 * x + P.c2 * (x * x) + P.c3 * (x * x) * x
+
+@[simp] def evalDeg1 (Q : PolyDeg1) (y : Int) : Int :=
+  Q.a0 + Q.a1 * y
+
+@[simp] def evenPart (P : PolyDeg3) : PolyDeg1 := { a0 := P.c0, a1 := P.c2 }
+@[simp] def oddPart  (P : PolyDeg3) : PolyDeg1 := { a0 := P.c1, a1 := P.c3 }
+@[simp] def friFold  (P : PolyDeg3) (α : Int) : PolyDeg1 :=
+  { a0 := P.c0 + P.c1 * α, a1 := P.c2 + P.c3 * α }
+
+theorem fri_even_odd_decomposition (P : PolyDeg3) (x : Int) :
+    evalDeg3 P x = evalDeg1 (evenPart P) (x * x) + evalDeg1 (oddPart P) (x * x) * x := by
+  dsimp [evalDeg3, evalDeg1, evenPart, oddPart]
+  rw [Int.add_mul]
+  omega
+
+theorem eval_friFold (P : PolyDeg3) (α y : Int) :
+    evalDeg1 (friFold P α) y = evalDeg1 (evenPart P) y + evalDeg1 (oddPart P) y * α := by
+  dsimp [evalDeg1, friFold, evenPart, oddPart]
+  rw [Int.add_mul, Int.add_mul, Int.mul_right_comm P.c3 α y]
+  omega
+
+theorem friFold_at_x_eq_evalDeg3 (P : PolyDeg3) (x : Int) :
+    evalDeg1 (friFold P x) (x * x) = evalDeg3 P x := by
+  rw [eval_friFold, ← fri_even_odd_decomposition]
 
 /-- TEOREMA CUMBRE DE LA LECCIÓN 04 (Ecuación Colineal de Verificación Local de FRI):
-    Para todo polinomio `P : PolyDeg3`, todo desafío `α : Int` y todo punto de consulta `x : Int`,
-    el valor del polinomio plegado `friFold P α` en `x²` satisface la identidad colineal exacta
-    que comprueba el Verificador de un zk-STARK leyendo solo `P(x)` y `P(-x)`:
-    `2 * x * P_fold(α, x²) = (x + α) * P(x) + (x - α) * P(-x)`! -/
+    Para todo polinomio `P : PolyDeg3`, todo desafío `α : Int` y todo punto de consulta `x : Int`:
+    `2 * (P_fold(α, x²) * x) = P(x) * (x + α) + P(-x) * (x - α)`! -/
 theorem fri_collinearity_check_equation (P : PolyDeg3) (α x : Int) :
     2 * (evalDeg1 (friFold P α) (x * x) * x) =
       evalDeg3 P x * (x + α) + evalDeg3 P (-x) * (x - α) := by
@@ -89,14 +122,13 @@ theorem fri_collinearity_check_equation (P : PolyDeg3) (α x : Int) :
   have hSq  : (-x) * (-x) = x * x := Int.neg_mul_neg x x
   rw [hSq, Int.mul_neg] at hNeg
   rw [hPos, hNeg]
-  -- Sea `E := P_even(x²)` y `Ox := P_odd(x²) * x`:
-  -- Izquierda: `2 * ((E + P_odd(x²) * α) * x) = 2 * E * x + 2 * Ox * α`
-  -- Derecha:   `(E + Ox) * (x + α) + (E - Ox) * (x - α) = 2 * E * x + 2 * Ox * α`
   generalize evalDeg1 (evenPart P) (x * x) = E
   generalize evalDeg1 (oddPart P) (x * x) = O
-  rw [Int.add_mul, Int.mul_right_comm O α x]
+  rw [Int.add_mul E (O * α) x, Int.mul_right_comm O α x]
   generalize O * x = Ox
-  rw [Int.mul_add 2, Int.add_mul E Ox, Int.sub_mul E Ox,
+  rw [Int.mul_add 2 (E * x) (Ox * α),
+      Int.add_mul E Ox (x + α), Int.add_mul E (-Ox) (x - α),
+      Int.neg_mul Ox (x - α),
       Int.mul_add E x α, Int.mul_sub E x α,
       Int.mul_add Ox x α, Int.mul_sub Ox x α]
   omega
@@ -109,15 +141,13 @@ end CursoZK.Leccion04
 ## 5. Ejercicio Práctico de la Lección 04
 
 ### Ejercicio 4.1: Plegado FRI con Desafío $\alpha = -x$
-Usando los teoremas del Módulo 55, demuestra en Lean 4 que si el desafío $\alpha$ coincide con $-x$, entonces evaluar el polinomio plegado `friFold P (-x)` en $x^2$ coincide exactamente con la evaluación del polinomio original en $-x$ (`evalDeg3 P (-x)`).
+Usando los teoremas de la lección, demuestra en Lean 4 que si el desafío $\alpha$ coincide con $-x$, entonces evaluar el polinomio plegado `friFold P (-x)` en $x^2$ coincide exactamente con la evaluación del polinomio original en $-x$ (`evalDeg3 P (-x)`).
 
 <details>
 <summary>💡 <b>Ver Solución Comentada en Lean 4</b></summary>
 
 ```lean
-import LeanTT.M55_STARKsAndFRILowDegreeFolding
-
-open LeanTT.M55
+open CursoZK.Leccion04
 
 theorem friFold_at_neg_x (P : PolyDeg3) (x : Int) :
     evalDeg1 (friFold P (-x)) (x * x) = evalDeg3 P (-x) := by

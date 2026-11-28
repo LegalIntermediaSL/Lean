@@ -66,4 +66,30 @@ theorem clamp_id_of_mem (lo hi : Nat) (h_valid : lo ≤ hi) (x : Interval lo hi)
 #eval (clamp 10 50 (by decide) 99).val -- 50
 #eval (midpoint (clamp 10 50 (by decide) 12) (clamp 10 50 (by decide) 40)).val -- 26
 
+/-! ## Propiedades Algebraicas Adicionales con Irrelevancia de Prueba (`Subtype.ext`) -/
+
+/-- Gracias a la irrelevancia de prueba en `Prop`, dos valores refinados son iguales si y solo si
+    sus valores subyacentes coinciden: `addPos` es conmutativo! -/
+theorem addPos_comm (a b : PosNat) : addPos a b = addPos b a := by
+  apply Subtype.ext
+  dsimp [addPos]
+  omega
+
+/-- Asociatividad exacta de la suma sobre `PosNat`: -/
+theorem addPos_assoc (a b c : PosNat) : addPos (addPos a b) c = addPos a (addPos b c) := by
+  apply Subtype.ext
+  dsimp [addPos]
+  omega
+
+/-- Idempotencia total de `clamp`: volver a recortar un valor ya recortado devuelve el mismo subtipo -/
+theorem clamp_idempotent (lo hi : Nat) (h_valid : lo ≤ hi) (x : Nat) :
+    clamp lo hi h_valid (clamp lo hi h_valid x).val = clamp lo hi h_valid x := by
+  apply Subtype.ext
+  exact clamp_id_of_mem lo hi h_valid (clamp lo hi h_valid x)
+
+/-- El punto medio es idempotente (`midpoint a a = a`) y simétrico (`midpoint a b = midpoint b a`): -/
+theorem midpoint_self_and_comm {lo hi : Nat} (a b : Interval lo hi) :
+    midpoint a a = a ∧ midpoint a b = midpoint b a := by
+  constructor <;> apply Subtype.ext <;> dsimp [midpoint] <;> omega
+
 end LeanTT.M45

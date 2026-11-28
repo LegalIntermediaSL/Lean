@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Lean 4: Cálculo Lambda y Teoría de Tipos Dependientes</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="description" content="Enciclopedia interactiva, Mini-Curso de Teoría de Tipos Dependientes, 70 módulos ejecutables y 5 talleres de Lean 4">
+  <meta name="description" content="Enciclopedia interactiva, 3 Mini-Cursos, 70 módulos ejecutables y 5 talleres de Lean 4">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"/>
@@ -13,9 +13,14 @@
       --theme-color: #38bdf8;
       --sidebar-width: 295px;
     }
+    .lean-action-bar {
+      margin: 6px 0 16px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
     .lean-playground-btn {
       display: inline-block;
-      margin: 6px 8px 14px 0;
       padding: 6px 12px;
       background: linear-gradient(135deg, #0284c7, #2563eb);
       color: #ffffff !important;
@@ -47,10 +52,41 @@
 <body>
   <div id="app">Cargando portal interactivo de Lean 4...</div>
   <script>
+    // Resuelve cualquier ruta relativa (`../`, `./`, subcarpetas) respecto a la ruta actual en Docsify
+    function resolveRepoPath(currentRoutePath, href) {
+      var raw = href.replace(/^#\/?/, '').split('#')[0].split('?')[0];
+      if (raw.charAt(0) === '/') {
+        return raw.substring(1);
+      }
+      var baseParts = (currentRoutePath || '/').split('/');
+      baseParts.pop(); // Quitar el nombre del archivo actual para quedarnos con el directorio
+      var relParts = raw.split('/');
+      for (var i = 0; i < relParts.length; i++) {
+        var seg = relParts[i];
+        if (!seg || seg === '.') continue;
+        if (seg === '..') {
+          if (baseParts.length > 0) baseParts.pop();
+        } else {
+          baseParts.push(seg);
+        }
+      }
+      return baseParts.filter(Boolean).join('/');
+    }
+
+    function copyTextWithFeedback(btn, text, originalLabel) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() {
+          btn.innerText = '✅ ¡Código copiado!';
+          setTimeout(function() { btn.innerText = originalLabel; }, 1800);
+        });
+      }
+    }
+
     window.$docsify = {
       name: 'Lean 4 & Tipos Dependientes',
       repo: 'https://github.com/LegalIntermediaSL/Lean',
       loadSidebar: '_sidebar.md',
+      relativePath: true,
       subMaxLevel: 2,
       auto2top: true,
       search: {
@@ -62,18 +98,16 @@
       },
       plugins: [
         function(hook, vm) {
-          // 1. Interceptar clics en enlaces a archivos `.lean` para abrirlos en el visor integrado
+          // 1. Interceptar clics en enlaces a archivos `.lean` desde cualquier profundidad de carpetas
           document.addEventListener('click', function(e) {
             var link = e.target.closest('a');
             if (!link) return;
             var href = link.getAttribute('href') || '';
-            if (href.indexOf('.lean') !== -1 && href.indexOf('http') !== 0) {
+            if (href.indexOf('.lean') !== -1 && href.indexOf('http') !== 0 && href.indexOf('view-lean') === -1) {
               e.preventDefault();
-              var cleanPath = href.replace(/^#\/?/, '').replace(/^\.\.\//, '').replace(/^\.\//, '');
-              if (cleanPath.indexOf('LeanTT/') !== 0 && cleanPath !== 'LeanTT.lean' && cleanPath !== 'Main.lean') {
-                var idx = cleanPath.indexOf('LeanTT/');
-                if (idx !== -1) cleanPath = cleanPath.substring(idx);
-              }
+              var cleanPath = resolveRepoPath(vm.route.path, href);
+              var idx = cleanPath.indexOf('LeanTT/');
+              if (idx > 0) cleanPath = cleanPath.substring(idx);
               window.location.hash = '#/view-lean?file=' + encodeURIComponent(cleanPath);
             }
           });
@@ -82,12 +116,14 @@
           hook.afterEach(function(html, next) {
             if (vm.route.path === '/view-lean' && vm.route.query && vm.route.query.file) {
               var filePath = vm.route.query.file;
+              window.__lastLoadedLeanCode = '';
               fetch(filePath)
                 .then(function(res) {
                   if (!res.ok) throw new Error('No se pudo cargar ' + filePath);
                   return res.text();
                 })
                 .then(function(code) {
+                  window.__lastLoadedLeanCode = code;
                   var escaped = code
                     .replace(/&/g, '&amp;')
                     .replace(/</g, '&lt;')
@@ -98,15 +134,20 @@
                     '<div class="lean-viewer-banner">' +
                       '<h2 style="margin-top:0">📄 Módulo Ejecutable Lean 4: <code>' + filePath + '</code></h2>' +
                       '<p>Verificado formalmente por el Kernel de Lean 4 (<code>0 sorry</code>).</p>' +
-                      '<a class="lean-playground-btn" href="' + playUrl + '" target="_blank" rel="noopener noreferrer">' +
-                        '▶ Abrir módulo completo en Lean 4 Web Playground (live.lean-lang.org)' +
-                      '</a>' +
-                      '<a class="lean-playground-btn secondary" href="' + ghUrl + '" target="_blank" rel="noopener noreferrer">' +
-                        '🔗 Ver archivo en GitHub' +
-                      '</a>' +
-                      '<a class="lean-playground-btn secondary" href="#/">' +
-                        '⬅ Volver al Índice' +
-                      '</a>' +
+                      '<div class="lean-action-bar">' +
+                        '<a class="lean-playground-btn" href="' + playUrl + '" target="_blank" rel="noopener noreferrer">' +
+                          '▶ Abrir módulo en Lean 4 Web Playground (live.lean-lang.org)' +
+                        '</a>' +
+                        '<button type="button" id="copy-module-btn" class="lean-playground-btn secondary">' +
+                          '📋 Copiar módulo completo' +
+                        '</button>' +
+                        '<a class="lean-playground-btn secondary" href="' + ghUrl + '" target="_blank" rel="noopener noreferrer">' +
+                          '🔗 Ver archivo en GitHub' +
+                        '</a>' +
+                        '<a class="lean-playground-btn secondary" href="#/">' +
+                          '⬅ Volver al Índice' +
+                        '</a>' +
+                      '</div>' +
                     '</div>' +
                     '<pre data-lang="lean"><code class="lang-lean">' + escaped + '</code></pre>';
                   next(viewerHtml);
@@ -119,21 +160,66 @@
             }
           });
 
-          // 3. Añadir botón "Ejecutar en Lean 4 Web Playground" a cada bloque de código Lean en las guías
+          // 3. Añadir barra de botones ("Ejecutar en Playground" + "Copiar") a cada bloque Lean,
+          //    concatenando automáticamente las definiciones previas de la misma página si usa `open ...`
           hook.doneEach(function() {
-            var blocks = document.querySelectorAll('pre[data-lang="lean"] code');
+            if (window.Prism) {
+              window.Prism.highlightAll();
+            }
+            var copyModBtn = document.getElementById('copy-module-btn');
+            if (copyModBtn && window.__lastLoadedLeanCode) {
+              copyModBtn.onclick = function() {
+                copyTextWithFeedback(copyModBtn, window.__lastLoadedLeanCode, '📋 Copiar módulo completo');
+              };
+            }
+            if (vm.route.path === '/view-lean') return;
+
+            var blocks = Array.prototype.slice.call(document.querySelectorAll('pre[data-lang="lean"] code'));
+            var pageNamespaceBlocks = [];
+            var seenNamespaces = Object.create(null);
+
             blocks.forEach(function(codeEl) {
               var pre = codeEl.parentElement;
-              if (pre && !pre.nextElementSibling?.classList?.contains('lean-playground-btn')) {
-                var rawCode = codeEl.innerText || codeEl.textContent;
-                var url = 'https://live.lean-lang.org/#code=' + encodeURIComponent(rawCode);
-                var btn = document.createElement('a');
-                btn.href = url;
-                btn.target = '_blank';
-                btn.rel = 'noopener noreferrer';
-                btn.className = 'lean-playground-btn';
-                btn.innerText = '▶ Ejecutar este código en Lean 4 Web Playground (live.lean-lang.org)';
-                pre.insertAdjacentElement('afterend', btn);
+              var rawCode = (codeEl.innerText || codeEl.textContent || '').trim();
+              if (!rawCode) return;
+
+              var openMatches = Array.from(rawCode.matchAll(/^open\s+([A-Za-z0-9_.]+)/gm)).map(function(m) { return m[1]; });
+              var nsMatches = Array.from(rawCode.matchAll(/^namespace\s+([A-Za-z0-9_.]+)/gm)).map(function(m) { return m[1]; });
+              var needsPriorContext = openMatches.some(function(ns) { return !!seenNamespaces[ns]; }) ||
+                                      nsMatches.some(function(ns) { return !!seenNamespaces[ns]; });
+
+              if (pre && !pre.nextElementSibling?.classList?.contains('lean-action-bar')) {
+                var playgroundPayload = rawCode;
+                if (needsPriorContext && pageNamespaceBlocks.length > 0) {
+                  playgroundPayload = pageNamespaceBlocks.join('\n\n') + '\n\n' + rawCode;
+                }
+
+                var bar = document.createElement('div');
+                bar.className = 'lean-action-bar';
+
+                var btnPlay = document.createElement('a');
+                btnPlay.href = 'https://live.lean-lang.org/#code=' + encodeURIComponent(playgroundPayload);
+                btnPlay.target = '_blank';
+                btnPlay.rel = 'noopener noreferrer';
+                btnPlay.className = 'lean-playground-btn';
+                btnPlay.innerText = '▶ Ejecutar en Lean 4 Web Playground';
+
+                var btnCopy = document.createElement('button');
+                btnCopy.type = 'button';
+                btnCopy.className = 'lean-playground-btn secondary';
+                btnCopy.innerText = '📋 Copiar código';
+                btnCopy.onclick = function() {
+                  copyTextWithFeedback(btnCopy, rawCode, '📋 Copiar código');
+                };
+
+                bar.appendChild(btnPlay);
+                bar.appendChild(btnCopy);
+                pre.insertAdjacentElement('afterend', bar);
+              }
+
+              if (nsMatches.length > 0) {
+                pageNamespaceBlocks.push(rawCode);
+                nsMatches.forEach(function(ns) { seenNamespaces[ns] = true; });
               }
             });
           });

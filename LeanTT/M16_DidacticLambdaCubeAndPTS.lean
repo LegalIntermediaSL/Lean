@@ -81,4 +81,34 @@ def v8_calculusOfConstructions
   | 0     => semilla x
   | k + 1 => paso x k (v8_calculusOfConstructions α Familia semilla paso x k)
 
+/-! ## Propiedades Formales Verificadas en los Vértices del Cubo -/
+
+/-- En `λ2` (Sistema F), `v2_systemF` construye un par cuyas proyecciones recuperan exactamente los argumentos -/
+theorem v2_systemF_projections (α β : Type) (a : α) (b : β) :
+    (v2_systemF α β a b).1 = a ∧ (v2_systemF α β a b).2 = b :=
+  ⟨rfl, rfl⟩
+
+/-- En `λω` (Sistema Fω), iterar dos veces la función identidad bajo cualquier constructor `F`
+    equivale a mapear una sola vez la identidad -/
+theorem v4_systemF_omega_id (F : Type → Type)
+    (mapF : ∀ α β, (α → β) → F α → F β) (α : Type) (x : F α) :
+    v4_systemF_omega F mapF α id x = mapF α α id x :=
+  rfl
+
+/-- En `λC` (Cálculo de Construcciones), el recursor dependiente de orden superior satisface
+    definicionalmente la ecuación base en `0` -/
+theorem v8_coc_zero (α : Type) (Familia : α → Nat → Type)
+    (semilla : (x : α) → Familia x 0)
+    (paso : (x : α) → (k : Nat) → Familia x k → Familia x (k + 1)) (x : α) :
+    v8_calculusOfConstructions α Familia semilla paso x 0 = semilla x :=
+  rfl
+
+/-- Ecuación de paso inductivo en `k + 1` en la cúspide `λC` del Cubo de Barendregt -/
+theorem v8_coc_succ (α : Type) (Familia : α → Nat → Type)
+    (semilla : (x : α) → Familia x 0)
+    (paso : (x : α) → (k : Nat) → Familia x k → Familia x (k + 1)) (x : α) (k : Nat) :
+    v8_calculusOfConstructions α Familia semilla paso x (k + 1) =
+      paso x k (v8_calculusOfConstructions α Familia semilla paso x k) :=
+  rfl
+
 end LeanTT.M16
