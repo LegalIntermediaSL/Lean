@@ -3,12 +3,12 @@ import LeanTT
 /-!
 # Ejecutable CLI Interactivo `leantt` (`lake exe leantt`)
 Ejecuta en vivo una batería de pruebas y demostraciones computacionales a través de los
-**70 módulos verificados (`M01`–`M70`)** y los **4 Proyectos Cumbre (`M40`, `M50`, `M60`, `M70`)**.
+**80 módulos verificados (`M01`–`M80`)** y los **5 Proyectos Cumbre (`M40`, `M50`, `M60`, `M70`, `M80`)**.
 -/
 
 def main : IO Unit := do
   IO.println "=========================================================================="
-  IO.println "  LeanTT — Suite Ejecutable de Teoría de Tipos Dependientes (70 Módulos)  "
+  IO.println "  LeanTT — Suite Ejecutable de Teoría de Tipos y Física (80 Módulos)      "
   IO.println "=========================================================================="
   IO.println ""
 
@@ -58,5 +58,12 @@ def main : IO Unit := do
   let hwAdd     := LeanTT.M69.rippleAdder2 true true true false true
   IO.println s!"[M62/M64/M69]      Desencriptado LWE={lweBit} | Validador Wasm={repr wasmTy} | Ripple-Carry 2-bit={repr hwAdd}"
 
+  -- 10. Física Matemática y Computación Cuántica (M74 Relatividad, M79 Teleportación, M80 Cumbre V)
+  let photonInterval := LeanTT.M74.FourVec.intervalSq (LeanTT.M74.applyBoostX LeanTT.M74.boost3Fifths ⟨1, 1, 0, 0⟩)
+  let teleKet        := LeanTT.M79.runTeleportationBranch ⟨⟨3, 4⟩, ⟨-2, 5⟩⟩ true true
+  let optCirc        := LeanTT.M80.optimize1 [.x, .s, .sdg, .x, .s, .s, .y]
+  let gkStep         := LeanTT.M80.conjugatePauliSymbolic .H (LeanTT.M80.conjugatePauliSymbolic .S ⟨false, .X⟩)
+  IO.println s!"[M74/M79/M80 - Cumbre V] Cono de luz ds²={photonInterval} | Teleportación={repr teleKet} | OptCirc={repr optCirc} | GK={repr gkStep}"
+
   IO.println ""
-  IO.println "✅ Todos los 70 módulos (M01-M70) y 5 talleres (E01-E05) verificados y ejecutados con éxito."
+  IO.println "✅ Todos los 80 módulos (M01-M80) y 6 talleres (E01-E06) verificados y ejecutados con éxito."

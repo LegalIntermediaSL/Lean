@@ -1,6 +1,6 @@
-# Módulo 15: Catálogo General de los 70 Módulos Ejecutables (`LeanTT/M01..M70`) y 5 Talleres de Ejercicios
+# Módulo 15: Catálogo General de los 80 Módulos Ejecutables (`LeanTT/M01..M80`) y 6 Talleres de Ejercicios
 
-Este documento es el mapa maestro de los **70 módulos ejecutables en Lean 4** del directorio [`LeanTT/`](../LeanTT/) y los **5 talleres de ejercicios con solucionarios comentados** en [`LeanTT/Exercises/`](../LeanTT/Exercises/) y [`LeanTT/Solutions/`](../LeanTT/Solutions/).
+Este documento es el mapa maestro de los **80 módulos ejecutables en Lean 4** del directorio [`LeanTT/`](../LeanTT/) y los **6 talleres de ejercicios con solucionarios comentados** en [`LeanTT/Exercises/`](../LeanTT/Exercises/) y [`LeanTT/Solutions/`](../LeanTT/Solutions/).
 
 ---
 
@@ -31,7 +31,7 @@ Este documento es el mapa maestro de los **70 módulos ejecutables en Lean 4** d
 
 ---
 
-## Bloque III: Módulos Especialmente Didácticos (`M14`–`M16`) y 5 Talleres Prácticos (`E01`–`E05`)
+## Bloque III: Módulos Especialmente Didácticos (`M14`–`M16`) y 6 Talleres Prácticos (`E01`–`E06`)
 
 | Módulo | Archivo `.lean` | Enfoque Didáctico |
 | :---: | :--- | :--- |
@@ -43,10 +43,11 @@ Este documento es el mapa maestro de los **70 módulos ejecutables en Lean 4** d
 | **E03 / S03** | [`Exercises/E03_WorkoutVerificationAndCryptography.lean`](../LeanTT/Exercises/E03_WorkoutVerificationAndCryptography.lean) | **Taller 03 (Circuitos ZK, Polinomios y Protocolos $\Sigma$):** Puertas R1CS (`NOT`, `AND`, `OR`, `XOR`), esquema de Horner y desafío cero en Schnorr ([Solucionario `S03`](../LeanTT/Solutions/S03_WorkoutVerificationAndCryptography.lean)). |
 | **E04 / S04** | [`Exercises/E04_WorkoutCompilersSTARKsAndGames.lean`](../LeanTT/Exercises/E04_WorkoutCompilersSTARKsAndGames.lean) | **Taller 04 (CPS, LTL, STARKs/FRI, Vickrey y `wp`):** Continuaciones CPS, distributividad e idempotencia temporal en LTL, diferencia simétrica en FRI y `wp` de Dijkstra ([Solucionario `S04`](../LeanTT/Solutions/S04_WorkoutCompilersSTARKsAndGames.lean)). |
 | **E05 / S05** | [`Exercises/E05_WorkoutQTTPostQuantumAndHardware.lean`](../LeanTT/Exercises/E05_WorkoutQTTPostQuantumAndHardware.lean) | **Taller 05 (QTT, Post-Cuántica LWE, ReLU, CRDTs y Hardware):** Escalado en QTT, desencriptado LWE, puntos fijos de ReLU y simetría de *Full-Adder* ([Solucionario `S05`](../LeanTT/Solutions/S05_WorkoutQTTPostQuantumAndHardware.lean)). |
+| **E06 / S06** | [`Exercises/E06_WorkoutPhysicsAndQuantumMechanics.lean`](../LeanTT/Exercises/E06_WorkoutPhysicsAndQuantumMechanics.lean) | **Taller 06 (Física Matemática, Relatividad y Cuántica):** Unidades SI, Euler-Lagrange inercial, cono de luz de Minkowski, Hadamard y Gottesman-Knill ([Solucionario `S06`](../LeanTT/Solutions/S06_WorkoutPhysicsAndQuantumMechanics.lean)). |
 
 ---
 
-## Bloque IV: 54 Ámbitos Avanzados de Aplicación y Verificación Formal (`M17`–`M70`)
+## Bloque IV: 64 Ámbitos Avanzados de Aplicación, Verificación y Física Formal (`M17`–`M80`)
 
 | Módulo | Ámbito de Aplicación | Archivo `.lean` | Teoremas Principales Verificados |
 | :---: | :--- | :--- | :--- |
@@ -104,3 +105,13 @@ Este documento es el mapa maestro de los **70 módulos ejecutables en Lean 4** d
 | **M68** | **Sistemas de Reescritura (TRS) y Lankford** | [`M68_TermRewritingSystemsAndTermination.lean`](../LeanTT/M68_TermRewritingSystemsAndTermination.lean) | **Interpretaciones Polinómicas de Lankford** y decrecimiento estricto de la distribución $a\cdot(b+c) \to (a\cdot b) + (a\cdot c)$. |
 | **M69** | **Verificación de Hardware Digital (ALU)** | [`M69_VerifiedHardwareAdderAndALU.lean`](../LeanTT/M69_VerifiedHardwareAdderAndALU.lean) | Verificación formal a nivel de puertas booleanas de *Half-Adder*, *Full-Adder* (`fullAdder_correct`) y sumador *Ripple-Carry* (`rippleAdder2_correct`). |
 | **M70** | **Positividad Estricta y Unificación de Miller** | [`M70_PatternUnificationAndStrictPositivity.lean`](../LeanTT/M70_PatternUnificationAndStrictPositivity.lean) | **Proyecto Cumbre IV:** Comprobador nuclear `isStrictlyPositive` (bloqueo de la paradoja de Curry) y corrección del unificador de patrones de Miller. |
+| **M71** | **Análisis Dimensional Dependiente (SI)** | [`M71_DimensionalAnalysisAndSIUnits.lean`](../LeanTT/M71_DimensionalAnalysisAndSIUnits.lean) | Grupo abeliano $\mathbb{Z}^7$ de dimensiones SI en `Quantity d`, unificación dimensional energética y teorema trabajo-energía. |
+| **M72** | **Mecánica Lagrangiana y Noether** | [`M72_LagrangianMechanicsAndEulerLagrange.lean`](../LeanTT/M72_LagrangianMechanicsAndEulerLagrange.lean) | Principio de acción estacionaria $\delta S = 0 \iff \text{DEL}$, **Teorema de Emmy Noether** y oscilador armónico discreto. |
+| **M73** | **Mecánica Hamiltoniana y Simplécticos** | [`M73_HamiltonianMechanicsAndPoissonBrackets.lean`](../LeanTT/M73_HamiltonianMechanicsAndPoissonBrackets.lean) | 2-forma simpléctica, **Identidad de Jacobi** en $\mathfrak{sp}(2)$, **Teorema de Liouville Discreto** y reversibilidad de Störmer-Verlet. |
+| **M74** | **Relatividad Especial y Minkowski** | [`M74_SpecialRelativityAndMinkowskiMetric.lean`](../LeanTT/M74_SpecialRelativityAndMinkowskiMetric.lean) | Métrica $\eta_{\mu\nu}$, *boosts* hiperbólicos exactos, **invariancia del cono de luz**, $E^2 - p^2 = m_0^2$ y barrera sublumínica $|u \oplus_c v| < c$. |
+| **M75** | **Mecánica Estadística y Boltzmann** | [`M75_StatisticalMechanicsAndEntropy.lean`](../LeanTT/M75_StatisticalMechanicsAndEntropy.lean) | Función de partición $Z$, cota del estado fundamental y **equilibrio térmico estacionario bajo Balance Detallado**. |
+| **M76** | **Espacios de Hilbert y Bra-Ket ($\mathbb{Z}[i]$)** | [`M76_QuantumHilbertSpacesAndBraKet.lean`](../LeanTT/M76_QuantumHilbertSpacesAndBraKet.lean) | Identidad de Brahmagupta-Fibonacci, producto sesquilineal $\langle\psi\mid\phi\rangle$ y **realidad de valores esperados hermíticos ($A^\dagger = A$)**. |
+| **M77** | **Álgebra de Pauli-Clifford y Unitariedad** | [`M77_PauliCliffordAlgebraAndUnitarity.lean`](../LeanTT/M77_PauliCliffordAlgebraAndUnitarity.lean) | Álgebra cuaterniónica de espín ($X Y = i Z$, $\{X, Z\} = 0$), cambio de base $H X H = Z, S X S^\dagger = Y$ y conservación unitaria. |
+| **M78** | **Entrelazamiento y Base de Bell** | [`M78_QuantumEntanglementAndBellStates.lean`](../LeanTT/M78_QuantumEntanglementAndBellStates.lean) | Producto tensorial $\mathcal{H}_2 \otimes \mathcal{H}_2$, invariante de Segre-Schmidt y **prueba formal de inseparabilidad de $\lvert\Phi^\pm\rangle, \lvert\Psi^\pm\rangle$**. |
+| **M79** | **No-Clonación, Teleportación y Deutsch** | [`M79_NoCloningTeleportationAndDeutschJozsa.lean`](../LeanTT/M79_NoCloningTeleportationAndDeutschJozsa.lean) | **Teorema de No-Clonación de Wootters-Zurek**, **Teleportación Cuántica de 3 Qubits** en las 4 ramas y **Algoritmo de Deutsch**. |
+| **M80** | **Compilador Cuántico y Gottesman-Knill** | [`M80_VerifiedQuantumCircuitCompilerAndStabilizers.lean`](../LeanTT/M80_VerifiedQuantumCircuitCompilerAndStabilizers.lean) | **Proyecto Cumbre V:** Optimizador *peephole* verificado (`denoteCircuit1_optimize1`), síntesis de `CZ` y **Teorema de Gottesman-Knill**. |

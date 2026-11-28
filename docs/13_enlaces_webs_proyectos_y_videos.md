@@ -72,6 +72,8 @@ La organización **[Verified-zkEVM](https://github.com/Verified-zkEVM)** desarro
 * **[Fermat's Last Theorem (FLT) — Kevin Buzzard et al.](https://github.com/ImperialCollegeLondon/FLT):** Proyecto en curso en el Imperial College London para formalizar en Lean 4 la demostración de Wiles-Taylor del Último Teorema de Fermat.
 * **[Prime Number Theorem And More — Alex Kontorovich & Terence Tao](https://github.com/AlexKontorovich/PrimeNumberTheoremAnd):** Formalización del Teorema de los Números Primos y análisis complejo en Lean 4.
 * **[Cedar (`cedar-policy/cedar-spec`) — Amazon Web Services](https://github.com/cedar-policy/cedar-spec):** El lenguaje de políticas de autorización de AWS (que protege servicios como Amazon Verified Permissions), cuyo modelo de seguridad y validador están **escritos y demostrados formalmente en Lean 4**.
+* **[PhysLean (anteriormente HepLean — `HEPLean/PhysLean`)](https://github.com/HEPLean/PhysLean):** Proyecto colaborativo abierto para formalizar en Lean 4 la **Física Matemática y Teórica**, desde análisis dimensional, mecánica clásica y relatividad especial (grupo de Lorentz y tensores de Minkowski) hasta electromagnetismo, mecánica cuántica y cancelación de anomalías en el Modelo Estándar.
+* **[SciLean (`lecopivo/SciLean`)](https://github.com/lecopivo/SciLean):** Biblioteca de computación científica, diferenciación automática verificada y resolución de sistemas variacionales y hamiltonianos en Lean 4.
 
 ---
 

@@ -15,7 +15,7 @@ import LeanTT.M10_MetatheorySTLC
 import LeanTT.M11_OperationalSemantics
 import LeanTT.M12_MetaprogrammingAndTactics
 
--- Bloque III: Módulos Especialmente Didácticos Paso a Paso (M14 - M16) y Talleres de Ejercicios (E01 - E05)
+-- Bloque III: Módulos Especialmente Didácticos Paso a Paso (M14 - M16) y Talleres de Ejercicios (E01 - E06)
 import LeanTT.M14_DidacticStepByStepProofs
 import LeanTT.M15_DidacticDependentTypesFromZero
 import LeanTT.M16_DidacticLambdaCubeAndPTS
@@ -29,6 +29,8 @@ import LeanTT.Exercises.E04_WorkoutCompilersSTARKsAndGames
 import LeanTT.Solutions.S04_WorkoutCompilersSTARKsAndGames
 import LeanTT.Exercises.E05_WorkoutQTTPostQuantumAndHardware
 import LeanTT.Solutions.S05_WorkoutQTTPostQuantumAndHardware
+import LeanTT.Exercises.E06_WorkoutPhysicsAndQuantumMechanics
+import LeanTT.Solutions.S06_WorkoutPhysicsAndQuantumMechanics
 
 -- Bloque IV: 54 Ámbitos Avanzados de Aplicación, Compiladores, Criptografía ZK/LWE, IA, Hardware y Kernels (M17 - M70)
 import LeanTT.M17_VerifiedDataStructuresBST
@@ -86,9 +88,21 @@ import LeanTT.M68_TermRewritingSystemsAndTermination
 import LeanTT.M69_VerifiedHardwareAdderAndALU
 import LeanTT.M70_PatternUnificationAndStrictPositivity
 
-/-!
-# LeanTT: Cálculo Lambda, Teoría de Tipos Dependientes y Demostración Interactiva en Lean 4
+-- Bloque V: Física Matemática, Mecánica Clásica/Relativista y Computación Cuántica (M71 - M80)
+import LeanTT.M71_DimensionalAnalysisAndSIUnits
+import LeanTT.M72_LagrangianMechanicsAndEulerLagrange
+import LeanTT.M73_HamiltonianMechanicsAndPoissonBrackets
+import LeanTT.M74_SpecialRelativityAndMinkowskiMetric
+import LeanTT.M75_StatisticalMechanicsAndEntropy
+import LeanTT.M76_QuantumHilbertSpacesAndBraKet
+import LeanTT.M77_PauliCliffordAlgebraAndUnitarity
+import LeanTT.M78_QuantumEntanglementAndBellStates
+import LeanTT.M79_NoCloningTeleportationAndDeutschJozsa
+import LeanTT.M80_VerifiedQuantumCircuitCompilerAndStabilizers
 
-Módulo raíz que importa los **70 módulos ejecutables (`M01`–`M70`)** y los **5 talleres de
-ejercicios y solucionarios comentados (`E01`–`E05` y `S01`–`S05`)**.
+/-!
+# LeanTT: Cálculo Lambda, Teoría de Tipos Dependientes, Física Matemática y Demostración Interactiva en Lean 4
+
+Módulo raíz que importa los **80 módulos ejecutables (`M01`–`M80`)** y los **6 talleres de
+ejercicios y solucionarios comentados (`E01`–`E06` y `S01`–`S06`)**.
 -/

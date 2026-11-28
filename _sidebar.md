@@ -3,7 +3,7 @@
   * [00. VS Code, Librerías y Tutoriales](/docs/00_vscode_ecosistema_y_tutoriales.md)
   * [13. Webs, TauCeti, zkEVM y Vídeos](/docs/13_enlaces_webs_proyectos_y_videos.md)
   * [14. Tratado Completo de TTD desde Cero](/docs/14_tratado_completo_teoria_tipos_dependientes.md)
-  * [15. Catálogo de los 70 Módulos y 5 Talleres](/docs/15_catalogo_40_modulos_y_ambitos.md)
+  * [15. Catálogo de los 80 Módulos y 6 Talleres](/docs/15_catalogo_40_modulos_y_ambitos.md)
 
 * **Mini-Curso I: Teoría de Tipos Dependientes**
   * [00. Índice del Mini-Curso TTD](/docs/curso_teoria_tipos_dependientes/00_indice_minicurso_ttd.md)
@@ -36,7 +36,16 @@
   * [05. Post-Cuántica de Retículos (LWE / Kyber)](/docs/curso_criptografia_zk_lean4/05_criptografia_postcuantica_reticulos_lwe.md)
   * [06. Smart Contracts EVM, Patrón CEI y Vickrey](/docs/curso_criptografia_zk_lean4/06_verificacion_smart_contracts_evm_y_cei.md)
 
-* **Monografías Teóricas (01–12, 19–22)**
+* **Mini-Curso IV: Física Matemática y Cuántica**
+  * [00. Índice del Mini-Curso Física](/docs/curso_fisica_matematica_lean4/00_indice_minicurso_fisica_lean4.md)
+  * [01. Análisis Dimensional Dependiente (SI)](/docs/curso_fisica_matematica_lean4/01_analisis_dimensional_y_unidades_dependientes.md)
+  * [02. Mecánica Lagrangiana y Noether](/docs/curso_fisica_matematica_lean4/02_mecanica_lagrangiana_accion_y_noether.md)
+  * [03. Hamiltoniana, Poisson y Liouville](/docs/curso_fisica_matematica_lean4/03_mecanica_hamiltoniana_poisson_y_simpleticos.md)
+  * [04. Relatividad Especial y Minkowski](/docs/curso_fisica_matematica_lean4/04_relatividad_especial_minkowski_y_lorentz.md)
+  * [05. Hilbert, Bra-Ket y Pauli-Clifford](/docs/curso_fisica_matematica_lean4/05_espacios_hilbert_braket_y_algebra_pauli.md)
+  * [06. Bell, Teleportación y Gottesman-Knill](/docs/curso_fisica_matematica_lean4/06_entrelazamiento_bell_teleportacion_y_compilador_cuantico.md)
+
+* **Monografías Teóricas (01–12, 19–23)**
   * [01. Cálculo Lambda y Cubo de Barendregt](/docs/01_calculo_lambda.md)
   * [02. Tipos Dependientes: Π, Σ y Subtipos](/docs/02_tipos_dependientes_pi_sigma.md)
   * [03. Universos Sort u, Prop y Girard](/docs/03_jerarquia_universos_y_prop.md)
@@ -53,6 +62,7 @@
   * [20. Elaborador Bidireccional vs Kernel](/docs/20_arquitectura_elaborador_bidireccional_y_unificacion.md)
   * [21. CPS, SSA, LTL, STARKs/FRI, Juegos y Kernel M60](/docs/21_compiladores_cps_starks_ltl_y_teoria_juegos.md)
   * [22. QTT, Post-Cuántica LWE, IA, Wasm, CRDTs y M70](/docs/22_qtt_postcuantica_ia_wasm_crdts_y_positividad.md)
+  * [23. Física Matemática, Relatividad y Cuántica M80](/docs/23_fisica_matematica_mecanica_clasica_y_cuantica.md)
 
 * **Cheat Sheets y Glosario (16–18)**
   * [16. Árbol de Decisión de Tácticas](/docs/16_arbol_decision_tacticas_cheatsheet.md)

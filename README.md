@@ -1,10 +1,10 @@
-# Lean 4: Cálculo Lambda, Teoría de Tipos Dependientes y Demostración Formal (70 Módulos + 5 Talleres + 3 Mini-Cursos + 23 Guías)
+# Lean 4: Cálculo Lambda, Teoría de Tipos Dependientes, Física Matemática y Demostración Formal (80 Módulos + 6 Talleres + 4 Mini-Cursos + 24 Guías)
 
 [![Lean 4 Kernel CI](https://github.com/LegalIntermediaSL/Lean/actions/workflows/ci.yml/badge.svg)](https://github.com/LegalIntermediaSL/Lean/actions/workflows/ci.yml)
 [![GitHub Pages Web](https://github.com/LegalIntermediaSL/Lean/actions/workflows/pages.yml/badge.svg)](https://legalintermediasl.github.io/Lean/)
 [![Open in Lean 4 Web Playground](https://img.shields.io/badge/Lean_4_Playground-Ejecutar_Online-blue?logo=lean)](https://live.lean-lang.org/)
 
-Bienvenido a este repositorio enciclopédico y curso práctico de **Lean 4** como **asistente de demostraciones** (*proof assistant*) y **lenguaje de programación funcional dependientemente tipado**, con una cobertura exhaustiva del **Cálculo Lambda ($\lambda$)**, la **Teoría de Tipos Dependientes (MLTT / CIC)** y la **Verificación Formal de Sistemas, Compiladores, Criptografía ZK y Consenso Distribuido**.
+Bienvenido a este repositorio enciclopédico y curso práctico de **Lean 4** como **asistente de demostraciones** (*proof assistant*) y **lenguaje de programación funcional dependientemente tipado**, con una cobertura exhaustiva del **Cálculo Lambda ($\lambda$)**, la **Teoría de Tipos Dependientes (MLTT / CIC)**, la **Física Matemática y Computación Cuántica** y la **Verificación Formal de Sistemas, Compiladores, Criptografía ZK y Consenso Distribuido**.
 
 ---
 
@@ -60,6 +60,22 @@ Un tercer mini-curso práctico en [`docs/curso_criptografia_zk_lean4/`](docs/cur
 
 ---
 
+## ⚛️ Mini-Curso IV: Física Matemática, Mecánica Clásica, Relatividad Especial y Computación Cuántica en Lean 4 (7 Documentos)
+
+Un cuarto mini-curso autocontenido en [`docs/curso_fisica_matematica_lean4/`](docs/curso_fisica_matematica_lean4/00_indice_minicurso_fisica_lean4.md) conectado con **[PhysLean (`HepLean`)](https://github.com/HEPLean/PhysLean)**, **[SciLean](https://github.com/lecopivo/SciLean)** y compiladores cuánticos verificados (**VOQC / SQIR**):
+
+| Lección | Documento del Mini-Curso IV | Contenido Principal |
+| :---: | :--- | :--- |
+| **Índice** | [**00_indice_minicurso_fisica_lean4.md**](docs/curso_fisica_matematica_lean4/00_indice_minicurso_fisica_lean4.md) | **Portada y Plan de Estudios** del Mini-Curso de Física Matemática y Computación Cuántica |
+| **Lección 01** | [**01_analisis_dimensional_y_unidades_dependientes.md**](docs/curso_fisica_matematica_lean4/01_analisis_dimensional_y_unidades_dependientes.md) | **Análisis Dimensional Dependiente (SI):** Grupo abeliano $\mathbb{Z}^7$ en `Quantity d`, seguridad estática de unidades y teorema trabajo-energía |
+| **Lección 02** | [**02_mecanica_lagrangiana_accion_y_noether.md**](docs/curso_fisica_matematica_lean4/02_mecanica_lagrangiana_accion_y_noether.md) | **Mecánica Lagrangiana:** Principio de mínima acción de Hamilton ($\delta S = 0 \iff \text{Euler-Lagrange}$) y demostración del **Teorema de Emmy Noether** |
+| **Lección 03** | [**03_mecanica_hamiltoniana_poisson_y_simpleticos.md**](docs/curso_fisica_matematica_lean4/03_mecanica_hamiltoniana_poisson_y_simpleticos.md) | **Mecánica Hamiltoniana:** Espacio de fases, **Identidad de Jacobi** en $\mathfrak{sp}(2)$, **Teorema de Liouville** para integradores simplécticos y equilibrio de Boltzmann |
+| **Lección 04** | [**04_relatividad_especial_minkowski_y_lorentz.md**](docs/curso_fisica_matematica_lean4/04_relatividad_especial_minkowski_y_lorentz.md) | **Relatividad Especial:** Métrica de Minkowski $\eta_{\mu\nu}$, *boosts* de Lorentz exactos, **invariancia del cono de luz** y barrera sublumínica $|u \oplus_c v| < c$ |
+| **Lección 05** | [**05_espacios_hilbert_braket_y_algebra_pauli.md**](docs/curso_fisica_matematica_lean4/05_espacios_hilbert_braket_y_algebra_pauli.md) | **Espacios de Hilbert y Pauli-Clifford:** Enteros de Gauss $\mathbb{Z}[i]$, regla de Born, observables hermíticos ($A^\dagger = A$) y conjugación $H X H = Z$ |
+| **Lección 06** | [**06_entrelazamiento_bell_teleportacion_y_compilador_cuantico.md**](docs/curso_fisica_matematica_lean4/06_entrelazamiento_bell_teleportacion_y_compilador_cuantico.md) | **Información Cuántica y Cumbre V:** Prueba formal de **Entrelazamiento de Bell**, **No-Clonación**, **Teleportación Cuántica** y **Gottesman-Knill (`M80`)** |
+
+---
+
 ## 🧭 Rutas de Aprendizaje Recomendadas
 
 * **🟢 Ruta 1 — Empezar desde Cero (Paso a Paso y Didáctica):**
@@ -86,7 +102,7 @@ Un tercer mini-curso práctico en [`docs/curso_criptografia_zk_lean4/`](docs/cur
 
 ---
 
-## 1. Las 21 Monografías y Guías de Referencia (`docs/`)
+## 1. Las 24 Monografías y Guías de Referencia (`docs/`)
 
 | Doc | Guía en `docs/` | Contenido Principal |
 | :---: | :--- | :--- |
@@ -105,7 +121,7 @@ Un tercer mini-curso práctico en [`docs/curso_criptografia_zk_lean4/`](docs/cur
 | **12** | [12_metaprogramacion_y_kernel.md](docs/12_metaprogramacion_y_kernel.md) | El AST `Lean.Expr` del kernel, `CoreM`/`MetaM`/`TermElabM`/`TacticM`, macros higiénicas, DSLs y creación de tácticas propias |
 | **13** | [13_enlaces_webs_proyectos_y_videos.md](docs/13_enlaces_webs_proyectos_y_videos.md) | **Enlaces web importantes** (`lean4.dev`, `lean-lang.org`, **[TauCeti](https://github.com/TauCetiProject/TauCeti)**), **Criptografía ZK / SNARKs** (**[ArkLib](https://github.com/Verified-zkEVM/ArkLib)**, **[VCV-io](https://github.com/Verified-zkEVM/VCV-io)**, **[CompPoly](https://github.com/Verified-zkEVM/CompPoly)**, **[Clean](https://github.com/Verified-zkEVM/clean)**, **[Verified-zkEVM](https://github.com/Verified-zkEVM)**) y **mejores vídeos de YouTube** |
 | **14** | [**14_tratado_completo_teoria_tipos_dependientes.md**](docs/14_tratado_completo_teoria_tipos_dependientes.md) | **Tratado Completo de la Teoría de Tipos Dependientes desde Cero:** Historia y antecedentes (Frege, Russell, Brouwer, Church, Automath, Martin-Löf, Girard, Coquand), ZFC vs TTD, las 5 reglas canónicas, tipos $\Pi, \Sigma, W, \text{Id}$ y contractibilidad |
-| **15** | [**15_catalogo_40_modulos_y_ambitos.md**](docs/15_catalogo_40_modulos_y_ambitos.md) | **Catálogo General de los 70 Módulos Ejecutables (`M01`–`M70`)** y los 5 talleres de ejercicios (`E01`–`E05`) |
+| **15** | [**15_catalogo_40_modulos_y_ambitos.md**](docs/15_catalogo_40_modulos_y_ambitos.md) | **Catálogo General de los 80 Módulos Ejecutables (`M01`–`M80`)** y los 6 talleres de ejercicios (`E01`–`E06`) |
 | **16** | [**16_arbol_decision_tacticas_cheatsheet.md**](docs/16_arbol_decision_tacticas_cheatsheet.md) | **Cheat Sheet y Árbol de Decisión de Tácticas** + solución de los 7 errores más comunes de Lean 4 |
 | **17** | [**17_guia_migracion_haskell_coq_python_a_lean4.md**](docs/17_guia_migracion_haskell_coq_python_a_lean4.md) | **Guía de Migración a Lean 4** desde Python/TypeScript/Rust, Haskell/OCaml y Coq/Rocq/Agda |
 | **18** | [**18_glosario_enciclopedico_teoria_de_tipos.md**](docs/18_glosario_enciclopedico_teoria_de_tipos.md) | **Glosario Enciclopédico A–Z** de Cálculo Lambda, Teoría de Tipos Dependientes y Lean 4 |
@@ -113,10 +129,11 @@ Un tercer mini-curso práctico en [`docs/curso_criptografia_zk_lean4/`](docs/cur
 | **20** | [**20_arquitectura_elaborador_bidireccional_y_unificacion.md**](docs/20_arquitectura_elaborador_bidireccional_y_unificacion.md) | **Del Elaborador Bidireccional al Kernel (`M40` + `M50`):** Cómo funcionan `synth` ($\Rightarrow$), `check` ($\Leftarrow$) y las sustituciones de metavariables `?m` antes del Kernel |
 | **21** | [**21_compiladores_cps_starks_ltl_y_teoria_juegos.md**](docs/21_compiladores_cps_starks_ltl_y_teoria_juegos.md) | **Compiladores (CPS / SSA / `wp`), LTL, Tipos de Sesión, STARKs/FRI, Teoría de Juegos, Privacidad Diferencial, Reentrancia EVM y el Kernel Polimórfico (`M51`–`M60`)** |
 | **22** | [**22_qtt_postcuantica_ia_wasm_crdts_y_positividad.md**](docs/22_qtt_postcuantica_ia_wasm_crdts_y_positividad.md) | **Teoría de Tipos Cuantitativa (QTT), Criptografía Post-Cuántica (LWE), IA Segura (ReLU/IBP), WebAssembly, CRDTs, Puertas Cuánticas, Lógica Epistémica, TRS, Hardware y Positividad Estricta (`M61`–`M70`)** |
+| **23** | [**23_fisica_matematica_mecanica_clasica_y_cuantica.md**](docs/23_fisica_matematica_mecanica_clasica_y_cuantica.md) | **Física Matemática, Mecánica Lagrangiana/Noether, Geometría Simpléctica, Relatividad de Minkowski, Estadística, Mecánica Cuántica y Gottesman-Knill (`M71`–`M80`)** |
 
 ---
 
-## 2. Los 70 Módulos Ejecutables en `LeanTT/` (`M01`–`M70`) + 5 Talleres
+## 2. Los 80 Módulos Ejecutables en `LeanTT/` (`M01`–`M80`) + 6 Talleres
 
 | # | Archivo en `LeanTT/` | Bloque / Ámbito | Contenido Práctico y Teoremas Verificados |
 | :-: | :--- | :--- | :--- |
@@ -190,11 +207,22 @@ Un tercer mini-curso práctico en [`docs/curso_criptografia_zk_lean4/`](docs/cur
 | **68** | [M68_TermRewritingSystemsAndTermination.lean](LeanTT/M68_TermRewritingSystemsAndTermination.lean) | Reescritura TRS | **Interpretaciones Polinómicas de Lankford** y decrecimiento estricto de la expansión distributiva $a\cdot(b+c) \to a\cdot b + a\cdot c$ |
 | **69** | [M69_VerifiedHardwareAdderAndALU.lean](LeanTT/M69_VerifiedHardwareAdderAndALU.lean) | Hardware Digital RTL | Verificación a nivel de puertas booleanas de *Half-Adder*, *Full-Adder* (`fullAdder_correct`) y sumador *Ripple-Carry* (`rippleAdder2_correct`) |
 | **70** | [**M70_PatternUnificationAndStrictPositivity.lean**](LeanTT/M70_PatternUnificationAndStrictPositivity.lean) | **Proyecto Cumbre IV** | **Positividad Estricta en el Kernel (`isStrictlyPositive`) y Unificación de Patrones de Miller (`miller_pattern_unification_sound`)** |
+| **71** | [M71_DimensionalAnalysisAndSIUnits.lean](LeanTT/M71_DimensionalAnalysisAndSIUnits.lean) | Análisis Dimensional SI | Grupo abeliano $\mathbb{Z}^7$ en `Quantity d`, prevención estática de errores de unidades y **Teorema Trabajo-Energía** |
+| **72** | [M72_LagrangianMechanicsAndEulerLagrange.lean](LeanTT/M72_LagrangianMechanicsAndEulerLagrange.lean) | Mecánica Lagrangiana | Principio de Hamilton ($\delta S = 0 \iff \text{Euler-Lagrange}$), **Teorema de Emmy Noether** y oscilador armónico |
+| **73** | [M73_HamiltonianMechanicsAndPoissonBrackets.lean](LeanTT/M73_HamiltonianMechanicsAndPoissonBrackets.lean) | Mecánica Hamiltoniana | 2-forma simpléctica, **Identidad de Jacobi** en $\mathfrak{sp}(2)$, **Teorema de Liouville Discreto** y Störmer-Verlet reversible |
+| **74** | [M74_SpecialRelativityAndMinkowskiMetric.lean](LeanTT/M74_SpecialRelativityAndMinkowskiMetric.lean) | Relatividad Especial | Métrica de Minkowski $\eta_{\mu\nu}$, *boosts* de Lorentz exactos, **invariancia del cono de luz** y barrera $|u \oplus_c v| < c$ |
+| **75** | [M75_StatisticalMechanicsAndEntropy.lean](LeanTT/M75_StatisticalMechanicsAndEntropy.lean) | Mecánica Estadística | Función de partición $Z$, cota del estado fundamental y **equilibrio estacionario bajo Balance Detallado** |
+| **76** | [M76_QuantumHilbertSpacesAndBraKet.lean](LeanTT/M76_QuantumHilbertSpacesAndBraKet.lean) | Espacios de Hilbert | Enteros de Gauss $\mathbb{Z}[i]$, Brahmagupta-Fibonacci, notación Bra-Ket y **realidad de valores esperados hermíticos** |
+| **77** | [M77_PauliCliffordAlgebraAndUnitarity.lean](LeanTT/M77_PauliCliffordAlgebraAndUnitarity.lean) | Pauli y Clifford | Álgebra de espín ($X Y = i Z$, $\{X, Z\} = 0$), conjugación $H X H = Z, S X S^\dagger = Y$ y conservación unitaria |
+| **78** | [M78_QuantumEntanglementAndBellStates.lean](LeanTT/M78_QuantumEntanglementAndBellStates.lean) | Entrelazamiento / Bell | Producto tensorial, invariante de Segre-Schmidt y **demostración formal de entrelazamiento de la base de Bell** |
+| **79** | [M79_NoCloningTeleportationAndDeutschJozsa.lean](LeanTT/M79_NoCloningTeleportationAndDeutschJozsa.lean) | Protocolos Cuánticos | **Teorema de No-Clonación**, **Teleportación Cuántica de 3 Qubits** en las 4 ramas y **Algoritmo de Deutsch** |
+| **80** | [**M80_VerifiedQuantumCircuitCompilerAndStabilizers.lean**](LeanTT/M80_VerifiedQuantumCircuitCompilerAndStabilizers.lean) | **Proyecto Cumbre V** | **Optimizador Verificado de Circuitos Cuánticos (`denoteCircuit1_optimize1`), síntesis de `CZ` y Teorema de Gottesman-Knill** |
 | **E01** | [Exercises/E01_WorkoutLambdaAndLogic.lean](LeanTT/Exercises/E01_WorkoutLambdaAndLogic.lean) | Taller Práctico 01 | Cálculo $\lambda$, lógica constructiva y subtipos + [Solucionario `S01`](LeanTT/Solutions/S01_WorkoutLambdaAndLogic.lean) |
 | **E02** | [Exercises/E02_WorkoutInductiveFamiliesAndEquality.lean](LeanTT/Exercises/E02_WorkoutInductiveFamiliesAndEquality.lean) | Taller Práctico 02 | Familias inductivas indexadas `VecE α n`, `head`/`tail` seguros y fusión de `map` + [Solucionario `S02`](LeanTT/Solutions/S02_WorkoutInductiveFamiliesAndEquality.lean) |
 | **E03** | [Exercises/E03_WorkoutVerificationAndCryptography.lean](LeanTT/Exercises/E03_WorkoutVerificationAndCryptography.lean) | Taller Práctico 03 | Puertas aritméticas de circuitos ZK (`NOT`, `AND`, `OR`, `XOR`), polinomios y protocolos $\Sigma$ + [Solucionario `S03`](LeanTT/Solutions/S03_WorkoutVerificationAndCryptography.lean) |
 | **E04** | [Exercises/E04_WorkoutCompilersSTARKsAndGames.lean](LeanTT/Exercises/E04_WorkoutCompilersSTARKsAndGames.lean) | Taller Práctico 04 | Compilación CPS, Lógica Temporal LTL, diferencia simétrica en FRI de STARKs, subasta de Vickrey y `wp` + [Solucionario `S04`](LeanTT/Solutions/S04_WorkoutCompilersSTARKsAndGames.lean) |
 | **E05** | [Exercises/E05_WorkoutQTTPostQuantumAndHardware.lean](LeanTT/Exercises/E05_WorkoutQTTPostQuantumAndHardware.lean) | Taller Práctico 05 | Escalado de contextos en QTT, desencriptado LWE, puntos fijos de ReLU, CRDTs y simetría de *Full-Adder* + [Solucionario `S05`](LeanTT/Solutions/S05_WorkoutQTTPostQuantumAndHardware.lean) |
+| **E06** | [Exercises/E06_WorkoutPhysicsAndQuantumMechanics.lean](LeanTT/Exercises/E06_WorkoutPhysicsAndQuantumMechanics.lean) | Taller Práctico 06 | Dimensiones SI, Euler-Lagrange inercial, cono de luz relativista, Hadamard y Gottesman-Knill + [Solucionario `S06`](LeanTT/Solutions/S06_WorkoutPhysicsAndQuantumMechanics.lean) |
 
 ---
 
